@@ -91,40 +91,37 @@
 <div class="content">
     <h1>Kelola Tagihan</h1>
     <div class="mb-3">
-        <button class="btn btn-primary">Tambah Data</button>
+        <a href="{{ route('tagihan.create') }}" class="btn btn-primary">Tambah Tagihan</a>
         <button class="btn btn-secondary">Export Data</button>
     </div>
 
-    <table class="table table-bordered">
+    @if ($tagihan->isEmpty())
+    <p>Tidak ada data tagihan.</p>
+@else
+    <table>
         <thead>
             <tr>
-                <th>No.</th>
                 <th>Nama</th>
-                <th>Nomor HP</th>
+                <th>NIK</th>
                 <th>RT/RW</th>
-                <th>Tagihan</th>
-                <th>Aksi</th>
+                <th>Nomor HP</th>
+                <th>Nominal</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>Subadri</td>
-                <td>081081011280</td>
-                <td>001/01</td>
-                <td>Rp20.000</td>
-                <td>
-                    <!-- Button Kirim WhatsApp -->
-                    <a href="https://wa.me/6281802890690?text=Halo%20Subadri,%20Anda%20memiliki%20tagihan%20sebesar%20Rp20.000.%20Mohon%20segera%20melakukan%20pembayaran.%20Terima%20kasih!"
-                        class="btn btn-success btn-sm" target="_blank">
-                        📩 Kirim WhatsApp
-                    </a>
-                    <button class="btn btn-primary btn-sm">Ubah</button>
-                    <button class="btn btn-danger btn-sm">Hapus</button>
-                </td>
-            </tr>
+            @foreach ($tagihans as $tagihan)
+                <tr>
+                    <td>{{ $tagihan->nama }}</td>
+                    <td>{{ $tagihan->nik }}</td>
+                    <td>{{ $tagihan->rt_rw }}</td>
+                    <td>{{ $tagihan->nomor_hp }}</td>
+                    <td>{{ number_format($tagihan->nominal, 0, ',', '.') }}</td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
+@endif
+
 </div>
 
 <script>

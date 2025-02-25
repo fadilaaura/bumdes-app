@@ -114,8 +114,8 @@
                 <td>001/01</td>
                 <td>Rp20.000</td>
                 <td>
-                    <button class="btn btn-success">Ubah</button>
-                    <button class="btn btn-danger">Hapus</button>
+                    <button class="btn btn-success btn-sm">Ubah</button>
+                    <button class="btn btn-danger btn-sm">Hapus</button>
                 </td>
             </tr>
         </tbody>

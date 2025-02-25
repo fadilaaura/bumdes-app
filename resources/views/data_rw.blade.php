@@ -132,8 +132,8 @@
                     <td>{{ $rt['ketua_rt'] }}</td>
                     <td>{{ $rt['nominal'] }}</td>
                     <td>
-                        <a href="#" class="btn btn-success">Ubah</a>
-                        <a href="#" class="btn btn-danger">Hapus</a>
+                        <a href="#" class="btn btn-success btn-sm">Ubah</a>
+                        <a href="#" class="btn btn-danger btn-sm">Hapus</a>
                     </td>
                 </tr>
             @endforeach

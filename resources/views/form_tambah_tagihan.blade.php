@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data RT - Dashboard Admin BUMDes</title>
+    <title>Kelola Tagihan - Dashboard Admin BUMDes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -27,11 +27,11 @@
             border-radius: 5px;
             background: none;
             border: none;
-            width: 100%;
             text-align: left;
             cursor: pointer;
+            width: 100%;
         }
-        .sidebar a:hover, .dropdown-btn:hover, .sidebar .active {
+        .sidebar a:hover, .dropdown-btn:hover, .sidebar .active{
             background: rgba(255, 255, 255, 0.2);
         }
         .dropdown-content {
@@ -58,11 +58,9 @@
             border: none;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        .card .card-footer {
-            background: #0d47a1;
+        .table th {
+            background-color: #0d47a1;
             color: white;
-            font-weight: bold;
-            text-align: center;
         }
     </style>
 </head>
@@ -76,12 +74,12 @@
     <button class="dropdown-btn">📂 Data Master ▼</button>
     <div class="dropdown-content">
         <a href="{{ route('data_kk') }}">📋 Data KK</a>
-        <a href="{{ route('data_rt') }}" class="active">📋 Data RT</a>
+        <a href="{{ route('data_rt') }}">📋 Data RT</a>
         <a href="{{ route('data_rw') }}">📋 Data RW</a>
     </div>
     <button class="dropdown-btn">💰 Kelola Tagihan ▼</button>
     <div class="dropdown-content">
-        <a href="{{ route('tambah_tagihan') }}">📋 Tambah Tagihan</a>
+        <a href="{{ route('tambah_tagihan') }}" class="active">📋 Tambah Tagihan</a>
         <a href="{{ route('konfirmasi_tagihan') }}">📋 Konfirmasi Tagihan</a>
     </div>
     <a href="{{ route('laporan.iuran') }}">📊 Laporan Iuran Sampah</a>
@@ -90,55 +88,33 @@
     <a href="{{ route('login.admin') }}">🚪 Keluar</a>
 </div>
 
-<div class="content">
-    <h2 class="mb-4">Data RT</h2>
-    
-    <div class="mb-3">
-        <a href="{{ route('rt.create') }}" class="btn btn-primary">Tambah Data</a>
-        <a href="#" class="btn btn-secondary">Export Data</a>
-    </div>
-
-    <table class="table table-bordered">
-        <thead class="table-primary">
-            <tr>
-                <th>No.</th>
-                <th>RT/RW</th>
-                <th>Jumlah KK</th>
-                <th>Ketua RT</th>
-                <th>Nominal Iuran</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @php
-                $data = [
-                    ['rt_rw' => '001/01', 'jumlah_kk' => 77, 'ketua_rt' => 'Subadri', 'nominal' => 'Rp1.540.000'],
-                    ['rt_rw' => '002/01', 'jumlah_kk' => 99, 'ketua_rt' => 'Heri Susanto', 'nominal' => 'Rp1.980.000'],
-                    ['rt_rw' => '003/01', 'jumlah_kk' => 117, 'ketua_rt' => 'Sutarno', 'nominal' => 'Rp2.340.000'],
-                    ['rt_rw' => '004/01', 'jumlah_kk' => 165, 'ketua_rt' => 'Endang', 'nominal' => 'Rp3.300.000'],
-                    ['rt_rw' => '005/01', 'jumlah_kk' => 113, 'ketua_rt' => 'Luis', 'nominal' => 'Rp2.260.000'],
-                    ['rt_rw' => '006/01', 'jumlah_kk' => 99, 'ketua_rt' => 'Heri Susanto', 'nominal' => 'Rp1.980.000'],
-                    ['rt_rw' => '007/01', 'jumlah_kk' => 117, 'ketua_rt' => 'Sutarno', 'nominal' => 'Rp2.340.000'],
-                    ['rt_rw' => '008/01', 'jumlah_kk' => 165, 'ketua_rt' => 'Endang', 'nominal' => 'Rp3.300.000'],
-                    ['rt_rw' => '009/01', 'jumlah_kk' => 113, 'ketua_rt' => 'Luis', 'nominal' => 'Rp2.260.000'],
-                ];
-            @endphp
-            
-            @foreach ($data as $index => $rt)
-                <tr class="{{ $index % 2 == 0 ? 'table-light' : 'table-info' }}">
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $rt['rt_rw'] }}</td>
-                    <td>{{ $rt['jumlah_kk'] }}</td>
-                    <td>{{ $rt['ketua_rt'] }}</td>
-                    <td>{{ $rt['nominal'] }}</td>
-                    <td>
-                        <a href="#" class="btn btn-success btn-sm">Ubah</a>
-                        <a href="#" class="btn btn-danger btn-sm">Hapus</a>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+<div class="container">
+    <h2>Tambah Tagihan</h2>
+    <form action="{{ route('tagihan.store') }}" method="POST">
+        @csrf
+        <div class="mb-3">
+            <label for="nama" class="form-label">Nama</label>
+            <input type="text" class="form-control" id="nama" name="nama" required>
+        </div>
+        <div class="mb-3">
+            <label for="nik" class="form-label">NIK</label>
+            <input type="text" class="form-control" id="nik" name="nik" required>
+        </div>
+        <div class="mb-3">
+            <label for="rt_rw" class="form-label">RT/RW</label>
+            <input type="text" class="form-control" id="rt_rw" name="rt_rw" required>
+        </div>
+        <div class="mb-3">
+            <label for="nomor_hp" class="form-label">Nomor HP</label>
+            <input type="text" class="form-control" id="nomor_hp" name="nomor_hp" required>
+        </div>
+        <div class="mb-3">
+            <label for="nominal" class="form-label">Nominal</label>
+            <input type="number" class="form-control" id="nominal" name="nominal" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Simpan</button>
+        <a href="{{ route('tagihan.index') }}" class="btn btn-secondary">Kembali</a>
+    </form>
 </div>
 
 <script>

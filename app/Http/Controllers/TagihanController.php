@@ -8,13 +8,13 @@ class TagihanController extends Controller
 {
     public function index()
     {
-        $tagihan = Tagihan::all();
-        return view('kelola_tagihan', compact('tagihan'));
+        $tagihans = Tagihan::all();
+        return view('tambah_tagihan', compact('tagihans'));
     }
 
     public function create()
     {
-        return view('tambah_tagihan');
+        return view('form_tambah_tagihan');
     }
 
     public function confirm()
@@ -25,15 +25,16 @@ class TagihanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required',
-            'nomor_hp' => 'required',
-            'rt_rw' => 'required',
-            'tagihan' => 'required|numeric'
+            'nama' => 'required|string|max:255',
+            'nik' => 'required|string|max:16|unique:tagihans,nik',
+            'rt_rw' => 'required|string|max:10',
+            'nomor_hp' => 'required|string|max:15',
+            'nominal' => 'required|numeric|min:0',
         ]);
 
         Tagihan::create($request->all());
 
-        return redirect()->route('tagihan.index')->with('success', 'Tagihan berhasil ditambahkan');
+        return redirect()->route('tagihan.index')->with('success', 'Tagihan berhasil ditambahkan.');
     }
 
     public function destroy($id)
