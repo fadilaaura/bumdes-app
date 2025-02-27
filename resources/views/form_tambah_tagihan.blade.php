@@ -79,7 +79,7 @@
     </div>
     <button class="dropdown-btn">💰 Kelola Tagihan ▼</button>
     <div class="dropdown-content">
-        <a href="{{ route('tambah_tagihan') }}" class="active">📋 Tambah Tagihan</a>
+        <a href="{{ route('tagihan.index') }}" class="active">📋 Tambah Tagihan</a>
         <a href="{{ route('konfirmasi_tagihan') }}">📋 Konfirmasi Tagihan</a>
     </div>
     <a href="{{ route('laporan.iuran') }}">📊 Laporan Iuran Sampah</a>
@@ -88,33 +88,62 @@
     <a href="{{ route('login.admin') }}">🚪 Keluar</a>
 </div>
 
+<div class="content">
 <div class="container">
-    <h2>Tambah Tagihan</h2>
-    <form action="{{ route('tagihan.store') }}" method="POST">
-        @csrf
-        <div class="mb-3">
-            <label for="nama" class="form-label">Nama</label>
-            <input type="text" class="form-control" id="nama" name="nama" required>
-        </div>
-        <div class="mb-3">
-            <label for="nik" class="form-label">NIK</label>
-            <input type="text" class="form-control" id="nik" name="nik" required>
-        </div>
-        <div class="mb-3">
-            <label for="rt_rw" class="form-label">RT/RW</label>
-            <input type="text" class="form-control" id="rt_rw" name="rt_rw" required>
-        </div>
-        <div class="mb-3">
-            <label for="nomor_hp" class="form-label">Nomor HP</label>
-            <input type="text" class="form-control" id="nomor_hp" name="nomor_hp" required>
-        </div>
-        <div class="mb-3">
-            <label for="nominal" class="form-label">Nominal</label>
-            <input type="number" class="form-control" id="nominal" name="nominal" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Simpan</button>
-        <a href="{{ route('tagihan.index') }}" class="btn btn-secondary">Kembali</a>
-    </form>
+<h2>Tambah Tagihan</h2>
+
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+<form action="{{ route('tagihan.store') }}" method="POST">
+    @csrf
+    <div class="mb-3">
+        <label for="nama" class="form-label">Nama</label>
+        <input type="text" name="nama" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="nik" class="form-label">NIK</label>
+        <input type="text" name="nik" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="nomor_hp" class="form-label">Nomor HP</label>
+        <input type="text" name="nomor_hp" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="rt_rw" class="form-label">RT/RW</label>
+        <input type="text" name="rt_rw" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="jumlah" class="form-label">Jumlah Tagihan</label>
+        <input type="number" name="jumlah" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="statusTagihan" class="form-label">Status</label>
+        <select name="statusTagihan" class="form-control">
+            <option value="Belum Lunas">Belum Lunas</option>
+            <option value="Lunas">Lunas</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="tanggalPembuatan" class="form-label">Tanggal Pembuatan</label>
+        <input type="date" name="tanggalPembuatan" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="tanggalJatuhTempo" class="form-label">Tanggal Jatuh Tempo</label>
+        <input type="date" name="tanggalJatuhTempo" class="form-control" required>
+    </div>
+
+    <button type="submit" class="btn btn-success">Simpan</button>
+    <a href="{{ route('tagihan.index') }}" class="btn btn-secondary">Kembali</a>
+</form>
+</div>
 </div>
 
 <script>

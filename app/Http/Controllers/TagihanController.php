@@ -25,21 +25,72 @@ class TagihanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required|string|max:255',
-            'nik' => 'required|string|max:16|unique:tagihans,nik',
-            'rt_rw' => 'required|string|max:10',
-            'nomor_hp' => 'required|string|max:15',
-            'nominal' => 'required|numeric|min:0',
+            'nama' => 'required',
+            'nik' => 'required|numeric',
+            'nomor_hp' => 'required',
+            'rt_rw' => 'required',
+            'jumlah' => 'required|numeric',
+            'statusTagihan' => 'required',
+            'tanggalPembuatan' => 'required|date',
+            'tanggalJatuhTempo' => 'required|date',
         ]);
-
-        Tagihan::create($request->all());
-
-        return redirect()->route('tagihan.index')->with('success', 'Tagihan berhasil ditambahkan.');
+    
+        Tagihan::create([
+            'nama' => $request->nama,
+            'nik' => $request->nik,
+            'nomor_hp' => $request->nomor_hp,
+            'rt_rw' => $request->rt_rw,
+            'jumlah' => $request->jumlah,
+            'statusTagihan' => $request->statusTagihan,
+            'tanggalPembuatan' => $request->tanggalPembuatan,
+            'tanggalJatuhTempo' => $request->tanggalJatuhTempo,
+        ]);
+    
+        return redirect()->route('tagihan.index')->with('success', 'Tagihan berhasil ditambahkan!');
     }
 
     public function destroy($id)
     {
-        Tagihan::findOrFail($id)->delete();
-        return redirect()->route('tagihan.index')->with('success', 'Tagihan berhasil dihapus');
+        $tagihan = Tagihan::findOrFail($id);
+        $tagihan->delete();
+    
+        return redirect()->route('tagihan.index')->with('success', 'Tagihan berhasil dihapus!');
     }
+    
+
+    public function edit($id)
+{
+    $tagihan = Tagihan::findOrFail($id);
+    return view('edit_tagihan', compact('tagihan'));
+}
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'nama' => 'required',
+        'nik' => 'required|numeric',
+        'nomor_hp' => 'required',
+        'rt_rw' => 'required',
+        'jumlah' => 'required|numeric',
+        'statusTagihan' => 'required',
+        'tanggalPembuatan' => 'required|date',
+        'tanggalJatuhTempo' => 'required|date',
+    ]);
+
+    $tagihan = Tagihan::where('idTagihan', $id)->firstOrFail();
+
+    $tagihan->update([
+        'nama' => $request->nama,
+        'nik' => $request->nik,
+        'nomor_hp' => $request->nomor_hp,
+        'rt_rw' => $request->rt_rw,
+        'jumlah' => $request->jumlah,
+        'statusTagihan' => $request->statusTagihan,
+        'tanggalPembuatan' => $request->tanggalPembuatan,
+        'tanggalJatuhTempo' => $request->tanggalJatuhTempo,
+    ]);
+
+    return redirect()->route('tagihan.index')->with('success', 'Tagihan berhasil diperbarui!');
+}
+
+
 }

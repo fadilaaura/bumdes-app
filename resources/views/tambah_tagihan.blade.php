@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kelola Tagihan - Dashboard Admin BUMDes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -79,7 +81,7 @@
     </div>
     <button class="dropdown-btn">💰 Kelola Tagihan ▼</button>
     <div class="dropdown-content">
-        <a href="{{ route('tambah_tagihan') }}" class="active">📋 Tambah Tagihan</a>
+        <a href="{{ route('tagihan.index') }}" class="active">📋 Tambah Tagihan</a>
         <a href="{{ route('konfirmasi_tagihan') }}">📋 Konfirmasi Tagihan</a>
     </div>
     <a href="{{ route('laporan.iuran') }}">📊 Laporan Iuran Sampah</a>
@@ -95,34 +97,136 @@
         <button class="btn btn-secondary">Export Data</button>
     </div>
 
-    @if ($tagihan->isEmpty())
-    <p>Tidak ada data tagihan.</p>
-@else
-    <table>
+    @php
+    $tagihans = $tagihans ?? collect(); // Kalau belum ada, isi dengan koleksi kosong
+@endphp
+
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <table class="table table-bordered">
         <thead>
             <tr>
+                <th>No</th>
                 <th>Nama</th>
                 <th>NIK</th>
-                <th>RT/RW</th>
                 <th>Nomor HP</th>
-                <th>Nominal</th>
+                <th>RT/RW</th>
+                <th>Jumlah</th>
+                <th>Status</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($tagihans as $tagihan)
-                <tr>
-                    <td>{{ $tagihan->nama }}</td>
-                    <td>{{ $tagihan->nik }}</td>
-                    <td>{{ $tagihan->rt_rw }}</td>
-                    <td>{{ $tagihan->nomor_hp }}</td>
-                    <td>{{ number_format($tagihan->nominal, 0, ',', '.') }}</td>
-                </tr>
+            @foreach($tagihans as $tagihan)
+            <tr>
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $tagihan->nama }}</td>
+                <td>{{ $tagihan->nik }}</td>
+                <td>{{ $tagihan->nomor_hp }}</td>
+                <td>{{ $tagihan->rt_rw }}</td>
+                <td>{{ $tagihan->jumlah }}</td>
+                <td>{{ $tagihan->statusTagihan }}</td>
+                <td>
+                    <a href="https://wa.me/{{ $tagihan->nomor_hp }}?text=Halo%20{{ urlencode($tagihan->nama) }},%20tagihan%20Anda%20sebesar%20Rp%20{{ number_format($tagihan->jumlah) }}%20jatuh%20tempo%20pada%20{{ $tagihan->tanggalJatuhTempo }}." 
+                        target="_blank" class="btn btn-success btn-sm">
+                        Kirim WhatsApp
+                    </a>
+
+                    <button class="btn btn-primary btn-sm edit-btn"
+                        data-id="{{ $tagihan->idTagihan }}"
+                        data-nama="{{ $tagihan->nama }}"
+                        data-nik="{{ $tagihan->nik }}"
+                        data-nomor_hp="{{ $tagihan->nomor_hp }}"
+                        data-rt_rw="{{ $tagihan->rt_rw }}"
+                        data-jumlah="{{ $tagihan->jumlah }}"
+                        data-status="{{ $tagihan->statusTagihan }}"
+                        data-tanggal_pembuatan="{{ $tagihan->tanggalPembuatan }}"
+                        data-tanggal_jatuh_tempo="{{ $tagihan->tanggalJatuhTempo }}">
+                        Ubah
+                    </button>
+
+                    <form action="{{ route('tagihan.destroy', $tagihan->idTagihan) }}" method="POST" class="d-inline">
+                    @csrf
+                    @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm mt-2" onclick="return confirm('Yakin ingin menghapus tagihan ini?')">Hapus</button>
+                    </form>
+                </td>
+            </tr>
             @endforeach
         </tbody>
     </table>
-@endif
 
 </div>
+
+<!-- Modal Edit Tagihan -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Tagihan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm" method="POST">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="edit_nama" class="form-label">Nama</label>
+                        <input type="text" class="form-control" id="edit_nama" name="nama" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_nik" class="form-label">NIK</label>
+                        <input type="text" class="form-control" id="edit_nik" name="nik" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_nomor_hp" class="form-label">Nomor HP</label>
+                        <input type="text" class="form-control" id="edit_nomor_hp" name="nomor_hp" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_rt_rw" class="form-label">RT/RW</label>
+                        <input type="text" class="form-control" id="edit_rt_rw" name="rt_rw" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_jumlah" class="form-label">Jumlah Tagihan</label>
+                        <input type="number" class="form-control" id="edit_jumlah" name="jumlah" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_statusTagihan" class="form-label">Status</label>
+                        <select class="form-control" id="edit_statusTagihan" name="statusTagihan">
+                            <option value="Belum Lunas">Belum Lunas</option>
+                            <option value="Lunas">Lunas</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_tanggalPembuatan" class="form-label">Tanggal Pembuatan</label>
+                        <input type="date" class="form-control" id="edit_tanggalPembuatan" name="tanggalPembuatan" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_tanggalJatuhTempo" class="form-label">Tanggal Jatuh Tempo</label>
+                        <input type="date" class="form-control" id="edit_tanggalJatuhTempo" name="tanggalJatuhTempo" required>
+                    </div>
+
+                    <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+</div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -149,6 +253,27 @@
             });
         });
     });
+
+
+    document.querySelectorAll('.edit-btn').forEach(button => {
+    button.addEventListener('click', function() {
+        document.getElementById('edit_nama').value = this.dataset.nama;
+        document.getElementById('edit_nik').value = this.dataset.nik;
+        document.getElementById('edit_nomor_hp').value = this.dataset.nomor_hp;
+        document.getElementById('edit_rt_rw').value = this.dataset.rt_rw;
+        document.getElementById('edit_jumlah').value = this.dataset.jumlah;
+        document.getElementById('edit_statusTagihan').value = this.dataset.status;
+        document.getElementById('edit_tanggalPembuatan').value = this.dataset.tanggal_pembuatan;
+        document.getElementById('edit_tanggalJatuhTempo').value = this.dataset.tanggal_jatuh_tempo;
+
+        document.getElementById('editForm').action = "/admin/tagihan/update/" + button.dataset.id;
+
+
+        var editModal = new bootstrap.Modal(document.getElementById('editModal'));
+        editModal.show();
+    });
+});
+
 </script>
 
 </body>

@@ -87,7 +87,10 @@ Route::get('/admin/tagihan', [TagihanController::class, 'index'])->name('tagihan
 Route::get('/admin/tagihan/tambah', [TagihanController::class, 'create'])->name('tagihan.create');
 Route::get('/admin/tagihan/konfirmasi', [TagihanController::class, 'confirm'])->name('tagihan.confirm');
 Route::post('/admin/tagihan/store', [TagihanController::class, 'store'])->name('tagihan.store');
-Route::post('/admin/tagihan/delete/{id}', [TagihanController::class, 'destroy'])->name('tagihan.destroy');
+Route::delete('/admin/tagihan/{id}', [TagihanController::class, 'destroy'])->name('tagihan.destroy');
+Route::get('/admin/tagihan/edit/{id}', [TagihanController::class, 'edit'])->name('tagihan.edit');
+Route::post('/admin/tagihan/update/{id}', [TagihanController::class, 'update'])->name('tagihan.update');
+
 
 Route::get('/laporan-iuran', [LaporanController::class, 'index'])->name('laporan.iuran');
 Route::get('/kelola-peran', [WargaController::class, 'kelolaPeran'])->name('kelola.peran');
