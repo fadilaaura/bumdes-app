@@ -89,7 +89,7 @@
 </div>
 
 <div class="content">
-    <h1>Data Master</h1>
+    <h1>Data KK</h1>
     <div class="mb-3">
     <button onclick="window.location.href='{{ route('kepala_keluarga.create') }}'" class="btn btn-primary">
     Tambah Data
@@ -109,18 +109,21 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>Subadri</td>
-                <td>081081011280</td>
-                <td>001/01</td>
-                <td>Rp20.000</td>
-                <td>
-                    <button class="btn btn-success btn-sm" >Ubah</button>
-                    <button class="btn btn-danger btn-sm">Hapus</button>
-                </td>
-            </tr>
-        </tbody>
+    @foreach ($kepala_keluarga as $kk)
+    <tr>
+        <td>{{ $loop->iteration }}</td>
+        <td>{{ $kk->nama }}</td>
+        <td>{{ $kk->noTelepon }}</td>
+        <td>{{ $kk->RTRW }}</td>
+        <td>Rp20.000</td> {{-- Jika nominal iuran ada di database, ganti dengan $kk->nominal --}}
+        <td>
+            <button class="btn btn-success btn-sm">Ubah</button>
+            <button class="btn btn-danger btn-sm">Hapus</button>
+        </td>
+    </tr>
+    @endforeach
+</tbody>
+
     </table>
 </div>
 

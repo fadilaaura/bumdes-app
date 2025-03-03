@@ -54,6 +54,14 @@
             margin-left: 270px;
             padding: 20px;
         }
+        .profile-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 500px;
+            margin: auto;
+        }
         .card {
             border: none;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -61,6 +69,34 @@
         .table th {
             background-color: #0d47a1;
             color: white;
+        }
+        
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        button {
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 48%;
+        }
+
+        .btn-cancel {
+            background: #b0bec5;
+            color: black;
+        }
+
+        .btn-save {
+            background: #0d47a1;
+            color: white;
+        }
+
+        button:hover {
+            opacity: 0.8;
         }
     </style>
 </head>
@@ -89,7 +125,7 @@
 </div>
 
 <div class="content">
-<div class="container">
+<div class="profile-container">
 <h2>Tambah Tagihan</h2>
 
 @if ($errors->any())
@@ -140,8 +176,10 @@
         <input type="date" name="tanggalJatuhTempo" class="form-control" required>
     </div>
 
-    <button type="submit" class="btn btn-success">Simpan</button>
+    <div class="button-container">
     <a href="{{ route('tagihan.index') }}" class="btn btn-secondary">Kembali</a>
+    <button type="submit" class="btn btn-primary">Simpan</button>
+    <div>
 </form>
 </div>
 </div>

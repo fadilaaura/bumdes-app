@@ -65,9 +65,6 @@ Route::middleware(['auth'])->group(function () {
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth:PengelolaBumdes'])->group(function () {
-    Route::get('/data-kk', function () {
-        return view('data_kk');
-    })->name('data_kk');
 
     Route::get('/data-rw', function () {
         return view('data_rw');
@@ -98,6 +95,7 @@ Route::get('/kelola-peran', [WargaController::class, 'kelolaPeran'])->name('kelo
 Route::get('/profil', [ProfilController::class, 'index'])->name('profil');
 Route::post('/profil/update', [ProfilController::class, 'update'])->name('profil.update');
 
+Route::get('/data-kk', [KepalaKeluargaController::class, 'index'])->name('data_kk');
 Route::get('/kepala-keluarga/tambah', [KepalaKeluargaController::class, 'create'])->name('kepala_keluarga.create');
 Route::post('/kepala-keluarga/store', [KepalaKeluargaController::class, 'store'])->name('kepala_keluarga.store');
 

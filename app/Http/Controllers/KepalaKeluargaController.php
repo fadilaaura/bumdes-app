@@ -8,6 +8,12 @@ use App\Http\Controllers\Controller;
 
 class KepalaKeluargaController extends Controller
 {
+    public function index()
+{
+    $kepala_keluarga = KepalaKeluarga::all();
+    return view('data_kk', compact('kepala_keluarga'));
+}
+
     public function create()
     {
         return view('tambah_kk');
@@ -23,6 +29,7 @@ class KepalaKeluargaController extends Controller
             'alamat' => 'required|string|max:255',
             'noTelepon' => 'required|string|max:15',
             'peranUser' => 'required|string|max:50',
+            'RTRW'=>'required|string|regex:/^\d{3}\/\d{2}$/',
             'idRW' => 'required|integer',
             'idRT' => 'required|integer',
         ]);
@@ -35,10 +42,11 @@ class KepalaKeluargaController extends Controller
             'alamat' => $request->alamat,
             'noTelepon' => $request->noTelepon,
             'peranUser' => $request->peranUser,
+            'RTRW' => $request->RTRW,
             'idRW' => $request->idRW,
             'idRT' => $request->idRT,
         ]);
 
-        return redirect()->route('kepala_keluarga.index')->with('success', 'Data Kepala Keluarga berhasil ditambahkan');
+        return redirect()->route('data_kk')->with('success', 'Data Kepala Keluarga berhasil ditambahkan');
     }
 }

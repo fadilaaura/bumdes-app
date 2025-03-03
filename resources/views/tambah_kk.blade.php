@@ -148,6 +148,15 @@
             <h2>Tambah Data Kepala Keluarga</h2>
             <form action="{{ route('kepala_keluarga.store') }}" method="POST">
                 @csrf
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <label for="nik">NIK</label>
                 <input type="text" id="nik" name="nik" required>
                 
@@ -169,6 +178,9 @@
                 <label for="peranUser">Peran User</label>
                 <input type="text" id="peranUser" name="peranUser" required>
                 
+                <label for="RTRW">RT/RW</label>
+                <input type="text" id="RTRW" name="RTRW" required>
+
                 <label for="idRT">RT</label>
                 <input type="number" id="idRT" name="idRT" required>
                 

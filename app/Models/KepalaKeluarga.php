@@ -12,7 +12,7 @@ class KepalaKeluarga extends Authenticatable
 
     protected $table = 'kepala_keluarga';
 
-    protected $fillable = ['nik', 'pin', 'email', 'nama', 'alamat', 'noTelepon', 'peranUser', 'idRW', 'idRT'];
+    protected $fillable = ['nik', 'pin', 'email', 'nama', 'alamat', 'noTelepon', 'peranUser', 'RTRW', 'idRW', 'idRT'];
 
     protected $hidden = [];
 
