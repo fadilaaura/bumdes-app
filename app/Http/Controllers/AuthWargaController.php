@@ -21,7 +21,7 @@ class AuthWargaController extends Controller
             'email' => 'required|email',
             'pin' => 'required',
         ]);
-    
+
         // Cari user berdasarkan NIK, Email, dan PIN
         $user = KepalaKeluarga::where('nik', $credentials['nik'])
             ->where('email', $credentials['email'])
@@ -36,17 +36,17 @@ class AuthWargaController extends Controller
         Auth::guard('KepalaKeluarga')->login($user);
 
         $request->session()->regenerate();
-        
+
         // Redirect ke dashboard warga setelah login berhasil
         return redirect()->route('dashboard.warga');
     }
-    
+
     public function logout(Request $request)
     {
         Auth::guard('KepalaKeluarga')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-    
+
         // Redirect ke halaman login warga setelah logout
         return redirect()->route('warga.login');
     }

@@ -7,26 +7,26 @@
 <div class="container">
     <!-- Hero Section -->
     <section class="hero">
-            <div class="carousel-container">
-                <div class="carousel-slide active">
-                    <img src="{{ asset('images/fotobumdes.jpg') }}" class="img-fluid rounded shadow" alt="BUMDes Spirit Mejabar">
-                </div>
-                <div class="carousel-slide">
-                    <img src="images/banner3.jpg" alt="Fasilitas Universitas Bhakti Muda">
-                </div>
-                <div class="carousel-slide">
-                    <img src="images/banner2.jpg" alt="Kegiatan Mahasiswa Universitas Bhakti Muda">
-                </div>
+        <div class="carousel-container">
+            <div class="carousel-slide active">
+                <img src="{{ asset('images/fotobumdes.jpg') }}" class="img-fluid rounded shadow" alt="BUMDes Spirit Mejabar">
             </div>
-        </section>
+            <div class="carousel-slide">
+                <img src="images/banner3.jpg" alt="Fasilitas Universitas Bhakti Muda">
+            </div>
+            <div class="carousel-slide">
+                <img src="images/banner2.jpg" alt="Kegiatan Mahasiswa Universitas Bhakti Muda">
+            </div>
+        </div>
+    </section>
 
 
     <section class="section-container">
-            <div class="card">
-                <h2 class="section-title">BUMDes Spirit Mejabar</h2>
-                <p>Badan Usaha Milik Desa (BUMDes) Spirit Mejabar adalah lembaga ekonomi yang dikelola oleh masyarakat Desa Mejasem Barat untuk meningkatkan kesejahteraan dan kemandirian desa. Sebagai wadah inovasi dan pengelolaan potensi lokal, BUMDes Spirit Mejabar menyediakan berbagai layanan yang mendukung kebutuhan warga, termasuk pengelolaan iuran sampah, usaha produktif, serta pengembangan ekonomi berbasis komunitas. Dengan semangat kebersamaan dan transparansi, BUMDes Spirit Mejabar terus berupaya memberikan kontribusi positif bagi desa, menciptakan layanan yang modern, efisien, dan ramah pengguna.</p>
-            </div>
-        </section>
+        <div class="card">
+            <h2 class="section-title">BUMDes Spirit Mejabar</h2>
+            <p>Badan Usaha Milik Desa (BUMDes) Spirit Mejabar adalah lembaga ekonomi yang dikelola oleh masyarakat Desa Mejasem Barat untuk meningkatkan kesejahteraan dan kemandirian desa. Sebagai wadah inovasi dan pengelolaan potensi lokal, BUMDes Spirit Mejabar menyediakan berbagai layanan yang mendukung kebutuhan warga, termasuk pengelolaan iuran sampah, usaha produktif, serta pengembangan ekonomi berbasis komunitas. Dengan semangat kebersamaan dan transparansi, BUMDes Spirit Mejabar terus berupaya memberikan kontribusi positif bagi desa, menciptakan layanan yang modern, efisien, dan ramah pengguna.</p>
+        </div>
+    </section>
 
     <!-- Visi & Misi -->
     <div class="row mt-5">

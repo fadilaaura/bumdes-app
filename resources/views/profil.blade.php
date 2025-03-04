@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +23,8 @@
             padding: 20px;
         }
 
-        .sidebar a, .sidebar button {
+        .sidebar a,
+        .sidebar button {
             color: white;
             text-decoration: none;
             display: block;
@@ -36,9 +38,12 @@
             width: 100%;
         }
 
-        .sidebar a:hover, .sidebar button:hover, .sidebar .active {
+        .sidebar a:hover,
+        .sidebar button:hover,
+        .sidebar .active {
             background: rgba(255, 255, 255, 0.2);
         }
+
         .dropdown-content {
             display: none;
             flex-direction: column;
@@ -46,12 +51,14 @@
             margin-left: 10px;
             border-radius: 5px;
         }
+
         .dropdown-content a {
             padding: 10px;
             color: white;
             text-decoration: none;
             display: block;
         }
+
         .dropdown-content a:hover {
             background: rgba(255, 255, 255, 0.3);
         }
@@ -70,6 +77,7 @@
             width: 500px;
             margin: auto;
         }
+
         h2 {
             color: #0d47a1;
             margin-bottom: 15px;
@@ -117,9 +125,9 @@
         button:hover {
             opacity: 0.8;
         }
-
     </style>
 </head>
+
 <body>
     <div class="sidebar">
         <h4>Badan Usaha Milik Desa</h4>
@@ -150,20 +158,20 @@
                 @csrf
                 <label for="nama">Nama Lengkap</label>
                 <input type="text" id="nama" name="nama" value="{{ $user->nama }}" required>
-                
+
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" value="{{ $user->username }}" required>
-                
+
                 <label for="password">Password (kosongkan jika tidak diubah)</label>
                 <input type="password" id="password" name="password" placeholder="Masukkan password baru">
-                
+
                 <label for="foto">Foto Profil (Opsional)</label>
                 <input type="file" id="foto" name="foto">
-                
+
                 @if ($user->foto)
-                    <img src="{{ asset('storage/foto/' . $user->foto) }}" alt="Foto Profil" width="100">
+                <img src="{{ asset('storage/foto/' . $user->foto) }}" alt="Foto Profil" width="100">
                 @endif
-                
+
                 <div class="button-container">
                     <button type="reset" class="btn-cancel">Batal</button>
                     <button type="submit" class="btn-save">Simpan</button>
@@ -173,10 +181,10 @@
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             let dropdownButtons = document.querySelectorAll(".dropdown-btn");
 
-            dropdownButtons.forEach(function (btn) {
+            dropdownButtons.forEach(function(btn) {
                 let dropdownContent = btn.nextElementSibling;
                 let menuKey = btn.innerText.trim();
 
@@ -184,7 +192,7 @@
                     dropdownContent.style.display = "block";
                 }
 
-                btn.addEventListener("click", function () {
+                btn.addEventListener("click", function() {
                     if (dropdownContent.style.display === "block") {
                         dropdownContent.style.display = "none";
                         sessionStorage.setItem(menuKey, "closed");
@@ -197,4 +205,5 @@
         });
     </script>
 </body>
+
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +23,8 @@
             padding: 20px;
         }
 
-        .sidebar a, .sidebar button {
+        .sidebar a,
+        .sidebar button {
             color: white;
             text-decoration: none;
             display: block;
@@ -36,9 +38,12 @@
             width: 100%;
         }
 
-        .sidebar a:hover, .sidebar button:hover, .sidebar .active {
+        .sidebar a:hover,
+        .sidebar button:hover,
+        .sidebar .active {
             background: rgba(255, 255, 255, 0.2);
         }
+
         .dropdown-content {
             display: none;
             flex-direction: column;
@@ -46,12 +51,14 @@
             margin-left: 10px;
             border-radius: 5px;
         }
+
         .dropdown-content a {
             padding: 10px;
             color: white;
             text-decoration: none;
             display: block;
         }
+
         .dropdown-content a:hover {
             background: rgba(255, 255, 255, 0.3);
         }
@@ -70,6 +77,7 @@
             width: 500px;
             margin: auto;
         }
+
         h2 {
             color: #0d47a1;
             margin-bottom: 15px;
@@ -117,9 +125,9 @@
         button:hover {
             opacity: 0.8;
         }
-
     </style>
 </head>
+
 <body>
     <div class="sidebar">
         <h4>Badan Usaha Milik Desa</h4>
@@ -128,7 +136,7 @@
         <a href="{{ route('admin.dashboard') }}">🏠 Beranda</a>
         <button class="dropdown-btn">📂 Data Master ▼</button>
         <div class="dropdown-content">
-            <a href="{{ route('data_kk') }}"class="active">📋 Data KK</a>
+            <a href="{{ route('data_kk') }}" class="active">📋 Data KK</a>
             <a href="{{ route('data_rt') }}">📋 Data RT</a>
             <a href="{{ route('data_rw') }}">📋 Data RW</a>
         </div>
@@ -144,22 +152,22 @@
     </div>
 
     <div class="content">
-    <div class="profile-container">
+        <div class="profile-container">
             <h2>Tambah Data Kepala Keluarga</h2>
             <form action="{{ route('kepala_keluarga.store') }}" method="POST">
                 @csrf
                 @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
                 @endif
                 <label for="nik">NIK</label>
                 <input type="text" id="nik" name="nik" required>
-                
+
                 <label for="pin">PIN (Password Login)</label>
                 <input type="password" id="pin" name="pin" required>
 
@@ -168,38 +176,43 @@
 
                 <label for="nama">Nama Lengkap</label>
                 <input type="text" id="nama" name="nama" required>
-                
+
                 <label for="alamat">Alamat</label>
                 <input type="text" id="alamat" name="alamat" required>
-                
+
                 <label for="noTelepon">No. Telepon</label>
                 <input type="text" id="noTelepon" name="noTelepon" required>
-                
+
                 <label for="peranUser">Peran User</label>
-                <input type="text" id="peranUser" name="peranUser" required>
-                
+                <select id="peranUser" name="peranUser" class="form-control" required>
+                    <option value="">-- Pilih Peran --</option>
+                    <option value="Warga">Warga</option>
+                    <option value="Pengurus RW">Pengurus RW</option>
+                    <option value="Pengurus RT">Pengurus RT</option>
+                </select>
+
                 <label for="RTRW">RT/RW</label>
                 <input type="text" id="RTRW" name="RTRW" required>
 
                 <label for="idRT">RT</label>
                 <input type="number" id="idRT" name="idRT" required>
-                
+
                 <label for="idRW">RW</label>
                 <input type="number" id="idRW" name="idRW" required>
-                
+
                 <div class="button-container">
-                <button onclick="window.location.href='{{ route('data_kk') }}'" type="reset" class="btn-cancel">Batal</button>
-                <button type="submit" class="btn-save">Simpan</button>
+                    <button onclick="window.location.href='{{ route('data_kk') }}'" type="reset" class="btn-cancel">Batal</button>
+                    <button type="submit" class="btn-save">Simpan</button>
                 </div>
             </form>
         </div>
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             let dropdownButtons = document.querySelectorAll(".dropdown-btn");
 
-            dropdownButtons.forEach(function (btn) {
+            dropdownButtons.forEach(function(btn) {
                 let dropdownContent = btn.nextElementSibling;
                 let menuKey = btn.innerText.trim();
 
@@ -207,7 +220,7 @@
                     dropdownContent.style.display = "block";
                 }
 
-                btn.addEventListener("click", function () {
+                btn.addEventListener("click", function() {
                     if (dropdownContent.style.display === "block") {
                         dropdownContent.style.display = "none";
                         sessionStorage.setItem(menuKey, "closed");
@@ -220,4 +233,5 @@
         });
     </script>
 </body>
+
 </html>

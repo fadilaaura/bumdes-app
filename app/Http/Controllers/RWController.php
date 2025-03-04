@@ -45,24 +45,24 @@ class RWController extends Controller
             'KetuaRW' => 'required|string',
             'Iuran' => 'required|numeric',
         ]);
-    
+
         $rw = RW::findOrFail($idRW);
         $rw->RW = $request->RW;
         $rw->JumlahKK = $request->JumlahKK;
         $rw->KetuaRW = $request->KetuaRW;
         $rw->Iuran = $request->Iuran;
         $rw->save();
-    
+
         return redirect()->route('data_rw')->with('success', 'Data RW berhasil diperbarui!');
     }
-    
-    
 
-public function destroy($idRW)
-{
-    $rw = RW::where('idRW', $idRW)->firstOrFail();
-    $rw->delete();
 
-    return redirect()->route('data_rw')->with('success', 'Data RW berhasil dihapus!');
-}
+
+    public function destroy($idRW)
+    {
+        $rw = RW::where('idRW', $idRW)->firstOrFail();
+        $rw->delete();
+
+        return redirect()->route('data_rw')->with('success', 'Data RW berhasil dihapus!');
+    }
 }

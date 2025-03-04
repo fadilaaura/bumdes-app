@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
             font-family: 'Poppins', sans-serif;
             background-color: #f4f6f9;
         }
+
         .sidebar {
             width: 250px;
             height: 100vh;
@@ -18,7 +20,9 @@
             color: white;
             padding: 20px;
         }
-        .sidebar a, .dropdown-btn {
+
+        .sidebar a,
+        .dropdown-btn {
             color: white;
             text-decoration: none;
             display: block;
@@ -31,9 +35,13 @@
             cursor: pointer;
             width: 100%;
         }
-        .sidebar a:hover, .dropdown-btn:hover, .sidebar .active{
+
+        .sidebar a:hover,
+        .dropdown-btn:hover,
+        .sidebar .active {
             background: rgba(255, 255, 255, 0.2);
         }
+
         .dropdown-content {
             display: none;
             flex-direction: column;
@@ -41,19 +49,23 @@
             margin-left: 10px;
             border-radius: 5px;
         }
+
         .dropdown-content a {
             padding: 10px;
             color: white;
             text-decoration: none;
             display: block;
         }
+
         .dropdown-content a:hover {
             background: rgba(255, 255, 255, 0.3);
         }
+
         .content {
             margin-left: 270px;
             padding: 20px;
         }
+
         .profile-container {
             background: white;
             padding: 20px;
@@ -62,15 +74,17 @@
             width: 500px;
             margin: auto;
         }
+
         .card {
             border: none;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+
         .table th {
             background-color: #0d47a1;
             color: white;
         }
-        
+
         .button-container {
             display: flex;
             justify-content: space-between;
@@ -100,116 +114,118 @@
         }
     </style>
 </head>
+
 <body>
 
-<div class="sidebar">
-    <h4>Badan Usaha Milik Desa</h4>
-    <h5>Spirit Mejabar</h5>
-    <hr>
-    <a href="{{ route('admin.dashboard') }}">🏠 Beranda</a>
-    <button class="dropdown-btn">📂 Data Master ▼</button>
-    <div class="dropdown-content">
-        <a href="{{ route('data_kk') }}">📋 Data KK</a>
-        <a href="{{ route('data_rt') }}">📋 Data RT</a>
-        <a href="{{ route('data_rw') }}">📋 Data RW</a>
-    </div>
-    <button class="dropdown-btn">💰 Kelola Tagihan ▼</button>
-    <div class="dropdown-content">
-        <a href="{{ route('tagihan.index') }}" class="active">📋 Tambah Tagihan</a>
-        <a href="{{ route('konfirmasi_tagihan') }}">📋 Konfirmasi Tagihan</a>
-    </div>
-    <a href="{{ route('laporan.iuran') }}">📊 Laporan Iuran Sampah</a>
-    <a href="{{ route('kelola.peran') }}">🔑 Kelola Peran</a>
-    <a href="{{ route('profil') }}">👤 Profil</a>
-    <a href="{{ route('login.admin') }}">🚪 Keluar</a>
-</div>
-
-<div class="content">
-<div class="profile-container">
-<h2>Tambah Tagihan</h2>
-
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
-<form action="{{ route('tagihan.store') }}" method="POST">
-    @csrf
-    <div class="mb-3">
-        <label for="nama" class="form-label">Nama</label>
-        <input type="text" name="nama" class="form-control" required>
-    </div>
-    <div class="mb-3">
-        <label for="nik" class="form-label">NIK</label>
-        <input type="text" name="nik" class="form-control" required>
-    </div>
-    <div class="mb-3">
-        <label for="nomor_hp" class="form-label">Nomor HP</label>
-        <input type="text" name="nomor_hp" class="form-control" required>
-    </div>
-    <div class="mb-3">
-        <label for="rt_rw" class="form-label">RT/RW</label>
-        <input type="text" name="rt_rw" class="form-control" required>
-    </div>
-    <div class="mb-3">
-        <label for="jumlah" class="form-label">Jumlah Tagihan</label>
-        <input type="number" name="jumlah" class="form-control" required>
-    </div>
-    <div class="mb-3">
-        <label for="statusTagihan" class="form-label">Status</label>
-        <select name="statusTagihan" class="form-control">
-            <option value="Belum Lunas">Belum Lunas</option>
-            <option value="Lunas">Lunas</option>
-        </select>
-    </div>
-    <div class="mb-3">
-        <label for="tanggalPembuatan" class="form-label">Tanggal Pembuatan</label>
-        <input type="date" name="tanggalPembuatan" class="form-control" required>
-    </div>
-    <div class="mb-3">
-        <label for="tanggalJatuhTempo" class="form-label">Tanggal Jatuh Tempo</label>
-        <input type="date" name="tanggalJatuhTempo" class="form-control" required>
+    <div class="sidebar">
+        <h4>Badan Usaha Milik Desa</h4>
+        <h5>Spirit Mejabar</h5>
+        <hr>
+        <a href="{{ route('admin.dashboard') }}">🏠 Beranda</a>
+        <button class="dropdown-btn">📂 Data Master ▼</button>
+        <div class="dropdown-content">
+            <a href="{{ route('data_kk') }}">📋 Data KK</a>
+            <a href="{{ route('data_rt') }}">📋 Data RT</a>
+            <a href="{{ route('data_rw') }}">📋 Data RW</a>
+        </div>
+        <button class="dropdown-btn">💰 Kelola Tagihan ▼</button>
+        <div class="dropdown-content">
+            <a href="{{ route('tagihan.index') }}" class="active">📋 Tambah Tagihan</a>
+            <a href="{{ route('konfirmasi_tagihan') }}">📋 Konfirmasi Tagihan</a>
+        </div>
+        <a href="{{ route('laporan.iuran') }}">📊 Laporan Iuran Sampah</a>
+        <a href="{{ route('kelola.peran') }}">🔑 Kelola Peran</a>
+        <a href="{{ route('profil') }}">👤 Profil</a>
+        <a href="{{ route('login.admin') }}">🚪 Keluar</a>
     </div>
 
-    <div class="button-container">
-    <a href="{{ route('tagihan.index') }}" class="btn btn-secondary">Kembali</a>
-    <button type="submit" class="btn btn-primary">Simpan</button>
-    <div>
-</form>
-</div>
-</div>
+    <div class="content">
+        <div class="profile-container">
+            <h2>Tambah Tagihan</h2>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let dropdownButtons = document.querySelectorAll(".dropdown-btn");
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
 
-        dropdownButtons.forEach(function (btn) {
-            let dropdownContent = btn.nextElementSibling;
-            let menuKey = btn.innerText.trim(); // Nama unik berdasarkan teks tombol
+            <form action="{{ route('tagihan.store') }}" method="POST">
+                @csrf
+                <div class="mb-3">
+                    <label for="nama" class="form-label">Nama</label>
+                    <input type="text" name="nama" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="nik" class="form-label">NIK</label>
+                    <input type="text" name="nik" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="nomor_hp" class="form-label">Nomor HP</label>
+                    <input type="text" name="nomor_hp" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="rt_rw" class="form-label">RT/RW</label>
+                    <input type="text" name="rt_rw" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="jumlah" class="form-label">Jumlah Tagihan</label>
+                    <input type="number" name="jumlah" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="statusTagihan" class="form-label">Status</label>
+                    <select name="statusTagihan" class="form-control">
+                        <option value="Belum Lunas">Belum Lunas</option>
+                        <option value="Lunas">Lunas</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="tanggalPembuatan" class="form-label">Tanggal Pembuatan</label>
+                    <input type="date" name="tanggalPembuatan" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="tanggalJatuhTempo" class="form-label">Tanggal Jatuh Tempo</label>
+                    <input type="date" name="tanggalJatuhTempo" class="form-control" required>
+                </div>
 
-            // Cek jika sebelumnya terbuka
-            if (sessionStorage.getItem(menuKey) === "open") {
-                dropdownContent.style.display = "block";
-            }
+                <div class="button-container">
+                    <button onclick="window.location.href='{{ route('tagihan.index') }}'" type="reset" class="btn-cancel">Batal</button>
+                    <button type="submit" class="btn btn-save">Simpan</button>
+                    <div>
+            </form>
+        </div>
+    </div>
 
-            btn.addEventListener("click", function () {
-                // Toggle dropdown
-                if (dropdownContent.style.display === "block") {
-                    dropdownContent.style.display = "none";
-                    sessionStorage.setItem(menuKey, "closed");
-                } else {
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let dropdownButtons = document.querySelectorAll(".dropdown-btn");
+
+            dropdownButtons.forEach(function(btn) {
+                let dropdownContent = btn.nextElementSibling;
+                let menuKey = btn.innerText.trim(); // Nama unik berdasarkan teks tombol
+
+                // Cek jika sebelumnya terbuka
+                if (sessionStorage.getItem(menuKey) === "open") {
                     dropdownContent.style.display = "block";
-                    sessionStorage.setItem(menuKey, "open");
                 }
+
+                btn.addEventListener("click", function() {
+                    // Toggle dropdown
+                    if (dropdownContent.style.display === "block") {
+                        dropdownContent.style.display = "none";
+                        sessionStorage.setItem(menuKey, "closed");
+                    } else {
+                        dropdownContent.style.display = "block";
+                        sessionStorage.setItem(menuKey, "open");
+                    }
+                });
             });
         });
-    });
-</script>
+    </script>
 
 </body>
+
 </html>

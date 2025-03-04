@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +16,7 @@
             justify-content: center;
             align-items: center;
         }
+
         .login-container {
             background: rgba(255, 255, 255, 0.9);
             padding: 30px;
@@ -23,46 +25,52 @@
             max-width: 400px;
             width: 100%;
         }
+
         .form-control {
             height: 45px;
             font-size: 16px;
         }
+
         .btn-primary {
             width: 100%;
             font-size: 18px;
         }
+
         .text-link {
             text-decoration: none;
             color: #007bff;
         }
+
         .text-link:hover {
             text-decoration: underline;
         }
     </style>
 </head>
+
 <body>
 
-<div class="login-container">
-    <h3 class="text-center mb-3">MASUK</h3>
-    <form action="{{ route('login.admin') }}" method="POST">
-        @csrf
-        <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input type="email" name="email" class="form-control" placeholder="Masukkan Email Anda" required>
+    <div class="login-container">
+        <h3 class="text-center mb-3">MASUK</h3>
+        <form action="{{ route('login.admin') }}" method="POST">
+            @csrf
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" placeholder="Masukkan Email Anda" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" placeholder="Masukkan Password Anda" required>
+            </div>
+            <div class="d-flex justify-content-between">
+                <a href="#" class="text-link">Lupa Password?</a>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Masuk</button>
+        </form>
+        <div class="text-center mt-3">
+            <small>Bukan Pengurus? <a href="{{ route('warga.login') }}" class="text-link">Masuk Sebagai Warga</a></small>
         </div>
-        <div class="mb-3">
-            <label class="form-label">Password</label>
-            <input type="password" name="password" class="form-control" placeholder="Masukkan Password Anda" required>
-        </div>
-        <div class="d-flex justify-content-between">
-            <a href="#" class="text-link">Lupa Password?</a>
-        </div>
-        <button type="submit" class="btn btn-primary mt-3">Masuk</button>
-    </form>
-    <div class="text-center mt-3">
-        <small>Bukan Pengurus? <a href="{{ route('warga.login') }}" class="text-link">Masuk Sebagai Warga</a></small>
     </div>
-</div>
 
 </body>
+
 </html>

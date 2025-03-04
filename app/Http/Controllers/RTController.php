@@ -45,27 +45,24 @@ class RTController extends Controller
             'KetuaRT' => 'required|string',
             'Iuran' => 'required|numeric',
         ]);
-    
+
         $rt = RT::findOrFail($idRT);
         $rt->RTRW = $request->RTRW;
         $rt->JumlahKK = $request->JumlahKK;
         $rt->KetuaRT = $request->KetuaRT;
         $rt->Iuran = $request->Iuran;
         $rt->save();
-    
+
         return redirect()->route('data_rt')->with('success', 'Data RT berhasil diperbarui!');
     }
-    
-    
-
-public function destroy($idRT)
-{
-    $rt = RT::where('idRT', $idRT)->firstOrFail();
-    $rt->delete();
-
-    return redirect()->route('data_rt')->with('success', 'Data RT berhasil dihapus!');
-}
 
 
 
+    public function destroy($idRT)
+    {
+        $rt = RT::where('idRT', $idRT)->firstOrFail();
+        $rt->delete();
+
+        return redirect()->route('data_rt')->with('success', 'Data RT berhasil dihapus!');
+    }
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +23,8 @@
             padding: 20px;
         }
 
-        .sidebar a, .sidebar button {
+        .sidebar a,
+        .sidebar button {
             color: white;
             text-decoration: none;
             display: block;
@@ -36,9 +38,12 @@
             width: 100%;
         }
 
-        .sidebar a:hover, .sidebar button:hover, .sidebar .active {
+        .sidebar a:hover,
+        .sidebar button:hover,
+        .sidebar .active {
             background: rgba(255, 255, 255, 0.2);
         }
+
         .dropdown-content {
             display: none;
             flex-direction: column;
@@ -46,12 +51,14 @@
             margin-left: 10px;
             border-radius: 5px;
         }
+
         .dropdown-content a {
             padding: 10px;
             color: white;
             text-decoration: none;
             display: block;
         }
+
         .dropdown-content a:hover {
             background: rgba(255, 255, 255, 0.3);
         }
@@ -70,6 +77,7 @@
             width: 500px;
             margin: auto;
         }
+
         h2 {
             color: #0d47a1;
             margin-bottom: 15px;
@@ -117,9 +125,9 @@
         button:hover {
             opacity: 0.8;
         }
-
     </style>
 </head>
+
 <body>
     <div class="sidebar">
         <h4>Badan Usaha Milik Desa</h4>
@@ -129,7 +137,7 @@
         <button class="dropdown-btn">📂 Data Master ▼</button>
         <div class="dropdown-content">
             <a href="{{ route('data_kk') }}">📋 Data KK</a>
-            <a href="{{ route('data_rt') }}"class="active">📋 Data RT</a>
+            <a href="{{ route('data_rt') }}" class="active">📋 Data RT</a>
             <a href="{{ route('data_rw') }}">📋 Data RW</a>
         </div>
         <button class="dropdown-btn">💰 Kelola Tagihan ▼</button>
@@ -144,45 +152,45 @@
     </div>
 
     <div class="content">
-    <div class="profile-container">
-    <h2>Tambah Data RT</h2>
-    
-    <form action="{{ route('rt.store') }}" method="POST">
-        @csrf
+        <div class="profile-container">
+            <h2>Tambah Data RT</h2>
 
-        <div class="mb-3">
-            <label for="RTRW" class="form-label">RT/RW</label>
-            <input type="text" name="RTRW" class="form-control" required>
-        </div>
+            <form action="{{ route('rt.store') }}" method="POST">
+                @csrf
 
-        <div class="mb-3">
-            <label for="JumlahKK" class="form-label">Jumlah KK</label>
-            <input type="number" name="JumlahKK" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="KetuaRT" class="form-label">Ketua RT</label>
-            <input type="text" name="KetuaRT" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="Iuran" class="form-label">Iuran</label>
-            <input type="number" name="Iuran" class="form-control" required>
-        </div>
-
-        <div class="button-container">
-                <button onclick="window.location.href='{{ route('data_rt') }}'" type="reset" class="btn-cancel">Batal</button>
-                <button type="submit" class="btn-save">Simpan</button>
+                <div class="mb-3">
+                    <label for="RTRW" class="form-label">RT/RW</label>
+                    <input type="text" name="RTRW" class="form-control" required>
                 </div>
-    </form>
-</div>
+
+                <div class="mb-3">
+                    <label for="JumlahKK" class="form-label">Jumlah KK</label>
+                    <input type="number" name="JumlahKK" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="KetuaRT" class="form-label">Ketua RT</label>
+                    <input type="text" name="KetuaRT" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="Iuran" class="form-label">Iuran</label>
+                    <input type="number" name="Iuran" class="form-control" required>
+                </div>
+
+                <div class="button-container">
+                    <button onclick="window.location.href='{{ route('data_rt') }}'" type="reset" class="btn-cancel">Batal</button>
+                    <button type="submit" class="btn-save">Simpan</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             let dropdownButtons = document.querySelectorAll(".dropdown-btn");
 
-            dropdownButtons.forEach(function (btn) {
+            dropdownButtons.forEach(function(btn) {
                 let dropdownContent = btn.nextElementSibling;
                 let menuKey = btn.innerText.trim();
 
@@ -190,7 +198,7 @@
                     dropdownContent.style.display = "block";
                 }
 
-                btn.addEventListener("click", function () {
+                btn.addEventListener("click", function() {
                     if (dropdownContent.style.display === "block") {
                         dropdownContent.style.display = "none";
                         sessionStorage.setItem(menuKey, "closed");
@@ -203,4 +211,5 @@
         });
     </script>
 </body>
+
 </html>

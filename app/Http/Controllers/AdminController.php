@@ -17,9 +17,7 @@ class AdminController extends Controller
             'jumlah_rt' => DB::table('rt')->count() ?? 0,
             'jumlah_rw' => DB::table('rw')->count() ?? 0,
         ];
-    
+
         return view('dashboard', compact('data'));
     }
-    
-
 }

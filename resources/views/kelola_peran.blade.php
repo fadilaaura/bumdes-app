@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,7 +25,8 @@
             padding: 20px;
         }
 
-        .sidebar a, .sidebar button {
+        .sidebar a,
+        .sidebar button {
             color: white;
             text-decoration: none;
             display: block;
@@ -38,9 +40,12 @@
             width: 100%;
         }
 
-        .sidebar a:hover, .sidebar button:hover, .sidebar .active {
+        .sidebar a:hover,
+        .sidebar button:hover,
+        .sidebar .active {
             background: rgba(255, 255, 255, 0.2);
         }
+
         .dropdown-content {
             display: none;
             flex-direction: column;
@@ -48,12 +53,14 @@
             margin-left: 10px;
             border-radius: 5px;
         }
+
         .dropdown-content a {
             padding: 10px;
             color: white;
             text-decoration: none;
             display: block;
         }
+
         .dropdown-content a:hover {
             background: rgba(255, 255, 255, 0.3);
         }
@@ -91,7 +98,7 @@
 
         /* Tombol */
         .btn-edit {
-            background: #28a745;
+            background: #198553;
             color: white;
             border: none;
             padding: 5px 10px;
@@ -99,7 +106,7 @@
         }
 
         .btn-delete {
-            background: #dc3545;
+            background: #DC3545;
             color: white;
             border: none;
             padding: 5px 10px;
@@ -107,99 +114,101 @@
         }
 
         .btn-edit:hover {
-            background: #218838;
+            background: #157347;
         }
 
         .btn-delete:hover {
-            background: #c82333;
+            background: #BB2D3B;
         }
     </style>
 </head>
+
 <body>
 
-<!-- Sidebar -->
-<div class="sidebar">
-    <h4>Badan Usaha Milik Desa</h4>
-    <h5>Spirit Mejabar</h5>
-    <hr>
-    <a href="{{ route('admin.dashboard') }}">🏠 Beranda</a>
-    <button class="dropdown-btn">📂 Data Master ▼</button>
-    <div class="dropdown-content">
-        <a href="{{ route('data_kk') }}">📋 Data KK</a>
-        <a href="{{ route('data_rt') }}">📋 Data RT</a>
-        <a href="{{ route('data_rw') }}">📋 Data RW</a>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h4>Badan Usaha Milik Desa</h4>
+        <h5>Spirit Mejabar</h5>
+        <hr>
+        <a href="{{ route('admin.dashboard') }}">🏠 Beranda</a>
+        <button class="dropdown-btn">📂 Data Master ▼</button>
+        <div class="dropdown-content">
+            <a href="{{ route('data_kk') }}">📋 Data KK</a>
+            <a href="{{ route('data_rt') }}">📋 Data RT</a>
+            <a href="{{ route('data_rw') }}">📋 Data RW</a>
+        </div>
+        <button class="dropdown-btn">💰 Kelola Tagihan ▼</button>
+        <div class="dropdown-content">
+            <a href="{{ route('tagihan.index') }}">📋 Tambah Tagihan</a>
+            <a href="{{ route('konfirmasi_tagihan') }}">📋 Konfirmasi Tagihan</a>
+        </div>
+        <a href="{{ route('laporan.iuran') }}">📊 Laporan Iuran</a>
+        <a href="{{ route('kelola.peran') }}" class="active">🔑 Kelola Peran</a>
+        <a href="{{ route('profil') }}">👤 Profil</a>
+        <a href="{{ route('login.admin') }}">🚪 Keluar</a>
     </div>
-    <button class="dropdown-btn">💰 Kelola Tagihan ▼</button>
-    <div class="dropdown-content">
-        <a href="{{ route('tagihan.index') }}">📋 Tambah Tagihan</a>
-        <a href="{{ route('konfirmasi_tagihan') }}">📋 Konfirmasi Tagihan</a>
+
+    <!-- Konten Utama -->
+    <div class="content">
+        <h2>Kelola Peran</h2>
+        <button class="btn btn-primary mb-3">Tambah Peran</button>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Nama</th>
+                    <th>NIK</th>
+                    <th>Nomor HP</th>
+                    <th>Peran</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($warga as $index => $w)
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $w->nama }}</td>
+                    <td>{{ $w->nik }}</td>
+                    <td>{{ $w->noTelepon }}</td>
+                    <td>{{ $w->peranUser }}</td>
+                    <td>
+                        <button class="btn btn-success btn-sm btn-edit">Ubah</button>
+                        <button class="btn btn-danger btn-sm btn-delete">Hapus</button>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
-    <a href="{{ route('laporan.iuran') }}">📊 Laporan Iuran</a>
-    <a href="{{ route('kelola.peran') }}" class="active">🔑 Kelola Peran</a>
-    <a href="{{ route('profil') }}">👤 Profil</a>
-    <a href="{{ route('login.admin') }}">🚪 Keluar</a>
-</div>
 
-<!-- Konten Utama -->
-<div class="content">
-    <h2>Kelola Peran</h2>
-    <button class="btn btn-primary mb-3">Tambah Peran</button>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let dropdownButtons = document.querySelectorAll(".dropdown-btn");
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>No.</th>
-                <th>Nama</th>
-                <th>NIK</th>
-                <th>Nomor HP</th>
-                <th>Peran</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($warga as $index => $w)
-            <tr>
-                <td>{{ $index + 1 }}</td>
-                <td>{{ $w->nama }}</td>
-                <td>{{ $w->nik }}</td>
-                <td>{{ $w->noTelepon }}</td>
-                <td>{{ $w->peranUser }}</td>
-                <td>
-                    <button class="btn-edit">Ubah</button>
-                    <button class="btn-delete">Hapus</button>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
+            dropdownButtons.forEach(function(btn) {
+                let dropdownContent = btn.nextElementSibling;
+                let menuKey = btn.innerText.trim(); // Nama unik berdasarkan teks tombol
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let dropdownButtons = document.querySelectorAll(".dropdown-btn");
-
-        dropdownButtons.forEach(function (btn) {
-            let dropdownContent = btn.nextElementSibling;
-            let menuKey = btn.innerText.trim(); // Nama unik berdasarkan teks tombol
-
-            // Cek jika sebelumnya terbuka
-            if (sessionStorage.getItem(menuKey) === "open") {
-                dropdownContent.style.display = "block";
-            }
-
-            btn.addEventListener("click", function () {
-                // Toggle dropdown
-                if (dropdownContent.style.display === "block") {
-                    dropdownContent.style.display = "none";
-                    sessionStorage.setItem(menuKey, "closed");
-                } else {
+                // Cek jika sebelumnya terbuka
+                if (sessionStorage.getItem(menuKey) === "open") {
                     dropdownContent.style.display = "block";
-                    sessionStorage.setItem(menuKey, "open");
                 }
+
+                btn.addEventListener("click", function() {
+                    // Toggle dropdown
+                    if (dropdownContent.style.display === "block") {
+                        dropdownContent.style.display = "none";
+                        sessionStorage.setItem(menuKey, "closed");
+                    } else {
+                        dropdownContent.style.display = "block";
+                        sessionStorage.setItem(menuKey, "open");
+                    }
+                });
             });
         });
-    });
-</script>
+    </script>
 
 </body>
+
 </html>
