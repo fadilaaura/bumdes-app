@@ -21,19 +21,51 @@ class RTController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'rt_rw' => 'required|string|max:10',
-            'jumlah_kk' => 'required|integer',
-            'ketua_rt' => 'required|string|max:255',
-            'iuran' => 'required|numeric|min:0',
+            'RTRW' => 'required|string|max:10',
+            'JumlahKK' => 'required|integer',
+            'KetuaRT' => 'required|string|max:255',
+            'Iuran' => 'required|numeric|min:0',
         ]);
 
         RT::create([
-            'rt_rw' => $request->rt_rw,
-            'jumlah_kk' => $request->jumlah_kk,
-            'ketua_rt' => $request->ketua_rt,
-            'iuran' => $request->iuran,
+            'RTRW' => $request->RTRW,
+            'JumlahKK' => $request->JumlahKK,
+            'KetuaRT' => $request->KetuaRT,
+            'Iuran' => $request->Iuran,
         ]);
 
         return redirect()->route('data_rt')->with('success', 'Data RT berhasil ditambahkan');
     }
+
+    public function update(Request $request, $idRT)
+    {
+        $request->validate([
+            'RTRW' => 'required|string',
+            'JumlahKK' => 'required|integer',
+            'KetuaRT' => 'required|string',
+            'Iuran' => 'required|numeric',
+        ]);
+    
+        $rt = RT::findOrFail($idRT);
+        $rt->RTRW = $request->RTRW;
+        $rt->JumlahKK = $request->JumlahKK;
+        $rt->KetuaRT = $request->KetuaRT;
+        $rt->Iuran = $request->Iuran;
+        $rt->save();
+    
+        return redirect()->route('data_rt')->with('success', 'Data RT berhasil diperbarui!');
+    }
+    
+    
+
+public function destroy($idRT)
+{
+    $rt = RT::where('idRT', $idRT)->firstOrFail();
+    $rt->delete();
+
+    return redirect()->route('data_rt')->with('success', 'Data RT berhasil dihapus!');
+}
+
+
+
 }

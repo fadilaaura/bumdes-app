@@ -132,7 +132,7 @@
     data-rtrw="{{ $kk->RTRW }}" 
     data-idrt="{{ $kk->idRT }}"
     data-idrw="{{ $kk->idRW }}"> 
-    Edit
+    Ubah
 </button>
 
     <!-- Tombol Hapus -->

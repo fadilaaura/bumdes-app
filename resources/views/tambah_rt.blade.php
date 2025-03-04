@@ -146,26 +146,36 @@
     <div class="content">
     <div class="profile-container">
     <h2>Tambah Data RT</h2>
+    
     <form action="{{ route('rt.store') }}" method="POST">
         @csrf
-        <label for="rt_rw">RT/RW</label>
-        <input type="text" id="rt_rw" name="rt_rw" required>
 
-        <label for="jumlah_kk">Jumlah KK</label>
-        <input type="number" id="jumlah_kk" name="jumlah_kk" required>
+        <div class="mb-3">
+            <label for="RTRW" class="form-label">RT/RW</label>
+            <input type="text" name="RTRW" class="form-control" required>
+        </div>
 
-        <label for="ketua_rt">Ketua RT</label>
-        <input type="text" id="ketua_rt" name="ketua_rt" required>
+        <div class="mb-3">
+            <label for="JumlahKK" class="form-label">Jumlah KK</label>
+            <input type="number" name="JumlahKK" class="form-control" required>
+        </div>
 
-        <label for="iuran">Iuran</label>
-        <input type="number" id="iuran" name="iuran" step="0.01" required>
+        <div class="mb-3">
+            <label for="KetuaRT" class="form-label">Ketua RT</label>
+            <input type="text" name="KetuaRT" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="Iuran" class="form-label">Iuran</label>
+            <input type="number" name="Iuran" class="form-control" required>
+        </div>
 
         <div class="button-container">
-                    <button onclick="window.location.href='{{ route('data_rt') }}'" type="reset" class="btn-cancel">Batal</button>
-                    <button type="submit" class="btn-save">Simpan</button>
+                <button onclick="window.location.href='{{ route('data_rt') }}'" type="reset" class="btn-cancel">Batal</button>
+                <button type="submit" class="btn-save">Simpan</button>
                 </div>
     </form>
-        </div>
+</div>
     </div>
 
     <script>

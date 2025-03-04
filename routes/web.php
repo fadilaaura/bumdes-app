@@ -107,6 +107,9 @@ Route::delete('/kepala-keluarga/{idKK}', [KepalaKeluargaController::class, 'dest
 Route::get('/rt', [RTController::class, 'index'])->name('data_rt');
 Route::get('/rt/tambah', [RTController::class, 'create'])->name('rt.create');
 Route::post('/rt/store', [RTController::class, 'store'])->name('rt.store');
+Route::get('/rt/{idRT}/edit', [RTController::class, 'edit'])->name('rt.edit');
+Route::put('/rt/{idRT}/update', [RTController::class, 'update'])->name('rt.update');
+Route::delete('/rt/{idRT}/delete', [RTController::class, 'destroy'])->name('rt.destroy');
 
 Route::get('/data_rw', [RWController::class, 'index'])->name('data_rw');
 Route::get('/tambah_rw', [RWController::class, 'create'])->name('tambah_rw');

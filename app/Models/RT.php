@@ -10,11 +10,14 @@ class RT extends Model
     use HasFactory;
 
     protected $table = 'rt'; // Pastikan nama tabel sesuai
+    protected $primaryKey = 'idRT';
+    protected $hidden = [];
+    public $timestamps = false;
 
     protected $fillable = [
-        'rt_rw',
-        'jumlah_kk',
-        'ketua_rt',
-        'iuran',
+        'RTRW',
+        'JumlahKK',
+        'KetuaRT',
+        'Iuran',
     ];
 }
