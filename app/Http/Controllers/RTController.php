@@ -34,6 +34,6 @@ class RTController extends Controller
             'iuran' => $request->iuran,
         ]);
 
-        return redirect()->route('rt.index')->with('success', 'Data RT berhasil ditambahkan');
+        return redirect()->route('data_rt')->with('success', 'Data RT berhasil ditambahkan');
     }
 }
