@@ -21,19 +21,48 @@ class RWController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'rw' => 'required|string',
-            'jumlah_kk' => 'required|integer',
-            'ketua_rw' => 'required|string',
-            'iuran' => 'required|numeric',
+            'RW' => 'required|string',
+            'JumlahKK' => 'required|integer',
+            'KetuaRW' => 'required|string',
+            'Iuran' => 'required|numeric',
         ]);
 
         RW::create([
-            'rw' => $request->rw,
-            'jumlah_kk' => $request->jumlah_kk,
-            'ketua_rw' => $request->ketua_rt,
-            'nominal' => $request->iuran,
+            'RW' => $request->RW,
+            'JumlahKK' => $request->JumlahKK,
+            'KetuaRW' => $request->KetuaRW,
+            'Iuran' => $request->Iuran,
         ]);
 
         return redirect()->route('data_rw')->with('success', 'Data RW berhasil ditambahkan!');
     }
+
+    public function update(Request $request, $idRW)
+    {
+        $request->validate([
+            'RW' => 'required|string',
+            'JumlahKK' => 'required|integer',
+            'KetuaRW' => 'required|string',
+            'Iuran' => 'required|numeric',
+        ]);
+    
+        $rw = RW::findOrFail($idRW);
+        $rw->RW = $request->RW;
+        $rw->JumlahKK = $request->JumlahKK;
+        $rw->KetuaRW = $request->KetuaRW;
+        $rw->Iuran = $request->Iuran;
+        $rw->save();
+    
+        return redirect()->route('data_rw')->with('success', 'Data RW berhasil diperbarui!');
+    }
+    
+    
+
+public function destroy($idRW)
+{
+    $rw = RW::where('idRW', $idRW)->firstOrFail();
+    $rw->delete();
+
+    return redirect()->route('data_rw')->with('success', 'Data RW berhasil dihapus!');
+}
 }

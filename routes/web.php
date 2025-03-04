@@ -114,3 +114,6 @@ Route::delete('/rt/{idRT}/delete', [RTController::class, 'destroy'])->name('rt.d
 Route::get('/data_rw', [RWController::class, 'index'])->name('data_rw');
 Route::get('/tambah_rw', [RWController::class, 'create'])->name('tambah_rw');
 Route::post('/rw/store', [RWController::class, 'store'])->name('rw.store');
+Route::get('/rw/{idRW}/edit', [RWController::class, 'edit'])->name('rw.edit');
+Route::put('/rw/{idRW}/update', [RWController::class, 'update'])->name('rw.update');
+Route::delete('/rw/{idRW}/delete', [RWController::class, 'destroy'])->name('rw.destroy');

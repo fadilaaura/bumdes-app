@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <title>Data RW - Dashboard Admin BUMDes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -64,6 +66,10 @@
             font-weight: bold;
             text-align: center;
         }
+        .table th {
+            background-color: #0d47a1;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -99,41 +105,82 @@
     </div>
 
     <table class="table table-bordered">
-        <thead class="table-primary">
+        <thead>
             <tr>
                 <th>No.</th>
-                <th>RT/RW</th>
+                <th>RW</th>
                 <th>Jumlah KK</th>
-                <th>Ketua RT</th>
+                <th>Ketua RW</th>
                 <th>Nominal Iuran</th>
                 <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
-            @php
-                $data = [
-                    ['rt_rw' => '001/01', 'jumlah_kk' => 77, 'ketua_rt' => 'Subadri', 'nominal' => 'Rp1.540.000'],
-                    ['rt_rw' => '002/01', 'jumlah_kk' => 99, 'ketua_rt' => 'Heri Susanto', 'nominal' => 'Rp1.980.000'],
-                    ['rt_rw' => '003/01', 'jumlah_kk' => 117, 'ketua_rt' => 'Sutarno', 'nominal' => 'Rp2.340.000'],
-                    ['rt_rw' => '004/01', 'jumlah_kk' => 165, 'ketua_rt' => 'Endang', 'nominal' => 'Rp3.300.000'],
-                    ['rt_rw' => '005/01', 'jumlah_kk' => 113, 'ketua_rt' => 'Luis', 'nominal' => 'Rp2.260.000'],
-                    ['rt_rw' => '006/01', 'jumlah_kk' => 99, 'ketua_rt' => 'Heri Susanto', 'nominal' => 'Rp1.980.000'],
-                    ['rt_rw' => '007/01', 'jumlah_kk' => 117, 'ketua_rt' => 'Sutarno', 'nominal' => 'Rp2.340.000'],
-                    ['rt_rw' => '008/01', 'jumlah_kk' => 165, 'ketua_rt' => 'Endang', 'nominal' => 'Rp3.300.000'],
-                    ['rt_rw' => '009/01', 'jumlah_kk' => 113, 'ketua_rt' => 'Luis', 'nominal' => 'Rp2.260.000'],
-                ];
-            @endphp
-            
-            @foreach ($data as $index => $rt)
-                <tr class="{{ $index % 2 == 0 ? 'table-light' : 'table-info' }}">
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $rt['rt_rw'] }}</td>
-                    <td>{{ $rt['jumlah_kk'] }}</td>
-                    <td>{{ $rt['ketua_rt'] }}</td>
-                    <td>{{ $rt['nominal'] }}</td>
-                    <td>
-                        <a href="#" class="btn btn-success btn-sm">Ubah</a>
-                        <a href="#" class="btn btn-danger btn-sm">Hapus</a>
+        @foreach ($data_rw as $index => $rw)
+        <tr>
+            <td>{{ $index + 1 }}</td>
+            <td>{{ $rw->RW }}</td>
+            <td>{{ $rw->JumlahKK }}</td>
+            <td>{{ $rw->KetuaRW }}</td>
+            <td>Rp{{ number_format($rw->Iuran, 0, ',', '.') }}</td>
+            <td>
+
+                        <!-- Tombol Edit (Memicu Modal Pop-up) -->
+<button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#editRWModal{{ $rw->idRW }}">
+    Ubah
+</button>
+
+<!-- Modal Edit -->
+<div class="modal fade" id="editRWModal{{ $rw->idRW }}" tabindex="-1" aria-labelledby="editRWModalLabel{{ $rw->idRW }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editRWModalLabel{{ $rw->idRW }}">Edit Data RW</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('rw.update', $rw->idRW) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+
+                    <!-- RW -->
+                    <div class="mb-3">
+                        <label for="RW_{{ $rw->idRW }}" class="form-label">RW</label>
+                        <input type="text" class="form-control" id="RW_{{ $rw->idRW }}" name="RW" value="{{ old('RW', $rw->RW) }}" required>
+                    </div>
+
+                    <!-- Jumlah KK -->
+                    <div class="mb-3">
+                        <label for="JumlahKK_{{ $rw->idRW }}" class="form-label">Jumlah KK</label>
+                        <input type="number" class="form-control" id="JumlahKK_{{ $rw->idRW }}" name="JumlahKK" value="{{ old('JumlahKK', $rw->JumlahKK) }}" required>
+                    </div>
+
+                    <!-- Ketua RW -->
+                    <div class="mb-3">
+                        <label for="KetuaRW_{{ $rw->idRW }}" class="form-label">Ketua RW</label>
+                        <input type="text" class="form-control" id="KetuaRW_{{ $rw->idRW }}" name="KetuaRW" value="{{ old('KetuaRW', $rw->KetuaRW) }}" required>
+                    </div>
+
+                    <!-- Iuran -->
+                    <div class="mb-3">
+                        <label for="Iuran_{{ $rw->idRW }}" class="form-label">Iuran</label>
+                        <input type="number" class="form-control" id="Iuran_{{ $rw->idRW }}" name="Iuran" value="{{ old('Iuran', $rw->Iuran) }}" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Tombol Hapus -->
+<form action="{{ route('rw.destroy', $rw->idRW) }}" method="POST" class="d-inline">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
+</form>
                     </td>
                 </tr>
             @endforeach
@@ -163,6 +210,30 @@
                     dropdownContent.style.display = "block";
                     sessionStorage.setItem(menuKey, "open");
                 }
+            });
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const editButtons = document.querySelectorAll(".btn-edit");
+        
+        editButtons.forEach(button => {
+            button.addEventListener("click", function () {
+                const id = this.getAttribute("data-id");
+                const rw = this.getAttribute("data-rw");
+                const jumlahkk = this.getAttribute("data-jumlahkk");
+                const ketuarw = this.getAttribute("data-ketuarw");
+                const iuran = this.getAttribute("data-iuran");
+
+                document.getElementById("editRWID").value = id;
+                document.getElementById("editRW").value = rw;
+                document.getElementById("editJumlahKK").value = jumlahkk;
+                document.getElementById("editKetuaRW").value = ketuarw;
+                document.getElementById("editIuran").value = iuran;
+
+                document.getElementById("editRWForm").action = "/rw/" + id + "/update";
             });
         });
     });

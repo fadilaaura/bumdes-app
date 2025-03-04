@@ -10,11 +10,14 @@ class RW extends Model
     use HasFactory;
 
     protected $table = 'rw'; // Pastikan nama tabel sesuai
+    protected $primaryKey = 'idRW';
+    protected $hidden = [];
+    public $timestamps = false;
 
     protected $fillable = [
-        'rw',
-        'jumlah_kk',
-        'ketua_rw',
-        'iuran',
+        'RW',
+        'JumlahKK',
+        'KetuaRW',
+        'Iuran',
     ];
 }

@@ -146,19 +146,27 @@
     <div class="content">
     <div class="profile-container">
     <h2>Tambah Data RW</h2>
-    <form action="{{ route('rt.store') }}" method="POST">
+    <form action="{{ route('rw.store') }}" method="POST">
         @csrf
-        <label for="rw">RW</label>
-        <input type="text" id="rt_rw" name="rt_rw" required>
+        <div class="mb-3">
+        <label for="RW" class="form-label" >RW</label>
+        <input type="text" name="RW" class="form-control" required>
+        <div>
 
-        <label for="jumlah_kk">Jumlah KK</label>
-        <input type="number" id="jumlah_kk" name="jumlah_kk" required>
+        <div class="mb-3">
+        <label for="JumlahKK" class="form-label">Jumlah KK</label>
+        <input type="number" name="JumlahKK" class="form-control" required>
+        <div>
 
-        <label for="ketua_rw">Ketua RW</label>
-        <input type="text" id="ketua_rt" name="ketua_rt" required>
+        <div class="mb-3">
+        <label for="KetuaRW" class="form-label">Ketua RW</label>
+        <input type="text" name="KetuaRW" class="form-control" required>
+        <div>
 
-        <label for="iuran">Iuran</label>
-        <input type="number" id="iuran" name="iuran" step="0.01" required>
+        <div class="mb-3">
+        <label for="Iuran" class="form-label">Iuran</label>
+        <input type="number" name="Iuran" class="form-control" required>
+        <div>
 
         <div class="button-container">
                     <button onclick="window.location.href='{{ route('data_rw') }}'" type="reset" class="btn-cancel">Batal</button>
