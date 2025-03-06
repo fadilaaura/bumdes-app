@@ -11,10 +11,16 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class RWController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data_rw = RW::all();
-        return view('data_rw', compact('data_rw'));
+        $search = $request->input('search');
+        $perPage = $request->input('perPage', 10); // Default 10 data per halaman
+
+        $data_rw = RW::when($search, function ($query, $search) {
+            return $query->where('RW', 'like', '%' . $search . '%')
+                         ->orWhere('KetuaRW', 'like', '%' . $search . '%');
+        })->paginate($perPage);
+        return view('data_rw', compact('data_rw', 'search'));
     }
 
     public function create()

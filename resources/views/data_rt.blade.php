@@ -96,6 +96,21 @@
         .table tr:hover {
             background: #f1f1f1;
         }
+        
+        .btn-primary{
+        background-color: #0d47a1; /* Warna background halaman */
+        color: #f4f6f9; /* Warna teks saat hover */
+        border-color: #0d47a1;
+    }
+    
+        .btn-sm:hover {
+        color: #f4f6f9; /* Warna teks saat hover */
+        border-color: #0d47a1;
+    }
+    
+        .btn-primary.btn-sm{
+        color: white;
+    }
     </style>
 </head>
 
@@ -124,16 +139,30 @@
     </div>
 
     <div class="content">
-        <h2 class="mb-4">Data RT</h2>
-
-        <div class="mb-3">
-            <a href="{{ route('rt.create') }}" class="btn btn-primary">Tambah Data</a>
-            <button class="btn btn-secondary" onclick="window.location.href='{{ route('export.rt') }}'">
-                Export Data
-            </button>
+        <h2>Data RT</h2>
+        <div class="mb-3 d-flex justify-content-between align-items-center">
+            <div>
+                <a href="{{ route('rt.create') }}" class="btn btn-primary btn-sm">Tambah Data</a>
+                <button class="btn btn-success btn-sm" onclick="window.location.href='{{ route('export.rt') }}'">Export Data</button>
+            </div>
+            <form action="{{ route('data_rt') }}" method="GET" class="d-flex align-items-center">
+                <div class="input-group input-group-sm">
+                    <input type="text" name="search" class="form-control form-control-sm" placeholder="Cari RT/RW atau Ketua RT">
+                    <button type="submit" class="btn btn-primary btn-sm">Cari</button>
+                </div>
+            </form>
         </div>
 
-        <table class="table table-bordered">
+        <div class="d-flex align-items-center mt-2">
+            <label for="perPage" class="me-2">Tampilkan:</label>
+            <select name="perPage" id="perPage" class="form-select form-select-sm" style="width: 65px;" onchange="this.form.submit()">
+                <option value="10" {{ request('perPage', 10) == 10 ? 'selected' : '' }}>10</option>
+                <option value="20" {{ request('perPage') == 20 ? 'selected' : '' }}>20</option>
+                <option value="50" {{ request('perPage') == 50 ? 'selected' : '' }}>50</option>
+            </select>
+        </div>
+
+        <table class="table table-bordered mt-2">
             <thead>
                 <tr>
                     <th>No.</th>
@@ -221,6 +250,18 @@
             </tbody>
 
         </table>
+        <div class="mt-4 d-flex justify-content-center align-items-center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination pagination-sm">
+                    {{ $dataRT->links('pagination::bootstrap-4') }}
+                </ul>
+            </nav>
+        </div>
+
+        <form id="perPageForm" action="{{ route('data_rt') }}" method="GET" style="display: none;">
+            <input type="hidden" name="search" value="{{ request('search') }}">
+            <input type="hidden" name="perPage" id="perPageInput">
+        </form>
     </div>
 
     <script>
@@ -271,6 +312,13 @@
                     document.getElementById("editRTForm").action = "/rt/" + id + "/update";
                 });
             });
+        });
+    </script>
+
+<script>
+        document.getElementById('perPage').addEventListener('change', function() {
+            document.getElementById('perPageInput').value = this.value;
+            document.getElementById('perPageForm').submit();
         });
     </script>
 

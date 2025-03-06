@@ -89,6 +89,21 @@
         .table tr:hover {
             background: #f1f1f1;
         }
+
+        .btn-primary{
+        background-color: #0d47a1; /* Warna background halaman */
+        color: #f4f6f9; /* Warna teks saat hover */
+        border-color: #0d47a1;
+    }
+    
+        .btn-sm:hover {
+        color: #f4f6f9; /* Warna teks saat hover */
+        border-color: #0d47a1;
+    }
+    
+        .btn-primary.btn-sm{
+        color: white;
+    }
     </style>
 </head>
 
@@ -117,18 +132,36 @@
     </div>
 
     <div class="content">
-        <h1>Data KK</h1>
-        <div class="mb-3">
-            <button onclick="window.location.href='{{ route('kepala_keluarga.create') }}'" class="btn btn-primary">
-                Tambah Data
+        <h2>Data KK</h2>
+        <div class="mb-3 d-flex justify-content-between align-items-center">
+    <div>
+        <button onclick="window.location.href='{{ route('kepala_keluarga.create') }}'" class="btn btn-primary btn-sm">
+            Tambah Data
+        </button>
+        <button class="btn btn-success btn-sm" onclick="window.location.href='{{ route('export.kepala.keluarga') }}'">
+            Export Data
+        </button>
+    </div>
+    <form action="{{ route('data_kk') }}" method="GET" class="d-flex align-items-center">
+        <div class="input-group input-group-sm">
+            <input type="text" name="search" class="form-control form-control-sm" placeholder="Cari Nama atau NIK">
+            <button type="submit" class="btn btn-primary btn-sm">
+                Cari
             </button>
-            <button class="btn btn-secondary" onclick="window.location.href='{{ route('export.kepala.keluarga') }}'">
-                Export Data
-            </button>
-
         </div>
+    </form>
+</div>
 
-        <table class="table table-bordered">
+<div class="d-flex align-items-center mt-2">
+    <label for="perPage" class="me-2">Tampilkan:</label>
+    <select name="perPage" id="perPage" class="form-select form-select-sm" style="width: 65px;" onchange="this.form.submit()">
+        <option value="10" {{ request('perPage', 10) == 10 ? 'selected' : '' }}>10</option>
+        <option value="20" {{ request('perPage') == 20 ? 'selected' : '' }}>20</option>
+        <option value="50" {{ request('perPage') == 50 ? 'selected' : '' }}>50</option>
+    </select>
+</div>
+
+    <table class="table table-bordered mt-2">
             <thead>
                 <tr>
                     <th>No.</th>
@@ -176,7 +209,14 @@
             </tbody>
 
         </table>
-    </div>
+
+        <div class="mt-4 d-flex justify-content-center align-items-center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination pagination-sm">
+                    {{ $kepala_keluarga->links('pagination::bootstrap-4') }}
+                </ul>
+            </nav>
+        </div>
 
     <!-- Modal Edit KK -->
     <div class="modal fade" id="editKKModal" tabindex="-1" aria-labelledby="editKKModalLabel" aria-hidden="true">
@@ -247,7 +287,11 @@
         </div>
     </div>
 
-
+    <form id="perPageForm" action="{{ route('data_kk') }}" method="GET" style="display: none;">
+    <input type="hidden" name="search" value="{{ request('search') }}">
+    <input type="hidden" name="perPage" id="perPageInput">
+    </form>
+    
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             let dropdownButtons = document.querySelectorAll(".dropdown-btn");
@@ -351,6 +395,13 @@
             }
         }
     </script>
+
+<script>
+    document.getElementById('perPage').addEventListener('change', function() {
+        document.getElementById('perPageInput').value = this.value;
+        document.getElementById('perPageForm').submit();
+    });
+</script>
 
 </body>
 

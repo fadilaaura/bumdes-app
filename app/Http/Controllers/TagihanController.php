@@ -11,10 +11,19 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class TagihanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $tagihans = Tagihan::all();
-        return view('tambah_tagihan', compact('tagihans'));
+        $search = $request->input('search');
+        $perPage = $request->input('perPage', 10); // Default 10 data per halaman
+
+        $tagihans = Tagihan::when($search, function ($query, $search) {
+            return $query->where('nama', 'like', '%' . $search . '%')
+                         ->orWhere('nik', 'like', '%' . $search . '%')
+                         ->orWhere('nomor_hp', 'like', '%' . $search . '%')
+                         ->orWhere('rt_rw', 'like', '%' . $search . '%');
+        })->paginate($perPage);
+
+        return view('tambah_tagihan', compact('tagihans', 'search'));
     }
 
     public function create()

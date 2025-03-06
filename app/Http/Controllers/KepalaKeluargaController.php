@@ -13,10 +13,17 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class KepalaKeluargaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $kepala_keluarga = KepalaKeluarga::all();
-        return view('data_kk', compact('kepala_keluarga'));
+        $search = $request->input('search');
+        $perPage = $request->input('perPage', 10);
+
+        $kepala_keluarga = KepalaKeluarga::when($search, function ($query, $search) {
+            return $query->where('nama', 'like', '%' . $search . '%')
+                         ->orWhere('nik', 'like', '%' . $search . '%');
+        })->paginate($perPage);
+
+        return view('data_kk', compact('kepala_keluarga', 'search'));
     }
 
     public function create()

@@ -11,10 +11,17 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class RTController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $dataRT = RT::all();
-        return view('data_rt', compact('dataRT'));
+        $search = $request->input('search');
+        $perPage = $request->input('perPage', 10); // Default 10 data per halaman
+
+        $dataRT = RT::when($search, function ($query, $search) {
+            return $query->where('RTRW', 'like', '%' . $search . '%')
+                         ->orWhere('KetuaRT', 'like', '%' . $search . '%');
+        })->paginate($perPage);
+
+        return view('data_rt', compact('dataRT', 'search'));
     }
 
     public function create()
