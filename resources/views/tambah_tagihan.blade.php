@@ -120,7 +120,9 @@
         <h1>Kelola Tagihan</h1>
         <div class="mb-3">
             <a href="{{ route('tagihan.create') }}" class="btn btn-primary">Tambah Tagihan</a>
-            <button class="btn btn-secondary">Export Data</button>
+            <button class="btn btn-secondary" onclick="window.location.href='{{ route('export.tagihan') }}'">
+                Export Data
+            </button>
         </div>
 
         @php

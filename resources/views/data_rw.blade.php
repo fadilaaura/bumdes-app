@@ -128,7 +128,9 @@
 
         <div class="mb-3">
             <a href="{{ route('tambah_rw') }}" class="btn btn-primary">Tambah Data</a>
-            <a href="#" class="btn btn-secondary">Export Data</a>
+            <button class="btn btn-secondary" onclick="window.location.href='{{ route('export.rw') }}'">
+                Export Data
+            </button>
         </div>
 
         <table class="table table-bordered">

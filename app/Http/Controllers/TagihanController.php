@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Tagihan;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class TagihanController extends Controller
 {
@@ -92,4 +96,95 @@ class TagihanController extends Controller
 
         return redirect()->route('tagihan.index')->with('success', 'Tagihan berhasil diperbarui!');
     }
+
+    public function export()
+{
+    $tagihan = Tagihan::all();
+
+    $spreadsheet = new Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
+
+    // Header kolom
+    $headers = ['No.', 'Nama', 'NIK', 'Nomor HP', 'RT/RW', 'Tagihan', 'Status Tagihan', 'Tanggal Pembuatan', 'Tanggal Jatuh Tempo'];
+    $columnIndex = 'A';
+
+    foreach ($headers as $header) {
+        $sheet->setCellValue($columnIndex . '1', $header);
+        $columnIndex++;
+    }
+
+    $sheet->getStyle('A1:I100')->getFont()->setName('Times New Roman');
+
+    $sheet->getStyle('A1:I1')->getFont()->setBold(true);
+
+    // Isi data
+    $row = 2;
+    $totalTagihan = 0;
+    foreach ($tagihan as $index => $tagihan) {
+        $sheet->setCellValue('A' . $row, $index + 1);
+        $sheet->setCellValue('B' . $row, $tagihan->nama);
+        $sheet->setCellValueExplicit('C' . $row, $tagihan->nik, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+        $sheet->setCellValue('D' . $row, $tagihan->nomor_hp);
+        $sheet->setCellValue('E' . $row, $tagihan->rt_rw);
+        $formattedIuran = 'Rp ' . number_format($tagihan->jumlah, 0, ',', '.');
+        $sheet->setCellValue('F' . $row, $formattedIuran);
+        $sheet->setCellValue('G' . $row, $tagihan->statusTagihan);
+        $sheet->setCellValue('H' . $row, $tagihan->tanggalPembuatan);
+        $sheet->setCellValue('I' . $row, $tagihan->tanggalJatuhTempo);
+
+        $totalTagihan += $tagihan->jumlah;
+
+        $row++;
+    }
+
+    $sheet->setCellValue('A' . $row, 'Total');
+    $sheet->setCellValue('F' . $row, 'Rp ' . number_format($totalTagihan, 0, ',', '.'));
+
+    $sheet->getStyle('A' . $row . ':I' . $row)->getFont()->setBold(true);
+
+    // Border untuk semua tabel
+    $lastRow = $row;
+    $styleArray = [
+        'borders' => [
+            'allBorders' => [
+                'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                'color' => ['argb' => '000000'], // Hitam
+            ],
+        ],
+    ];
+    $sheet->getStyle('A1:I' . $lastRow)->applyFromArray($styleArray);
+
+    // Warna biru untuk header & total
+    $headerTotalStyle = [
+        'fill' => [
+            'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+            'startColor' => ['argb' => '0D47A1'],
+        ],
+        'font' => [
+            'color' => ['argb' => 'FFFFFF'], // **Putih**
+            'bold' => true,
+        ],
+    ];
+    $sheet->getStyle('A1:I1')->applyFromArray($headerTotalStyle);
+    $sheet->getStyle('A' . $lastRow . ':I' . $lastRow)->applyFromArray($headerTotalStyle);
+
+    foreach (range('A', 'I') as $columnID) {
+        $sheet->getColumnDimension($columnID)->setAutoSize(true);
+    }
+
+    for ($r = 1; $r <= $lastRow; $r++) {
+        $sheet->getRowDimension($r)->setRowHeight(-1);
+    }
+
+    // Simpan sebagai file Excel
+    $writer = new Xlsx($spreadsheet);
+    $response = new StreamedResponse(function () use ($writer) {
+        $writer->save('php://output');
+    });
+
+    $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    $response->headers->set('Content-Disposition', 'attachment; filename="Data_Tagihan.xlsx"');
+
+    return $response;
+}    
 }

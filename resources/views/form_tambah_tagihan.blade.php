@@ -193,7 +193,7 @@
 
                 <div class="button-container">
                     <button onclick="window.location.href='{{ route('tagihan.index') }}'" type="reset" class="btn-cancel">Batal</button>
-                    <button type="submit" class="btn btn-save">Simpan</button>
+                    <button type="submit" class="btn-save">Simpan</button>
                     <div>
             </form>
         </div>

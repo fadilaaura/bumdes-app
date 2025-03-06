@@ -122,7 +122,10 @@
             <button onclick="window.location.href='{{ route('kepala_keluarga.create') }}'" class="btn btn-primary">
                 Tambah Data
             </button>
-            <button class="btn btn-secondary">Export Data</button>
+            <button class="btn btn-secondary" onclick="window.location.href='{{ route('export.kepala.keluarga') }}'">
+                Export Data
+            </button>
+
         </div>
 
         <table class="table table-bordered">
