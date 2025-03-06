@@ -93,7 +93,6 @@ Route::post('/admin/tagihan/update/{id}', [TagihanController::class, 'update'])-
 
 
 Route::get('/laporan-iuran', [LaporanController::class, 'index'])->name('laporan.iuran');
-Route::get('/kelola-peran', [WargaController::class, 'kelolaPeran'])->name('kelola.peran');
 
 Route::get('/profil', [ProfilController::class, 'index'])->name('profil');
 Route::post('/profil/update', [ProfilController::class, 'update'])->name('profil.update');
@@ -117,3 +116,10 @@ Route::post('/rw/store', [RWController::class, 'store'])->name('rw.store');
 Route::get('/rw/{idRW}/edit', [RWController::class, 'edit'])->name('rw.edit');
 Route::put('/rw/{idRW}/update', [RWController::class, 'update'])->name('rw.update');
 Route::delete('/rw/{idRW}/delete', [RWController::class, 'destroy'])->name('rw.destroy');
+
+Route::get('/kelola-peran', [WargaController::class, 'kelolaPeran'])->name('kelola.peran');
+Route::get('/kelola-peran/{idKK}/edit', [WargaController::class, 'edit'])->name('peran.edit');
+Route::put('/kelola-peran/{idKK}/update', [WargaController::class, 'update'])->name('peran.update');
+Route::post('/kelola-peran/{idKK}/update', [WargaController::class, 'update'])->name('peran.update');
+Route::delete('/kelola-peran/{idKK}/delete', [WargaController::class, 'destroy'])->name('peran.destroy');
+

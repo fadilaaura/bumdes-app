@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Kelola Peran - BUMDes Spirit Mejabar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -151,8 +154,6 @@
     <!-- Konten Utama -->
     <div class="content">
         <h2>Kelola Peran</h2>
-        <button class="btn btn-primary mb-3">Tambah Peran</button>
-
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -173,14 +174,115 @@
                     <td>{{ $w->noTelepon }}</td>
                     <td>{{ $w->peranUser }}</td>
                     <td>
-                        <button class="btn btn-success btn-sm btn-edit">Ubah</button>
-                        <button class="btn btn-danger btn-sm btn-delete">Hapus</button>
+                    <button class="btn btn-success btn-sm edit-kk-btn"
+                    data-id="{{ $w->idKK }}"
+                            data-nik="{{ $w->nik }}"
+                            data-pin="{{ $w->pin }}"
+                            data-email="{{ $w->email }}"
+                            data-nama="{{ $w->nama }}"
+                            data-alamat="{{ $w->alamat }}"
+                            data-notelepon="{{ $w->noTelepon }}"
+                            data-peranuser="{{ $w->peranUser }}"
+                            data-rtrw="{{ $w->RTRW }}"
+                            data-idrt="{{ $w->idRT }}"
+                            data-idrw="{{ $w->idRW }}">
+    Ubah
+</button>
+
+<form action="{{ route('peran.destroy', $w->idKK) }}" method="POST" style="display:inline;">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus peran ini?')">
+        Hapus
+    </button>
+</form>
+
                     </td>
+
                 </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
+
+
+<!-- Modal Edit KK -->
+<div class="modal fade" id="editKKModal" tabindex="-1" aria-labelledby="editKKModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editKKModalLabel">Edit Data Peran</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editKKForm" method="POST">
+                    @csrf
+                    @method('PUT')
+
+                    <div class="mb-3">
+                        <label for="edit_nik" class="form-label">NIK</label>
+                        <input type="text" class="form-control" id="edit_nik" name="nik" required>
+                    </div>
+
+                    <div class="mb-3">
+                            <label for="edit_pin" class="form-label">PIN</label>
+                            <input type="text" class="form-control" id="edit_pin" name="pin" disabled>
+                        </div>
+
+                    <div class="mb-3">
+                        <label for="edit_email" class="form-label">Email</label>
+                        <input type="text" class="form-control" id="edit_email" name="email" disabled>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_nama" class="form-label">Nama</label>
+                        <input type="text" class="form-control" id="edit_nama" name="nama" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_alamat" class="form-label">Alamat</label>
+                        <input type="text" class="form-control" id="edit_alamat" name="alamat" disabled>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_noTelepon" class="form-label">No. Telepon</label>
+                        <input type="text" class="form-control" id="edit_noTelepon" name="noTelepon" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_peranUser" class="form-label">Peran User</label>
+                        <select class="form-control" id="edit_peranUser" name="peranUser" required>
+                            <option value="">-- Pilih Peran --</option>
+                            <option value="Warga">Warga</option>
+                            <option value="Pengurus RW">Pengurus RW</option>
+                            <option value="Pengurus RT">Pengurus RT</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_rtrw" class="form-label">RT/RW</label>
+                        <input type="text" class="form-control" id="edit_rtrw" name="RTRW" disabled>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_idRW" class="form-label">ID RW</label>
+                        <input type="text" class="form-control" id="edit_idRW" name="idRW" disabled>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_idRT" class="form-label">ID RT</label>
+                        <input type="text" class="form-control" id="edit_idRT" name="idRT" disabled>
+                    </div>
+
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button type="button" class="btn btn-secondary flex-fill mx-2" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary flex-fill mx-2">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -209,6 +311,80 @@
         });
     </script>
 
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll(".edit-kk-btn").forEach(button => {
+        button.addEventListener("click", function() {
+            // Isi form dengan data dari tombol
+            document.getElementById("edit_nik").value = this.dataset.nik;
+            document.getElementById("edit_pin").value = this.dataset.pin;
+            document.getElementById("edit_email").value = this.dataset.email;
+            document.getElementById("edit_nama").value = this.dataset.nama;
+            document.getElementById("edit_alamat").value = this.dataset.alamat;
+            document.getElementById("edit_noTelepon").value = this.dataset.notelepon;
+            document.getElementById("edit_peranUser").value = this.dataset.peranuser;
+            document.getElementById("edit_rtrw").value = this.dataset.rtrw;
+            document.getElementById("edit_idRT").value = this.dataset.idrt;
+            document.getElementById("edit_idRW").value = this.dataset.idrw;
+
+            // Set action form dengan route yang benar
+            let idKK = this.dataset.id;
+            document.getElementById("editKKForm").action = `/kelola-peran/${idKK}/update`;
+
+            // Tampilkan modal
+            var editKKModal = new bootstrap.Modal(document.getElementById("editKKModal"));
+            editKKModal.show();
+        });
+    });
+    document.getElementById("editKKForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Mencegah reload halaman
+
+    const form = this;
+    const formData = new FormData(form);
+
+    // Tambahkan _method: PUT ke formData
+    formData.append("_method", "PUT");
+
+    fetch(form.action, {
+        method: "POST", // Tetap gunakan POST
+        headers: {
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+            "X-Requested-With": "XMLHttpRequest",
+            "Accept": "application/json"
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        location.reload(); // Reload halaman setelah sukses
+    })
+    .catch(error => console.error("Error:", error));
+});
+});
+
+
+
+        // Fungsi untuk hapus data dengan konfirmasi
+        function hapusData(idKK) {
+            if (confirm('Yakin ingin menghapus data ini?')) {
+                fetch(`/kepala-keluarga/${idKK}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert(data.message);
+                        // Menghapus baris dari tabel
+                        let row = document.querySelector(`[data-id="${idKK}"]`);
+                        if (row) row.remove();
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+        }
+</script>
 </body>
 
 </html>

@@ -9,6 +9,8 @@ class Warga extends Model
     use HasFactory;
 
     protected $table = 'kepala_keluarga'; // Pastikan nama tabel sesuai
+    protected $primaryKey = 'idKK';
+    protected $hidden = [];
 
     protected $fillable = [
         'nama',
