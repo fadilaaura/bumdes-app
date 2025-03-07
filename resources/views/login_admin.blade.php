@@ -48,8 +48,13 @@
 </head>
 
 <body>
-
     <div class="login-container">
+        @if (session('success'))
+            <div class="alert alert-success text-center" style="margin-bottom: 20px;">
+                {{ session('success') }}
+            </div>
+        @endif
+
         <h3 class="text-center mb-3">MASUK</h3>
         <form action="{{ route('login.admin') }}" method="POST">
             @csrf

@@ -22,7 +22,7 @@
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            max-width: 400px;
+            max-width: 600px;
             width: 100%;
         }
 
@@ -59,6 +59,11 @@
 <body>
 
     <div class="login-container">
+    @if (session('success'))
+            <div class="alert alert-success text-center" style="margin-bottom: 20px;">
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="notification">
             📢 Silakan hubungi <strong>082918172092</strong> (Operator BUMDes) untuk mendapatkan kode PIN Anda.
         </div>

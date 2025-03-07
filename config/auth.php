@@ -1,11 +1,6 @@
 <?php
 
 return [
-    'defaults' => [
-        'guard' => 'PengelolaBumdes',
-        'passwords' => 'users',
-    ],
-
     'guards' => [
         'PengelolaBumdes' => [
             'driver' => 'session',

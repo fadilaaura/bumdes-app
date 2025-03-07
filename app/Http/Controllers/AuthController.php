@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\PengelolaBumdes;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -41,10 +44,10 @@ class AuthController extends Controller
     // Logout untuk semua user
     public function logout(Request $request)
     {
-        Auth::logout();
+        Auth::guard('PengelolaBumdes')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login.admin'); // Redirect ke halaman login utama
+        return redirect()->route('login.admin')->with('success', 'Anda telah berhasil logout.');
     }
 }
