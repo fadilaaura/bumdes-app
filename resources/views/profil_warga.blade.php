@@ -23,7 +23,7 @@
             padding: 20px;
         }
 
-        .sidebar a,
+        .sidebar a, .sidebar-link,
         .sidebar button {
             color: white;
             text-decoration: none;
@@ -38,7 +38,7 @@
             width: 100%;
         }
 
-        .sidebar a:hover,
+        .sidebar a:hover, .sidebar-link:hover, .sidebar-link.active,
         .sidebar form:hover,
         .sidebar button:hover,
         .sidebar .active {
@@ -134,7 +134,7 @@
         <h4>Badan Usaha Milik Desa</h4>
         <h5>Spirit Mejabar</h5>
         <hr>
-        <a href="{{ route('admin.dashboard') }}">🏠 Beranda</a>
+        <a href="{{ route('dashboard.warga') }}">🏠 Beranda</a>
         <button class="dropdown-btn">📂 Data Master ▼</button>
         <div class="dropdown-content">
             <a href="{{ route('data_kk') }}">📋 Data KK</a>
@@ -151,7 +151,7 @@
         <a href="{{ route('profil_warga') }}" class="active">👤 Profil</a>
         <form action="{{ route('warga.logout') }}" method="POST">
     @csrf
-    <button type="submit" style="background: none; border: none; color: white; padding: 10px; margin-bottom: 2px; border-radius: 5px; text-align: left; cursor: pointer; width: 100%;">🚪 Keluar</button>
+    <button type="submit" class="sidebar-link">🚪 Keluar</button>
 </form>
     </div>
 

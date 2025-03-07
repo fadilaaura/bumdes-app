@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Laporan Iuran Sampah - Dashboard Admin BUMDes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -43,6 +46,24 @@
         .sidebar .active {
             background: rgba(255, 255, 255, 0.2);
         }
+        
+        .sidebar form button.sidebar-link {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    margin-bottom: 2px;
+    border-radius: 5px;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    width: 100%;
+}
+
+.sidebar form button.sidebar-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
 
         .dropdown-content {
             display: none;
@@ -140,8 +161,10 @@
         <a href="{{ route('laporan.iuran') }}" class="active">📊 Laporan Iuran Sampah</a>
         <a href="{{ route('kelola.peran') }}">🔑 Kelola Peran</a>
         <a href="{{ route('profil') }}">👤 Profil</a>
-        <a href="{{ route('login.admin') }}">🚪 Keluar</a>
-    </div>
+        <form action="{{ route('logout.admin') }}" method="POST">
+    @csrf
+    <button type="submit" class="sidebar-link">🚪 Keluar</button>
+</form>    </div>
 
     <div class="content">
         <h2>Cetak Laporan Iuran Sampah</h2>

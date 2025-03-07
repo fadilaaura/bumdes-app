@@ -19,7 +19,7 @@
             color: white;
             padding: 20px;
         }
-        .sidebar a, .dropdown-btn {
+        .sidebar a, .sidebar-link, .dropdown-btn {
             color: white;
             text-decoration: none;
             display: block;
@@ -32,7 +32,7 @@
             cursor: pointer;
             width: 100%;
         }
-        .sidebar a:hover, .dropdown-btn:hover, .sidebar .active{
+        .sidebar a:hover, .sidebar-link:hover, .sidebar-link.active, .dropdown-btn:hover, .sidebar .active{
             background: rgba(255, 255, 255, 0.2);
         }
         .dropdown-content {
@@ -77,24 +77,13 @@
     <h4>Badan Usaha Milik Desa</h4>
     <h5>Spirit Mejabar</h5>
     <hr>
-    <a href="{{ route('admin.dashboard') }}" class="active">🏠 Beranda</a>
-    <button class="dropdown-btn">📂 Data Master ▼</button>
-    <div class="dropdown-content">
-        <a href="{{ route('data_kk') }}">📋 Data KK</a>
-        <a href="{{ route('data_rt') }}">📋 Data RT</a>
-        <a href="{{ route('data_rw') }}">📋 Data RW</a>
-    </div>
-    <button class="dropdown-btn">💰 Kelola Tagihan ▼</button>
-    <div class="dropdown-content">
-        <a href="{{ route('tagihan.index') }}">📋 Tambah Tagihan</a>
-        <a href="{{ route('konfirmasi_tagihan') }}">📋 Konfirmasi Tagihan</a>
-    </div>
-    <a href="{{ route('laporan.iuran') }}">📊 Laporan Iuran Sampah</a>
-    <a href="{{ route('kelola.peran') }}">🔑 Kelola Peran</a>
+    <a href="{{ route('dashboard.warga') }}" class="active">🏠 Beranda</a>
+    <a href="{{ route('laporan.iuran') }}">💷 Retribusi Sampah</a>
+    <a href="{{ route('kelola.peran') }}">📑 Riwayat Pembayaran</a>
     <a href="{{ route('profil_warga') }}">👤 Profil</a>
-    <form action="{{ route('warga.logout') }}" method="POST">
+    <form action="{{ route('warga.logout') }}" method="POST" >
     @csrf
-    <button type="submit" style="background: none; border: none; color: white; padding: 10px; margin-bottom: 2px; border-radius: 5px; text-align: left; cursor: pointer; width: 100%;">🚪 Keluar</button>
+    <button type="submit" class="sidebar-link">🚪 Keluar</button>
 </form></div>
 
 

@@ -19,7 +19,7 @@
             color: white;
             padding: 20px;
         }
-        .sidebar a, .dropdown-btn {
+        .sidebar a, .sidebar-link, .dropdown-btn {
             color: white;
             text-decoration: none;
             display: block;
@@ -32,7 +32,7 @@
             cursor: pointer;
             width: 100%;
         }
-        .sidebar a:hover, .sidebar form:hover, .dropdown-btn:hover, .sidebar .active{
+        .sidebar a:hover, .sidebar-link:hover, .sidebar-link.active, .dropdown-btn:hover, .sidebar .active{
             background: rgba(255, 255, 255, 0.2);
         }
         .dropdown-content {
@@ -94,7 +94,7 @@
     <a href="{{ route('profil') }}">👤 Profil</a>
     <form action="{{ route('logout.admin') }}" method="POST">
     @csrf
-    <button type="submit" style="background: none; border: none; color: white; padding: 10px; margin-bottom: 2px; border-radius: 5px; text-align: left; cursor: pointer; width: 100%;">🚪 Keluar</button>
+    <button type="submit" class="sidebar-link">🚪 Keluar</button>
 </form>
 </div>
 

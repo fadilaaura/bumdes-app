@@ -23,7 +23,7 @@
             padding: 20px;
         }
 
-        .sidebar a,
+        .sidebar a, .sidebar-link,
         .dropdown-btn {
             color: white;
             text-decoration: none;
@@ -38,7 +38,7 @@
             cursor: pointer;
         }
 
-        .sidebar a:hover,
+        .sidebar a:hover, .sidebar-link:hover, .sidebar-link.active,
         .dropdown-btn:hover,
         .sidebar .active {
             background: rgba(255, 255, 255, 0.2);
@@ -135,7 +135,10 @@
         <a href="{{ route('laporan.iuran') }}">📊 Laporan Iuran Sampah</a>
         <a href="{{ route('kelola.peran') }}">🔑 Kelola Peran</a>
         <a href="{{ route('profil') }}">👤 Profil</a>
-        <a href="{{ route('login.admin') }}">🚪 Keluar</a>
+        <form action="{{ route('logout.admin') }}" method="POST">
+            @csrf
+            <button type="submit" class="sidebar-link">🚪 Keluar</button>
+        </form>
     </div>
 
     <div class="content">
