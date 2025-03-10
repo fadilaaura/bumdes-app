@@ -21,4 +21,8 @@ class Tagihan extends Model
         'tanggalPembuatan',
         'tanggalJatuhTempo'
     ];
+        
+    public function pembayaran(){
+        return $this->hasOne(Pembayaran::class, 'nik', 'nik');
+    }
 }

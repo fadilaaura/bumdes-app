@@ -48,29 +48,28 @@
         }
 
         .sidebar form {
-    margin: 0;
-    padding: 0;
-}
+            margin: 0;
+            padding: 0;
+        }
 
-.sidebar form button {
-    color: white;
-    background: none;
-    border: none;
-    text-align: left;
-    display: block;
-    padding: 10px;
-    margin-bottom: 2px;
-    border-radius: 5px;
-    width: 100%;
-    font-size: 16px;
-    cursor: pointer;
-}
+        .sidebar form button {
+            color: white;
+            background: none;
+            border: none;
+            text-align: left;
+            display: block;
+            padding: 10px;
+            margin-bottom: 2px;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+        }
 
-.sidebar form button:hover,
-.sidebar form button:focus {
-    background: rgba(255, 255, 255, 0.2);
-    outline: none;
-}
+        .sidebar form button:hover, .sidebar form button:focus {
+            background: rgba(255, 255, 255, 0.2);
+            outline: none;
+        }
 
 
         .dropdown-content {
@@ -170,11 +169,11 @@
         <a href="{{ route('kelola.peran') }}">🔑 Kelola Peran</a>
         <a href="{{ route('profil') }}">👤 Profil</a>
         <a href="{{ route('logout.admin') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-    🚪 Keluar
-</a>
-<form id="logout-form" action="{{ route('logout.admin') }}" method="POST" style="display: none;">
-    @csrf
-</form>
+            🚪 Keluar
+        </a>
+        <form id="logout-form" action="{{ route('logout.admin') }}" method="POST" style="display: none;">
+            @csrf
+        </form>
    
 </div>
 

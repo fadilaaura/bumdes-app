@@ -78,8 +78,8 @@
     <h5>Spirit Mejabar</h5>
     <hr>
     <a href="{{ route('dashboard.warga') }}" class="active">🏠 Beranda</a>
-    <a href="{{ route('laporan.iuran') }}">💷 Retribusi Sampah</a>
-    <a href="{{ route('kelola.peran') }}">📑 Riwayat Pembayaran</a>
+    <a href="{{ route('retribusi.sampah') }}">💷 Retribusi Sampah</a>
+    <a href="{{ route('riwayat.pembayaran.warga') }}">📑 Riwayat Pembayaran</a>
     <a href="{{ route('profil_warga') }}">👤 Profil</a>
     <form action="{{ route('warga.logout') }}" method="POST" >
     @csrf

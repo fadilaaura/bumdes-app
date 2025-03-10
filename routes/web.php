@@ -14,6 +14,8 @@ use App\Http\Controllers\ProfilWargaController;
 use App\Http\Controllers\KepalaKeluargaController;
 use App\Http\Controllers\RTController;
 use App\Http\Controllers\RWController;
+use App\Http\Controllers\PembayaranController;
+use App\Http\Controllers\RiwayatPembayaranWargaController;
 
 #====================== BISA DIAKSES KEDUA AUTH ========================
 Route::get('/', [BerandaController::class, 'index'])->name('beranda');
@@ -116,4 +118,9 @@ Route::middleware(['auth:KepalaKeluarga'])->group(function () {
 
     Route::get('/profilwarga', [ProfilWargaController::class, 'index'])->name('profil_warga');
     Route::post('/profilwarga/update', [ProfilWargaController::class, 'update'])->name('profil_warga.update');
+    
+    Route::get('/retribusi-sampah', [PembayaranController::class, 'index'])->name('retribusi.sampah');
+    Route::post('/retribusi-sampah', [PembayaranController::class, 'store'])->name('retribusi.sampah.store');
+    Route::get('/riwayat-pembayaran', [RiwayatPembayaranWargaController::class, 'index'])->name('riwayat.pembayaran.warga');
+
 });

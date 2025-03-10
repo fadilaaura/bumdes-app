@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('kepala_keluarga', function (Blueprint $table) {
-            $table->timestamps();
+        Schema::table('pembayaran', function (Blueprint $table) {
+            //
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('kepala_keluarga', function (Blueprint $table) {
-            $table->dropTimestamps();
+        Schema::table('pembayaran', function (Blueprint $table) {
+            //
         });
     }
 };
