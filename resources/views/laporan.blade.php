@@ -197,7 +197,7 @@
             <select id="pilihan-data" name="pilihan_data">
                 <option value="">Pilih Data</option>
                 <option value="lunas">Lunas</option>
-                <option value="belum-lunas">Belum Lunas</option>
+                <option value="belum-lunas">Belum Dibayar</option>
             </select>
             <label for="rw">RW:</label>
             <select id="rw" name="rw">

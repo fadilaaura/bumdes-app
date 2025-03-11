@@ -276,7 +276,7 @@
                         <div class="mb-3">
                             <label for="edit_statusTagihan" class="form-label">Status</label>
                             <select class="form-control" id="edit_statusTagihan" name="statusTagihan">
-                                <option value="Belum Lunas">Belum Lunas</option>
+                                <option value="Belum Dibayar">Belum Dibayar</option>
                                 <option value="Lunas">Lunas</option>
                             </select>
                         </div>

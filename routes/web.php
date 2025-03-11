@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthWargaController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\TagihanController;
+use App\Http\Controllers\KonfirmasiPembayaranController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\WargaController;
 use App\Http\Controllers\ProfilController;
@@ -63,7 +64,10 @@ Route::middleware(['auth:PengelolaBumdes'])->group(function () {
     Route::view('/kelola-tagihan', 'kelola_tagihan')->name('kelola_tagihan');
     Route::view('/kelola-tagihan/tambah', 'tambah_tagihan')->name('tambah_tagihan');
     Route::view('/kelola-tagihan/konfirmasi', 'konfirmasi_tagihan')->name('konfirmasi_tagihan');
+    Route::get('/admin/konfirmasi-pembayaran', [KonfirmasiPembayaranController::class, 'index'])->name('konfirmasi.pembayaran');
+    Route::post('/admin/konfirmasi-pembayaran/{id}', [KonfirmasiPembayaranController::class, 'konfirmasi'])->name('konfirmasi.pembayaran.konfirmasi');  
 
+    Route::get('/cek-tagihan/{nik}', [PembayaranController::class, 'cekTagihan']);
     Route::get('/admin/tagihan', [TagihanController::class, 'index'])->name('tagihan.index');
     Route::get('/admin/tagihan/tambah', [TagihanController::class, 'create'])->name('tagihan.create');
     Route::get('/admin/tagihan/konfirmasi', [TagihanController::class, 'confirm'])->name('tagihan.confirm');
@@ -72,6 +76,7 @@ Route::middleware(['auth:PengelolaBumdes'])->group(function () {
     Route::get('/admin/tagihan/edit/{id}', [TagihanController::class, 'edit'])->name('tagihan.edit');
     Route::post('/admin/tagihan/update/{id}', [TagihanController::class, 'update'])->name('tagihan.update');
     Route::get('/export-tagihan', [TagihanController::class, 'export'])->name('export.tagihan');
+    Route::get('/get-data-warga/{nik}', [TagihanController::class, 'getDataWarga']);
 
     Route::get('/laporan-iuran', [LaporanController::class, 'index'])->name('laporan.iuran');
 
@@ -122,5 +127,8 @@ Route::middleware(['auth:KepalaKeluarga'])->group(function () {
     Route::get('/retribusi-sampah', [PembayaranController::class, 'index'])->name('retribusi.sampah');
     Route::post('/retribusi-sampah', [PembayaranController::class, 'store'])->name('retribusi.sampah.store');
     Route::get('/riwayat-pembayaran', [RiwayatPembayaranWargaController::class, 'index'])->name('riwayat.pembayaran.warga');
+
+    Route::get('/cek-tagihan/{nik}', [TagihanController::class, 'cekTagihan']);
+
 
 });

@@ -129,21 +129,22 @@
     </style>
 </head>
 <body>
-    <div class="sidebar">
-        <h4>Badan Usaha Milik Desa</h4>
-        <h5>Spirit Mejabar</h5>
-        <hr>
-        <a href="{{ route('dashboard.warga') }}">🏠 Beranda</a>
-        <a href="{{ route('retribusi.sampah') }}" class="active">💷 Retribusi Sampah</a>
-        <a href="{{ route('riwayat.pembayaran.warga') }}">📑 Riwayat Pembayaran</a>
-        <a href="{{ route('profil_warga') }}">👤 Profil</a>
-        <form action="{{ route('warga.logout') }}" method="POST">
-            @csrf
-            <button type="submit" class="sidebar-link">🚪 Keluar</button>
-        </form>
-    </div>
+
+<div class="sidebar">
+    <h4>Badan Usaha Milik Desa</h4>
+    <h5>Spirit Mejabar</h5>
+    <hr>
+    <a href="{{ route('dashboard.warga') }}">🏠 Beranda</a>
+    <a href="{{ route('retribusi.sampah') }}"class="active">💷 Retribusi Sampah</a>
+    <a href="{{ route('riwayat.pembayaran.warga') }}" >📑 Riwayat Pembayaran</a>
+    <a href="{{ route('profil_warga') }}">👤 Profil</a>
+    <form action="{{ route('warga.logout') }}" method="POST" >
+    @csrf
+    <button type="submit" class="sidebar-link">🚪 Keluar</button>
+</form></div>
+
     <div class="content">
-        <div class="button-container-top">
+    <div class="button-container-top">
             <button onclick="window.location.href='{{ route('kepala_keluarga.create') }}'" class="btn btn-primary btn-sm">
                 Tata Cara Pembayaran
             </button>
@@ -151,30 +152,31 @@
                 Lihat QR Code
             </button>
         </div>
+
         <div class="profile-container">
             <h2>Pembayaran Iuran Sampah</h2>
-            <form action="{{ route('retribusi.sampah.store') }}" method="POST" enctype="multipart/form-data">
+
+            <label for="nik">Masukkan NIK</label>
+            <input type="text" id="nik" name="nik" required>
+            <button type="button" id="cekTagihan">Cek Tagihan</button>
+
+            <div id="infoTagihan">
+                <p>Masukkan NIK untuk cek tagihan.</p>
+            </div>
+
+            <form id="formPembayaran" action="{{ route('retribusi.sampah.store') }}" method="POST" enctype="multipart/form-data" style="display: none;">
                 @csrf
-                <label for="nama">Masukkan Nama</label>
-                <input type="text" id="nama" name="nama" required>
-                <label for="nik">Masukkan NIK</label>
-                <input type="text" id="nik" name="nik" required>
-                <label for="nomor_hp">Nomor HP</label>
-                <input type="tel" id="nomor_hp" name="nomor_hp" required>
-                <label for="jenis_pembayaran">Jenis Pembayaran</label>
-                <select id="jenis_pembayaran" name="jenis_pembayaran" required>
-                    <option value="">Pilih Jenis Pembayaran</option>
-                    <option value="bulanan">Bulanan</option>
-                    <option value="tahunan">Tahunan</option>
-                </select>
-                <div class="mb-3">
-                    <label for="rt_rw" class="form-label">RT/RW</label>
-                    <input type="text" name="rt_rw" class="form-control" required>
-                </div>
+                <input type="hidden" name="nama" id="nama">
+                <input type="hidden" name="nomor_hp" id="nomor_hp">
+                <input type="hidden" name="rt_rw" id="rt_rw">
+                <input type="hidden" name="nik" id="nik_pembayaran">
+
                 <label for="jumlah">Jumlah</label>
                 <input type="number" id="jumlah" name="jumlah" required>
+
                 <label for="buktiPembayaran">Upload Bukti Pembayaran</label>
                 <input type="file" id="buktiPembayaran" name="buktiPembayaran" required>
+
                 <div class="button-container">
                     <button type="reset" class="btn-cancel">Batal</button>
                     <button type="submit" class="btn-save">Bayar</button>
@@ -182,26 +184,41 @@
             </form>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            let dropdownButtons = document.querySelectorAll(".dropdown-btn");
-            dropdownButtons.forEach(function(btn) {
-                let dropdownContent = btn.nextElementSibling;
-                let menuKey = btn.innerText.trim();
-                if (sessionStorage.getItem(menuKey) === "open") {
-                    dropdownContent.style.display = "block";
-                }
-                btn.addEventListener("click", function() {
-                    if (dropdownContent.style.display === "block") {
-                        dropdownContent.style.display = "none";
-                        sessionStorage.setItem(menuKey, "closed");
+        document.getElementById('cekTagihan').addEventListener('click', function () {
+            var nik = document.getElementById('nik').value.trim();
+
+            if (!nik) {
+                alert("Silakan masukkan NIK terlebih dahulu.");
+                return;
+            }
+
+            fetch('/cek-tagihan/' + nik)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('infoTagihan').innerHTML = `
+                            <p><strong>Nama:</strong> ${data.tagihan.nama}</p>
+                            <p><strong>Jumlah Tagihan:</strong> Rp ${data.tagihan.jumlah}</p>
+                        `;
+
+                        document.getElementById('nama').value = data.tagihan.nama;
+                        document.getElementById('nomor_hp').value = data.tagihan.nomor_hp;
+                        document.getElementById('rt_rw').value = data.tagihan.rt_rw;
+                        document.getElementById('nik_pembayaran').value = data.tagihan.nik;
+                        document.getElementById('jumlah').value = data.tagihan.jumlah;
+
+                        document.getElementById('formPembayaran').style.display = 'block';
                     } else {
-                        dropdownContent.style.display = "block";
-                        sessionStorage.setItem(menuKey, "open");
+                        document.getElementById('infoTagihan').innerHTML = `<p style="color:red;">${data.message}</p>`;
+                        document.getElementById('formPembayaran').style.display = 'none';
                     }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('infoTagihan').innerHTML = '<p style="color:red;">Terjadi kesalahan, coba lagi.</p>';
                 });
-            });
         });
     </script>
 </body>

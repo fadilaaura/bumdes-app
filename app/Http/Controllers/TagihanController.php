@@ -55,7 +55,7 @@ class TagihanController extends Controller
             'nomor_hp' => $request->nomor_hp,
             'rt_rw' => $request->rt_rw,
             'jumlah' => $request->jumlah,
-            'statusTagihan' => $request->statusTagihan,
+            'statusTagihan' => 'Belum Dibayar',
             'tanggalPembuatan' => $request->tanggalPembuatan,
             'tanggalJatuhTempo' => $request->tanggalJatuhTempo,
         ]);
@@ -63,21 +63,21 @@ class TagihanController extends Controller
         return redirect()->route('tagihan.index')->with('success', 'Tagihan berhasil ditambahkan!');
     }
 
-    public function destroy($id)
+    public function destroy($idTagihan)
     {
-        $tagihan = Tagihan::findOrFail($id);
+        $tagihan = Tagihan::findOrFail($idTagihan);
         $tagihan->delete();
 
         return redirect()->route('tagihan.index')->with('success', 'Tagihan berhasil dihapus!');
     }
 
 
-    public function edit($id)
+    public function edit($idTagihan)
     {
-        $tagihan = Tagihan::findOrFail($id);
+        $tagihan = Tagihan::findOrFail($idTagihan);
         return view('edit_tagihan', compact('tagihan'));
     }
-    public function update(Request $request, $id)
+    public function update(Request $request, $idTagihan)
     {
         $request->validate([
             'nama' => 'required',
@@ -90,7 +90,7 @@ class TagihanController extends Controller
             'tanggalJatuhTempo' => 'required|date',
         ]);
 
-        $tagihan = Tagihan::where('idTagihan', $id)->firstOrFail();
+        $tagihan = Tagihan::where('idTagihan', $idTagihan)->firstOrFail();
 
         $tagihan->update([
             'nama' => $request->nama,
@@ -104,6 +104,28 @@ class TagihanController extends Controller
         ]);
 
         return redirect()->route('tagihan.index')->with('success', 'Tagihan berhasil diperbarui!');
+    }
+    public function cekTagihan($nik)
+    {
+        $tagihan = Tagihan::where('nik', $nik)->where('statusTagihan', 'Belum Dibayar')->first();
+
+        if ($tagihan) {
+            return response()->json([
+                'success' => true,
+                'tagihan' => [
+                    'nama' => $tagihan->nama,
+                    'nik' => $tagihan->nik,
+                    'nomor_hp' => $tagihan->nomor_hp,
+                    'rt_rw' => $tagihan->rt_rw,
+                    'jumlah' => $tagihan->jumlah,
+                ]
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tagihan tidak ditemukan untuk NIK ini.'
+            ]);
+        }
     }
 
     public function export()
@@ -195,5 +217,20 @@ class TagihanController extends Controller
     $response->headers->set('Content-Disposition', 'attachment; filename="Data_Tagihan.xlsx"');
 
     return $response;
-}    
+}   
+    public function getDataWarga($nik)
+    {
+        $warga = \DB::table('kepala_keluarga')->where('nik', $nik)->first();
+
+        if ($warga) {
+        return response()->json([
+            'nama' => $warga->nama,
+            'nomor_hp' => $warga->noTelepon, // Sesuaikan dengan nama kolom di kepala_keluarga
+            'rt_rw' => $warga->RTRW // Sesuaikan dengan nama kolom di kepala_keluarga
+        ]);
+    } else {
+        return response()->json(['message' => 'Data tidak ditemukan'], 404);
+    }
+}
+
 }

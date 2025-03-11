@@ -159,20 +159,20 @@
             <form action="{{ route('tagihan.store') }}" method="POST">
                 @csrf
                 <div class="mb-3">
-                    <label for="nama" class="form-label">Nama</label>
-                    <input type="text" name="nama" class="form-control" required>
+                    <label for="nik" class="form-label">NIK</label>
+                    <input type="text" id="nik" name="nik" class="form-control" required>
                 </div>
                 <div class="mb-3">
-                    <label for="nik" class="form-label">NIK</label>
-                    <input type="text" name="nik" class="form-control" required>
+                    <label for="nama" class="form-label">Nama</label>
+                    <input type="text" id="nama" name="nama" class="form-control" required readonly>
                 </div>
                 <div class="mb-3">
                     <label for="nomor_hp" class="form-label">Nomor HP</label>
-                    <input type="text" name="nomor_hp" class="form-control" required>
+                    <input type="text" id="nomor_hp" name="nomor_hp" class="form-control" required readonly>
                 </div>
                 <div class="mb-3">
                     <label for="rt_rw" class="form-label">RT/RW</label>
-                    <input type="text" name="rt_rw" class="form-control" required>
+                    <input type="text" id="rt_rw" name="rt_rw" class="form-control" required readonly>
                 </div>
                 <div class="mb-3">
                     <label for="jumlah" class="form-label">Jumlah Tagihan</label>
@@ -181,7 +181,7 @@
                 <div class="mb-3">
                     <label for="statusTagihan" class="form-label">Status</label>
                     <select name="statusTagihan" class="form-control">
-                        <option value="Belum Lunas">Belum Lunas</option>
+                        <option value="Belum Dibayar">Belum Dibayar</option>
                         <option value="Lunas">Lunas</option>
                     </select>
                 </div>
@@ -228,6 +228,30 @@
             });
         });
     </script>
+
+<script>
+    document.getElementById('nik').addEventListener('input', function() {
+        var nik = this.value;
+
+        if (nik.length >= 16) { // NIK biasanya 16 digit
+            fetch('/get-data-warga/' + nik)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.nama) {
+                        document.getElementById('nama').value = data.nama;
+                        document.getElementById('nomor_hp').value = data.nomor_hp;
+                        document.getElementById('rt_rw').value = data.rt_rw;
+                    } else {
+                        document.getElementById('nama').value = '';
+                        document.getElementById('nomor_hp').value = '';
+                        document.getElementById('rt_rw').value = '';
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    });
+</script>
+
 
 </body>
 

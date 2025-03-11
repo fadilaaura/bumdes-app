@@ -64,9 +64,26 @@
             font-weight: bold;
             text-align: center;
         }
+        .table {
+            background: white;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
         .table th {
-            background-color: #0d47a1;
+            background: #0d47a1;
             color: white;
+        }
+
+        .table tr:hover {
+            background: #f1f1f1;
+        }
+        .badge-custom {
+            padding: 0.5rem 0.75rem; 
+            font-size: 0.85rem; 
+            border-radius: 0.25rem;
+            font-weight: 400; 
         }
     </style>
 </head>
@@ -85,39 +102,77 @@
     <button type="submit" class="sidebar-link">🚪 Keluar</button>
 </form></div>
 <div class="content">
-    <div class="container">
-        <h1>Riwayat Pembayaran</h1>
-        <table class="table">
-            <thead>
+<div class="container">
+    <h2>Riwayat Pembayaran</h2>
+    @if(isset($kk))
+    <div class="p-3 mb-2 border rounded" style="font-family: 'Poppins', sans-serif; width: 100%;">
+        <h5 class="fw-bold">Data Warga:</h5>
+        <div style="font-size: 14px; line-height: 1.5;">
+            <table>
                 <tr>
-                    <th>No.</th>
-                    <th>RT/RW</th>
-                    <th>Tanggal Pembayaran</th>
-                    <th>Nominal Iuran</th>
-                    <th>Status Konfirmasi</th>
+                    <td style="width: 120px;"><strong>NIK</strong></td>
+                    <td>: {{ $kk->nik }}</td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach($tagihan as $index => $item)
                 <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $item->rt_rw }}</td>
-                    <td>{{ $item->pembayaran ? $item->pembayaran->created_at : '-' }}</td>
-                    <td>Rp{{ number_format($item->jumlah, 0, ',', '.') }}</td>
-                    <td>
-                        @if($item->statusTagihan == 'belum_bayar')
-                            <a href="#">Bayar Sekarang</a>
-                        @elseif($item->statusTagihan == 'sudah_bayar' && !$item->pembayaran)
-                            Proses Konfirmasi
-                        @else
-                            Lunas
-                        @endif
-                    </td>
+                    <td><strong>Nama Lengkap</strong></td>
+                    <td>: {{ $kk->nama }}</td>
                 </tr>
-                @endforeach
-            </tbody>
-        </table>
+                <tr>
+                    <td><strong>RT/RW</strong></td>
+                    <td>: {{ $kk->RTRW }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Nomor HP</strong></td>
+                    <td>: {{ $kk->noTelepon }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Peran</strong></td>
+                    <td>: {{ $kk->peranUser }}</td>
+                </tr>
+            </table>
+        </div>
     </div>
+@else
+    <p class="text-danger small" style="font-family: 'Poppins', sans-serif;">Data warga tidak ditemukan.</p>
+@endif
+
+
+
+    <table class="table table-bordered mt-2">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>NIK</th>
+                <th>Tanggal Jatuh Tempo</th>
+                <th>Tanggal Pembayaran</th>
+                <th>Nominal Iuran</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($tagihan as $index => $item)
+            <tr>
+                <td>{{ $index + 1 }}</td>
+                <td>{{ $item->nik }}</td>
+                <td>{{ \Carbon\Carbon::parse($item->tanggalJatuhTempo)->format('d-m-Y') }}</td>
+                <td>
+                    {{ $item->pembayaran ? \Carbon\Carbon::parse($item->pembayaran->created_at)->format('d-m-Y') : '-' }}
+                </td>
+                <td>Rp{{ number_format($item->jumlah, 0, ',', '.') }}</td>
+                <td>
+                    @if($item->statusTagihan == 'Belum Dibayar')
+                        <a href="{{ route('retribusi.sampah') }}" class="btn btn-danger btn-sm">Bayar Sekarang</a>
+                    @elseif($item->statusTagihan == 'Menunggu Konfirmasi')
+                        <span class="badge bg-primary text-white badge-custom">Menunggu Konfirmasi</span>
+                    @elseif($item->statusTagihan == 'Lunas')
+                        <span class="badge bg-success text-white badge-custom">Lunas</span>
+                    @endif
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>

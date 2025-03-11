@@ -20,6 +20,8 @@ class Pembayaran extends Model
     ];
 
     protected $table = 'pembayaran'; // Menentukan nama tabel
+    protected $primaryKey = 'idPembayaran';
+
     public function tagihan()
     {
         return $this->belongsTo(Tagihan::class, 'nik', 'nik');

@@ -13,8 +13,10 @@ class RiwayatPembayaranWargaController extends Controller
         $user = Auth::user();
         $nik = $user->nik;
 
+        $kk = \DB::table('kepala_keluarga')->where('nik', $nik)->first();
+
         $tagihan = Tagihan::where('nik', $nik)->with('pembayaran')->get();
 
-        return view('riwayat_pembayaran', compact('tagihan'));
+        return view('riwayat_pembayaran', compact('tagihan', 'kk'));
     }
 }
