@@ -123,7 +123,7 @@
         <button class="dropdown-btn">💰 Kelola Tagihan ▼</button>
         <div class="dropdown-content">
             <a href="{{ route('tagihan.index') }}">📋 Tambah Tagihan</a>
-            <a href="{{ route('konfirmasi_tagihan') }}">📋 Konfirmasi Tagihan</a>
+            <a href="{{ route('konfirmasi.pembayaran') }}">📋 Konfirmasi Tagihan</a>
         </div>
         <a href="{{ route('laporan.iuran') }}">📊 Laporan Iuran Sampah</a>
         <a href="{{ route('kelola.peran') }}">🔑 Kelola Peran</a>
