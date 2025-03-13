@@ -71,9 +71,21 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
+        /* Tabel */
+        .table {
+            background: white;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
         .table th {
-            background-color: #0d47a1;
+            background: #0d47a1;
             color: white;
+        }
+
+        .table tr:hover {
+            background: #f1f1f1;
         }
     </style>
 </head>
@@ -112,7 +124,7 @@
                 {{ session('success') }}
             </div>
         @endif
-        <table class="table table-bordered">
+        <table class="table table-bordered mt-2">
             <thead>
                 <tr>
                     <th>No</th>
