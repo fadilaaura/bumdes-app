@@ -105,19 +105,21 @@ class TagihanController extends Controller
 
         return redirect()->route('tagihan.index')->with('success', 'Tagihan berhasil diperbarui!');
     }
+    
     public function cekTagihan($nik)
     {
         $tagihan = Tagihan::where('nik', $nik)->where('statusTagihan', 'Belum Dibayar')->first();
-
+    
         if ($tagihan) {
             return response()->json([
                 'success' => true,
                 'tagihan' => [
                     'nama' => $tagihan->nama,
                     'nik' => $tagihan->nik,
-                    'nomor_hp' => $tagihan->nomor_hp,
-                    'rt_rw' => $tagihan->rt_rw,
+                    'nomor_hp' => $tagihan->nomor_hp, // Sesuaikan nama kolom
+                    'rt_rw' => $tagihan->rt_rw, // Sesuaikan dengan tabel
                     'jumlah' => $tagihan->jumlah,
+                    'tanggalJatuhTempo' => $tagihan->tanggalJatuhTempo, // Tambahkan
                 ]
             ]);
         } else {
@@ -127,6 +129,7 @@ class TagihanController extends Controller
             ]);
         }
     }
+    
 
     public function export()
 {

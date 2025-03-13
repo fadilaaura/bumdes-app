@@ -84,8 +84,14 @@
         }
         .button-container {
             display: flex;
-            justify-content: center; /* Mengatur tombol ke tengah */
+            justify-content: center; 
             margin-top: 15px;
+            gap: 10px;
+        }
+        .button-container button {
+            width: 150px; 
+            font-size: 14px; 
+            padding: 6px;
         }
         button {
             padding: 8px;
@@ -156,70 +162,82 @@
         <div class="profile-container">
             <h2>Pembayaran Iuran Sampah</h2>
 
-            <label for="nik">Masukkan NIK</label>
-            <input type="text" id="nik" name="nik" required>
-            <button type="button" id="cekTagihan">Cek Tagihan</button>
+            <label for="nik">Masukkan NIK Untuk Cek Tagihan Anda!</label>
+            <input type="text" id="nik" name="nik" class="form-control" value="{{ old('nik') }}" required>
+            <button type="button" id="cekTagihan" class="btn btn-primary btn-sm mt-2">Cek Tagihan</button>
 
-            <div id="infoTagihan">
-                <p>Masukkan NIK untuk cek tagihan.</p>
+            <hr> <!-- Garis pemisah antara input dan hasil tagihan -->
+
+        <div id="infoTagihan">
+            <p class="text-muted">Silakan masukkan NIK Anda untuk melihat tagihan.</p>
+        </div>
+
+        <form id="formPembayaran" action="{{ route('retribusi.sampah.store') }}" method="POST" enctype="multipart/form-data" style="display: none;">
+            @csrf
+            <input type="hidden" name="nama" id="nama" value="{{ old('nama') }}">
+            <input type="hidden" name="nomor_hp" id="nomor_hp" value="{{ old('nomor_hp') }}">
+            <input type="hidden" name="rt_rw" id="rt_rw" value="{{ old('rt_rw') }}">
+            <input type="hidden" name="nik" id="nik_pembayaran" value="{{ old('nik') }}">
+            <input type="hidden" name="tanggalJatuhTempo" id="tanggalJatuhTempo" value="{{ old('tanggalJatuhTempo') }}">
+
+            <label for="jumlah">Jumlah</label>
+            <input type="number" id="jumlah" name="jumlah" class="form-control" required>
+
+            <label for="buktiPembayaran">Upload Bukti Pembayaran</label>
+            <input type="file" id="buktiPembayaran" name="buktiPembayaran" class="form-control" required>
+
+            <div class="button-container">
+                <button type="reset" class="btn-cancel">Batal</button>
+                <button type="submit" class="btn-save">Bayar</button>
             </div>
+    </form>
 
-            <form id="formPembayaran" action="{{ route('retribusi.sampah.store') }}" method="POST" enctype="multipart/form-data" style="display: none;">
-                @csrf
-                <input type="hidden" name="nama" id="nama">
-                <input type="hidden" name="nomor_hp" id="nomor_hp">
-                <input type="hidden" name="rt_rw" id="rt_rw">
-                <input type="hidden" name="nik" id="nik_pembayaran">
-
-                <label for="jumlah">Jumlah</label>
-                <input type="number" id="jumlah" name="jumlah" required>
-
-                <label for="buktiPembayaran">Upload Bukti Pembayaran</label>
-                <input type="file" id="buktiPembayaran" name="buktiPembayaran" required>
-
-                <div class="button-container">
-                    <button type="reset" class="btn-cancel">Batal</button>
-                    <button type="submit" class="btn-save">Bayar</button>
-                </div>
-            </form>
         </div>
     </div>
 
     <script>
         document.getElementById('cekTagihan').addEventListener('click', function () {
-            var nik = document.getElementById('nik').value.trim();
+    var nik = document.getElementById('nik').value.trim();
 
-            if (!nik) {
-                alert("Silakan masukkan NIK terlebih dahulu.");
-                return;
+    if (!nik) {
+        alert("Silakan masukkan NIK terlebih dahulu.");
+        return;
+    }
+
+    fetch('/cek-tagihan/' + nik)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data); // Tambahkan ini untuk melihat isi response
+
+            if (data.success) {
+                document.getElementById('infoTagihan').innerHTML = `
+                    <p><strong>Nama:</strong> ${data.tagihan.nama}</p>
+                    <p><strong>NIK:</strong> ${data.tagihan.nik}</p>
+                    <p><strong>RT/RW:</strong> ${data.tagihan.rt_rw}</p>
+                    <p><strong>Nomor HP:</strong> ${data.tagihan.nomor_hp}</p>
+                    <p><strong>Jumlah Tagihan:</strong> Rp ${data.tagihan.jumlah}</p>
+                    <p><strong>Tanggal Jatuh Tempo:</strong> ${data.tagihan.tanggalJatuhTempo}</p>
+                `;
+
+                document.getElementById('nama').value = data.tagihan.nama;
+                document.getElementById('nik_pembayaran').value = data.tagihan.nik;
+                document.getElementById('rt_rw').value = data.tagihan.rt_rw;
+                document.getElementById('nomor_hp').value = data.tagihan.nomor_hp;
+                document.getElementById('jumlah').value = data.tagihan.jumlah;
+                document.getElementById('tanggalJatuhTempo').value = data.tagihan.tanggalJatuhTempo;
+
+                document.getElementById('formPembayaran').style.display = 'block';
+            } else {
+                document.getElementById('infoTagihan').innerHTML = `<p style="color:red;">${data.message}</p>`;
+                document.getElementById('formPembayaran').style.display = 'none';
             }
-
-            fetch('/cek-tagihan/' + nik)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        document.getElementById('infoTagihan').innerHTML = `
-                            <p><strong>Nama:</strong> ${data.tagihan.nama}</p>
-                            <p><strong>Jumlah Tagihan:</strong> Rp ${data.tagihan.jumlah}</p>
-                        `;
-
-                        document.getElementById('nama').value = data.tagihan.nama;
-                        document.getElementById('nomor_hp').value = data.tagihan.nomor_hp;
-                        document.getElementById('rt_rw').value = data.tagihan.rt_rw;
-                        document.getElementById('nik_pembayaran').value = data.tagihan.nik;
-                        document.getElementById('jumlah').value = data.tagihan.jumlah;
-
-                        document.getElementById('formPembayaran').style.display = 'block';
-                    } else {
-                        document.getElementById('infoTagihan').innerHTML = `<p style="color:red;">${data.message}</p>`;
-                        document.getElementById('formPembayaran').style.display = 'none';
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    document.getElementById('infoTagihan').innerHTML = '<p style="color:red;">Terjadi kesalahan, coba lagi.</p>';
-                });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('infoTagihan').innerHTML = '<p style="color:red;">Terjadi kesalahan, coba lagi.</p>';
         });
+});
+
     </script>
 </body>
 </html>

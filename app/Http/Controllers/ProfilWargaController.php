@@ -24,7 +24,7 @@ class ProfilWargaController extends Controller
         $request->validate([
             'nama' => 'required|string|max:255',
             'nik' => 'required|string|max:255|unique:kepala_keluarga,nik,' . $user->idKK . ',idKK',
-            'email' => 'required|string|max:255|unique:kepala_keluarga,email',
+            'email' => 'required|string|max:255|unique:kepala_keluarga,email,' . $user->idKK . ',idKK',
             'alamat' => 'required|string|max:255',
             'noTelepon' => 'required|string|max:15',
             'pin' => 'nullable|string|min:6',
@@ -52,9 +52,12 @@ class ProfilWargaController extends Controller
 
         // Update foto jika ada
         if ($request->hasFile('foto')) {
-            if ($user->foto) {
+            // Hapus foto lama jika ada
+            if ($user->foto && Storage::exists('public/foto/' . $user->foto)) {
                 Storage::delete('public/foto/' . $user->foto);
             }
+
+            // Simpan foto baru
             $file = $request->file('foto');
             $filename = time() . '_' . $file->getClientOriginalName();
             $file->storeAs('public/foto', $filename);

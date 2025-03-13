@@ -86,6 +86,9 @@
                 <a href="#" class="text-link">Lupa PIN?</a>
             </div>
             <button type="submit" class="btn btn-primary mt-3">Masuk</button>
+            <div class="text-center mt-3">
+            <small>Pengurus BUMDES? <a href="{{ route('login.admin') }}" class="text-link">Masuk Sebagai Pengelola BUMDES</a></small>
+        </div>
         </form>
     </div>
 

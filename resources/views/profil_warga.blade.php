@@ -156,13 +156,14 @@
 
                 <label for="pin">Password (kosongkan jika tidak diubah)</label>
                 <input type="pin" id="pin" name="pin" placeholder="Masukkan pin baru">
-
+                <div class="text-center mt-3">
+                    <div class="border rounded" style="width: 150px; height: 150px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                        <img id="previewFoto" src="{{ $user->foto ? asset('storage/foto/' . $user->foto) : asset('default-avatar.png') }}" 
+                            alt="Foto Profil" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                </div>
                 <label for="foto">Foto Profil (Opsional)</label>
-                <input type="file" id="foto" name="foto">
-
-                @if ($user->foto)
-                <img src="{{ asset('storage/foto/' . $user->foto) }}" alt="Foto Profil" width="100">
-                @endif
+                <input type="file" id="foto" name="foto" onchange="previewImage(event)">
 
                 <div class="button-container">
                     <button type="reset" class="btn-cancel">Batal</button>
@@ -196,6 +197,18 @@
             });
         });
     </script>
+
+<script>
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('previewFoto');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
+
 </body>
 
 </html>
