@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="images/logo-nb.png" type="image/x-icon">
     <title>BUMDes Spirit Mejabar</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -65,6 +66,12 @@
             position: relative;
             font-size: 14px;
         }
+        .card-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px; 
+            flex-wrap: wrap; 
+        }
         .card-custom {
             background: #f8f9fa;
             padding: 20px;
@@ -78,6 +85,39 @@
             align-items: center;
             text-align: center;
             padding-top: 30px;
+        }
+        .card-layanan img {
+            margin-bottom: 10px; 
+        }
+        @media (max-width: 768px) {
+            .card-container {
+            justify-content: center;
+            }
+        }
+        .card-layanan {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+            max-width: 250px;
+            min-height: 150px; 
+            padding: 20px;
+            border-radius: 8px;
+            background: #f8f9fa;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .card-berita {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            min-height: 150px; 
+            padding: 20px;
+            border-radius: 8px;
+            background: #f8f9fa;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
         }
         .card-title {
             position: absolute;
@@ -122,6 +162,7 @@
             font-size: 16px;
         }
         h5, h6 {
+            font-weight: bold; 
             font-size: 15px;
         }
         .text-navbar {
@@ -143,6 +184,16 @@
             font-weight: bold; 
             color: black;     
         }
+        .card-text-custom {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            line-height: 1.2; 
+            font-size: 14px;
+            color: black;
+        }
+
     </style>
 </head>
 <body>
@@ -152,9 +203,9 @@
     <div class="container">
         <a class="navbar-brand text-primary fw-bold d-flex align-items-center" href="{{ route('beranda') }}">
         <img src="{{ asset('images/logo-nb.png') }}" alt="Logo BUMDes" width="60" height="60" class="me-2">
-        <div class="text-navbar">
-            <span class="small-text">Badan Usaha Milik Desa</span><br>
-            <span class="big-text">Spirit Mejabar</span>
+            <div class="text-navbar">
+                <span class="small-text">Badan Usaha Milik Desa</span><br>
+                <span class="big-text">Spirit Mejabar</span>
             </div>
         </a>        
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -217,50 +268,54 @@
     </div>
 
     <!-- Layanan BUMDes -->
-    <h3 class="text-center mt-5 text-primary">Layanan BUMDes Spirit Mejabar</h3>
-    <div class="row text-center">
-        <div class="col-md-3">
-            <div class="card-custom p-3 shadow">
-                <img src="{{ asset('icons/wallet-fill.png') }}" width="50" alt="Sampah">
-                <p>Pengelolaan</p>
-                <p>Sampah</p>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card-custom p-3 shadow">
-                <img src="{{ asset('icons/people-fill.png') }}" width="50" alt="Pinjaman">
-                <p>Simpan Pinjam</p>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card-custom p-3 shadow">
-                <img src="{{ asset('icons/police-badge.png') }}" width="50" alt="Samsat">
-                <p>Samsat Budiman</p>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card-custom p-3 shadow">
-                <img src="{{ asset('icons/charity.png') }}" width="50" alt="PPOB">
-                <p>PPOB (Payment Point Online Bank)</p>
-            </div>
+    <h5 class="text-center mt-5">Layanan BUMDes Spirit Mejabar</h5>
+<div class="card-container mt-4">
+    <div class="card-layanan p-3 shadow">
+        <img src="{{ asset('icons/wallet-fill.png') }}" width="40" alt="Sampah">
+        <div class="card-text-custom">
+            <span>Pengelolaan</span>
+            <span>Sampah</span>
         </div>
     </div>
+    <div class="card-layanan p-3 shadow">
+        <img src="{{ asset('icons/people-fill.png') }}" width="40" alt="Pinjaman">
+        <div class="card-text-custom">
+            <span>Simpan</span>
+            <span>Pinjam</span>
+        </div>
+    </div>
+    <div class="card-layanan p-3 shadow">
+        <img src="{{ asset('icons/police-badge.png') }}" width="40" alt="Samsat">
+        <div class="card-text-custom">
+            <span>Samsat</span>
+            <span>Budiman</span>
+        </div>
+    </div>
+    <div class="card-layanan p-3 shadow">
+        <img src="{{ asset('icons/charity.png') }}" width="40" alt="PPOB">
+        <div class="card-text-custom">
+            <span>PPOB (Payment Point</span>
+            <span>Online Bank)</span>
+        </div>
+    </div>
+</div>
+
 
     <!-- Berita / Kegiatan -->
-    <h3 class="text-center mt-5 text-primary">Berita & Kegiatan</h3>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card shadow p-3">
-                <img src="{{ asset('images/rapat.jpg') }}" class="img-fluid rounded">
-                <h5 class="mt-2">Rapat Koordinasi Kegiatan BUMDes</h5>
-                <p>16 Januari 2025 - Rapat koordinasi kegiatan BUMDes Mejabar untuk tahun 2025 di Balai Desa.</p>
+    <h5 class="text-center mt-5 ">Berita & Kegiatan</h5>
+    <div class="card-container mt-4">
+        <div class="col-md-5">
+            <div class="card-berita p-3">
+                <img src="{{ asset('images/image-3.png') }}" class="img-fluid rounded">
+                <h5 class="mt-3">Rapat Koordinasi Kegiatan BUMDes</h5>
+                <p>16 Januari 2025 - Kamis, 16 Januari 2025, dilakukan rapat koordinasi tentang kegiatan Bumdes Mejabar tahun 2025 di Ruang Serbaguna Balaides...</p>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="card shadow p-3">
-                <img src="{{ asset('images/studi_banding.jpg') }}" class="img-fluid rounded">
-                <h5 class="mt-2">Kegiatan Studi Banding</h5>
-                <p>4 Oktober 2024 - Studi banding BUMDes Spirit Mejabar ke BUMDes Karya Makmur Sikunco, Cilacap.</p>
+        <div class="col-md-5">
+            <div class="card-berita p-3">
+                <img src="{{ asset('images/image-4.png') }}" class="img-fluid rounded">
+                <h5 class="mt-3">Kegiatan Studi Banding BUMDesa Spirit Mejabar ke BUMDes Karya Makmur Sikanco- Cilacap</h5>
+                <p>4 Oktober 2024 - Kegiatan Studi Banding BUMDesa Spirit Mejabar ke BUMDes Karya Makmur Sikanco- Cilacap berkaitan dengan Unit Samsat Budiman.</p>
             </div>
         </div>
     </div>
@@ -271,11 +326,13 @@
 <footer class="bg-primary text-white mt-5 py-4">
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
-                <h5>BUMDes Spirit Mejabar</h5>
+            <div class="col-md-3">
+                <img src="{{ asset('images/logo-nb.png') }}" width="60" height="60" class="me-2">
+                <h5 class="mt-3">BUMDes Spirit Mejabar</h5>
+                <h4 class="mt-3">Alamat</h4>
                 <p>Griya Mejasem Baru, Mejassem Bar., Kec. Kramat, Kabupaten Tegal, Jawa Tengah</p>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <h5>Menu</h5>
                 <ul class="list-unstyled">
                     <li><a href=" " class="text-white">Beranda</a></li>
@@ -285,7 +342,17 @@
                     <li><a href=" " class="text-white">Promosi UMKM</a></li>
                 </ul>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
+                <h5>FAQ</h5>
+                <ul class="list-unstyled">
+                    <li><a href=" " class="text-white">Beranda</a></li>
+                    <li><a href=" " class="text-white">Layanan BUMDes</a></li>
+                    <li><a href=" " class="text-white">Berita</a></li>
+                    <li><a href=" " class="text-white">Tentang Kami</a></li>
+                    <li><a href=" " class="text-white">Promosi UMKM</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
                 <h5>Hubungi Kami</h5>
                 <p>(021) 6510300</p>
                 <p><a href="https://instagram.com" class="text-white">Instagram</a></p>

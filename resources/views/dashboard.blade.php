@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="images/logo-nb.png" type="image/x-icon">
     <title>Dashboard Admin - BUMDes Spirit Mejabar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -31,10 +32,20 @@
             text-align: left;
             cursor: pointer;
             width: 100%;
+            display: flex;
+            align-items: center; 
+            gap: 10px;
         }
         .sidebar a:hover, .sidebar-link:hover, .sidebar-link.active, .dropdown-btn:hover, .sidebar .active{
             background: rgba(255, 255, 255, 0.2);
         }
+        .sidebar a img, .sidebar-btn img {
+            width: 20px;
+            height: 20px;
+            margin-right: -2px;
+            vertical-align: middle;
+        }
+        
         .dropdown-content {
             display: none;
             flex-direction: column;
@@ -77,24 +88,32 @@
     <h4>Badan Usaha Milik Desa</h4>
     <h5>Spirit Mejabar</h5>
     <hr>
-    <a href="{{ route('admin.dashboard') }}" class="active">🏠 Beranda</a>
-    <button class="dropdown-btn">📂 Data Master ▼</button>
+    <a href="{{ route('admin.dashboard') }}" class="active">
+        <img src="{{ asset('icons/darhboard.png') }}" width="20" height="20"> Beranda</a>
+    <button class="dropdown-btn">
+        <img src="{{ asset('icons/Database_light.svg') }}" width="20" height="20">Data Master ▼</button>
     <div class="dropdown-content">
-        <a href="{{ route('data_kk') }}">📋 Data KK</a>
+        <a href="{{ route('data_kk') }}">
+            <img src="{{ asset('icons/Database_light.svg') }}" width="20" height="20">Data KK</a>
         <a href="{{ route('data_rt') }}">📋 Data RT</a>
         <a href="{{ route('data_rw') }}">📋 Data RW</a>
     </div>
-    <button class="dropdown-btn">💰 Kelola Tagihan ▼</button>
+    <button class="dropdown-btn">
+        <img src="{{ asset('icons/Wallet_light.svg') }}" width="20" height="20">Kelola Tagihan ▼</button>
     <div class="dropdown-content">
         <a href="{{ route('tagihan.index') }}">📋 Tambah Tagihan</a>
         <a href="{{ route('konfirmasi.pembayaran') }}">📋 Konfirmasi Tagihan</a>
     </div>
-    <a href="{{ route('laporan.iuran') }}">📊 Laporan Iuran Sampah</a>
-    <a href="{{ route('kelola.peran') }}">🔑 Kelola Peran</a>
-    <a href="{{ route('profil') }}">👤 Profil</a>
+    <a href="{{ route('laporan.iuran') }}">
+        <img src="{{ asset('icons/File_dock_light.png') }}" width="20" height="20">Laporan Iuran Sampah</a>
+    <a href="{{ route('kelola.peran') }}">
+        <img src="{{ asset('icons/Group_light.png') }}" width="20" height="20"> Kelola Peran</a>
+    <a href="{{ route('profil') }}">
+        <img src="{{ asset('icons/User_cicrle_light.png') }}" width="20" height="20">Profil</a>
     <form action="{{ route('logout.admin') }}" method="POST">
     @csrf
-    <button type="submit" class="sidebar-link">🚪 Keluar</button>
+    <button type="submit" class="sidebar-link">
+        <img src="{{ asset('icons/Sign_out_squre_light.png') }}" width="20" height="20"> Keluar</button>
 </form>
 </div>
 
