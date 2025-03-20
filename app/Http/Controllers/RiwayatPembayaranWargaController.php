@@ -12,11 +12,17 @@ class RiwayatPembayaranWargaController extends Controller
     {
         $user = Auth::user();
         $nik = $user->nik;
-
+    
         $kk = \DB::table('kepala_keluarga')->where('nik', $nik)->first();
-
-        $tagihan = Tagihan::where('nik', $nik)->with('pembayaran')->get();
-
+    
+        $tagihan = Tagihan::where('nik', $nik)
+        ->with(['pembayaran' => function ($query) {
+            $query->select('nik', 'status', 'alasan_penolakan');
+        }])
+        ->orderBy('tanggalJatuhTempo', 'desc') // Mengurutkan berdasarkan tanggal jatuh tempo tertua
+        ->get();
+    
         return view('riwayat_pembayaran', compact('tagihan', 'kk'));
     }
+    
 }

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="images/logo-nb.png" type="image/x-icon">
     <title>Kelola Tagihan - Dashboard Admin BUMDes</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -126,38 +127,73 @@
             </div>
         @endif
         <table class="table table-bordered mt-2">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Nama</th>
-                    <th>NIK</th>
-                    <th>Jumlah</th>
-                    <th>Bukti Pembayaran</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($pembayaran as $index => $item)
-                    <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>{{ $item->nama }}</td>
-                        <td>{{ $item->nik }}</td>
-                        <td>Rp {{ number_format($item->jumlah, 0, ',', '.') }}</td>
-                        <td>
-                            <button class="btn btn-primary btn-sm" onclick="lihatBukti('{{ asset('storage/' . $item->buktiPembayaran) }}')">
-                                Lihat Bukti
-                            </button>
-                        </td>
-                        <td>
-                            <form action="{{ route('konfirmasi.pembayaran.konfirmasi', $item->idPembayaran) }}" method="POST">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Nama</th>
+            <th>NIK</th>
+            <th>Jumlah</th>
+            <th>Bukti Pembayaran</th>
+            <th>Status</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($pembayaran as $index => $item)
+            <tr>
+                <td>{{ $index + 1 }}</td>
+                <td>{{ $item->nama }}</td>
+                <td>{{ $item->nik }}</td>
+                <td>Rp {{ number_format($item->jumlah, 0, ',', '.') }}</td>
+                <td>
+                    <button class="btn btn-primary btn-sm" onclick="lihatBukti('{{ asset('storage/' . $item->buktiPembayaran) }}')">
+                        Lihat Bukti
+                    </button>
+                </td>
+                <td>
+                    @if($item->status == 'pending')
+                        <span class="badge bg-warning text-dark">Menunggu Konfirmasi</span>
+                    @elseif($item->status == 'lunas')
+                        <span class="badge bg-success text-white">Lunas</span>
+                    @endif
+                </td>
+                <td>
+                    @if($item->status == 'pending')
+                        <form action="{{ route('konfirmasi.pembayaran.konfirmasi', $item->idPembayaran) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-success btn-sm">Konfirmasi</button>
+                        </form>
+        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalTolak{{ $item->idPembayaran }}">
+            Tolak
+        </button>
+                    @endif
+                </td>
+            </tr>
+            <!-- Modal Tolak -->
+            <div class="modal fade" id="modalTolak{{ $item->idPembayaran }}" tabindex="-1">
+                        <div class="modal-dialog">
+                            <form action="{{ route('konfirmasi.pembayaran.tolak', $item->idPembayaran) }}" method="POST">
                                 @csrf
-                                <button type="submit" class="btn btn-success btn-sm">Konfirmasi</button>
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Tolak Pembayaran</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <label for="alasan_penolakan">Alasan Penolakan:</label>
+                                        <textarea name="alasan_penolakan" class="form-control" required></textarea>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-danger">Tolak Pembayaran</button>
+                                    </div>
+                                </div>
                             </form>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+                        </div>
+                    </div>
+        @endforeach
+    </tbody>
+</table>
+
     </div>
 
     <!-- Modal untuk menampilkan bukti pembayaran -->

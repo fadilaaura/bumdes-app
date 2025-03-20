@@ -17,6 +17,7 @@ class Pembayaran extends Model
         'jumlah',
         'buktiPembayaran',
         'status',
+        'alasan_penolakan',
     ];
 
     protected $table = 'pembayaran'; // Menentukan nama tabel

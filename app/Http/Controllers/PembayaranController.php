@@ -35,11 +35,21 @@ class PembayaranController extends Controller
             'nomor_hp' => 'required',
             'rt_rw' => 'required',
             'jumlah' => 'required|numeric',
-            'buktiPembayaran' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validasi file
+            'buktiPembayaran' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-
+    
         $imagePath = $request->file('buktiPembayaran')->store('bukti_pembayaran', 'public');
-
+    
+        // Cari tagihan yang cocok dengan NIK (Boleh ada lebih dari 1 pembayaran yang masuk sebelum dikonfirmasi)
+        $tagihan = Tagihan::where('nik', $request->nik)
+            ->where('statusTagihan', 'Belum Dibayar')
+            ->first();
+    
+        if (!$tagihan) {
+            return redirect()->route('retribusi.sampah')->with('error', 'Tagihan tidak ditemukan.');
+        }
+    
+        // Simpan pembayaran dengan status pending
         Pembayaran::create([
             'nama' => $request->nama,
             'nik' => $request->nik,
@@ -47,19 +57,17 @@ class PembayaranController extends Controller
             'rt_rw' => $request->rt_rw,
             'jumlah' => $request->jumlah,
             'buktiPembayaran' => $imagePath,
-            'status' => 'pending', // Atur status default
+            'status' => 'pending',
         ]);
-        // Ubah status tagihan menjadi "Menunggu Konfirmasi"
-        $tagihan = Tagihan::where('nik', $request->nik)
-            ->whereIn('statusTagihan', ['Belum Dibayar', 'Menunggu Konfirmasi'])
-            ->first();
-
-        if ($tagihan) {
+    
+        // Ubah status tagihan menjadi "Menunggu Konfirmasi" (Hanya jika ini pembayaran pertama yang masuk)
+        if ($tagihan->statusTagihan == 'Belum Dibayar') {
             $tagihan->update(['statusTagihan' => 'Menunggu Konfirmasi']);
         }
-
-        return redirect()->route('retribusi.sampah')->with('success', 'Pembayaran berhasil disimpan!');
-        }
+    
+        return redirect()->route('retribusi.sampah')->with('success', 'Bukti pembayaran berhasil diunggah! Tunggu konfirmasi dari pengelola.');
+    }
+    
 
         public function riwayatPembayaran()
 {

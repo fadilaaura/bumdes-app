@@ -137,42 +137,40 @@
     <p class="text-danger small" style="font-family: 'Poppins', sans-serif;">Data warga tidak ditemukan.</p>
 @endif
 
+<table class="table table-bordered mt-2">
+    <thead>
+        <tr>
+            <th>No.</th>
+            <th>NIK</th>
+            <th>Tanggal Jatuh Tempo</th>
+            <th>Jumlah</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($tagihan as $index => $item)
+        <tr>
+            <td>{{ $index + 1 }}</td>
+            <td>{{ $item->nik }}</td>
+            <td>{{ \Carbon\Carbon::parse($item->tanggalJatuhTempo)->format('d-m-Y') }}</td>
+            <td>Rp{{ number_format($item->jumlah, 0, ',', '.') }}</td>
+            <td>
+                @if($item->statusTagihan == 'Belum Dibayar' || ($item->pembayaran && $item->pembayaran->status == 'ditolak'))
+                    <a href="{{ route('retribusi.sampah') }}" class="btn btn-danger btn-sm">Bayar Sekarang</a>
+                @elseif($item->statusTagihan == 'Menunggu Konfirmasi')
+                    <span class="badge bg-primary text-white">Menunggu Konfirmasi</span>
+                @elseif($item->statusTagihan == 'Lunas')
+                    <span class="badge bg-success text-white">Lunas</span>
+                @elseif($item->pembayaran && $item->pembayaran->status == 'ditolak')
+                    <span class="badge bg-danger text-white">Ditolak</span>
+                @endif
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
 
 
-    <table class="table table-bordered mt-2">
-        <thead>
-            <tr>
-                <th>No.</th>
-                <th>NIK</th>
-                <th>Tanggal Jatuh Tempo</th>
-                <th>Tanggal Pembayaran</th>
-                <th>Nominal Iuran</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($tagihan as $index => $item)
-            <tr>
-                <td>{{ $index + 1 }}</td>
-                <td>{{ $item->nik }}</td>
-                <td>{{ \Carbon\Carbon::parse($item->tanggalJatuhTempo)->format('d-m-Y') }}</td>
-                <td>
-                    {{ $item->pembayaran ? \Carbon\Carbon::parse($item->pembayaran->created_at)->format('d-m-Y') : '-' }}
-                </td>
-                <td>Rp{{ number_format($item->jumlah, 0, ',', '.') }}</td>
-                <td>
-                    @if($item->statusTagihan == 'Belum Dibayar')
-                        <a href="{{ route('retribusi.sampah') }}" class="btn btn-danger btn-sm">Bayar Sekarang</a>
-                    @elseif($item->statusTagihan == 'Menunggu Konfirmasi')
-                        <span class="badge bg-primary text-white badge-custom">Menunggu Konfirmasi</span>
-                    @elseif($item->statusTagihan == 'Lunas')
-                        <span class="badge bg-success text-white badge-custom">Lunas</span>
-                    @endif
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
 </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
