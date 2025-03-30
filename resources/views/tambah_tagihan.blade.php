@@ -202,7 +202,16 @@
                     <td>{{ $tagihan->tanggalJatuhTempo}}</td>
                     <td>{{ $tagihan->statusTagihan }}</td>
                     <td>
-                        <a href="https://wa.me/{{ $tagihan->nomor_hp }}?text=Halo%20{{ urlencode($tagihan->nama) }},%20tagihan%20Anda%20sebesar%20Rp%20{{ number_format($tagihan->jumlah) }}%20jatuh%20tempo%20pada%20{{ $tagihan->tanggalJatuhTempo }}."
+                        @php
+                            $nomorWa = ltrim($tagihan->nomor_hp, '0');
+                            $nomorWa = '62' . $nomorWa;
+                    
+                            $pesan = "Halo {$tagihan->nama},%0A"
+                            . "Kami dari BUMDes Spirit Mejabar ingin menginformasikan bahwa Anda memiliki tagihan iuran sampah sebesar: *Rp " . number_format($tagihan->jumlah, 0, ',', '.') . "*.%0A"
+                            . "Jatuh tempo pembayaran: *" . \Carbon\Carbon::parse($tagihan->tanggalJatuhTempo)->translatedFormat('d F Y') . "*.%0A%0A"
+                            . "Mohon untuk melakukan pembayaran sebelum tanggal tersebut. Terima kasih atas perhatian dan kerja samanya 🙏";
+                        @endphp
+                        <a href="https://wa.me/{{ $nomorWa }}?text={{ $pesan }}"
                             target="_blank" class="btn btn-success btn-sm">
                             Kirim WhatsApp
                         </a>
