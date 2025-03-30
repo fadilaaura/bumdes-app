@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="images/logo-nb.png" type="image/x-icon">
     <title>Pembayaran Iuran Sampah - BUMDes Spirit Mejabar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -19,7 +20,11 @@
             background: #0d47a1;
             color: white;
             position: fixed;
+            top: 60px;
             padding: 20px;
+            font-size: 14px;
+            transition: margin 0.3s ease; 
+            margin-left: 0; 
         }
         .sidebar a, .sidebar-link, .sidebar button {
             color: white;
@@ -33,15 +38,25 @@
             text-align: left;
             cursor: pointer;
             width: 100%;
+            display: flex;
+            align-items: center; 
+            gap: 10px;
+            font-size: 14px;
         }
         .sidebar a:hover, .sidebar-link:hover, .sidebar-link.active, .sidebar button:hover, .sidebar .active {
             background: rgba(255, 255, 255, 0.2);
+        }
+        .sidebar a img, .sidebar-btn img {
+            width: 20px;
+            height: 20px;
+            margin-right: -2px;
+            vertical-align: middle;
         }
         .dropdown-content {
             display: none;
             flex-direction: column;
             background: #1565c0;
-            margin-left: 10px;
+            margin-left: 35px;
             border-radius: 5px;
         }
         .dropdown-content a {
@@ -56,14 +71,14 @@
         .content {
             margin-left: 270px;
             padding: 20px;
-            width: calc(100% - 270px);
+            width: calc(100% - 0px);
         }
         .profile-container {
             background: white;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            width: 950px;
+            width: 100%;
             margin: auto;
         }
         h2 {
@@ -82,6 +97,38 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 14px;
+        }
+        
+        .top-navbar {
+            height: 60px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            border-bottom: 1px solid #e0e0e0;
+            box-shadow: none !important; 
+            background-color: #fff;
+        }
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+            margin-top: 60px;
+        }
+        .sidebar.collapsed {
+            margin-left: -250px;
+            transition: margin 0.3s ease;
+        }
+        .content.shifted {
+            margin-left: 20px;
+            transition: margin 0.3s ease;
+        }
+        .main-inner {
+    width: 100%;
+}
+        .top-navbar.shifted {
+            left: 0 !important;
+            transition: left 0.3s ease;
         }
         .button-container {
             display: flex;
@@ -137,20 +184,41 @@
 </head>
 <body>
 
-<div class="sidebar">
-    <h4>Badan Usaha Milik Desa</h4>
-    <h5>Spirit Mejabar</h5>
+<div class="sidebar" id="sidebar">
+    <p style="text-align: center;"><img src="{{ asset('icons/Waterfall.svg') }}" width="20" height="20"> HALAMAN WARGA</p>
     <hr>
-    <a href="{{ route('dashboard.warga') }}">🏠 Beranda</a>
-    <a href="{{ route('retribusi.sampah') }}"class="active">💷 Retribusi Sampah</a>
-    <a href="{{ route('riwayat.pembayaran.warga') }}" >📑 Riwayat Pembayaran</a>
-    <a href="{{ route('profil_warga') }}">👤 Profil</a>
+    <a href="{{ route('dashboard.warga') }}">
+        <img src="{{ asset('icons/darhboard-light.svg') }}" width="20" height="20">Beranda</a>
+    <a href="{{ route('retribusi.sampah') }}"class="active">
+        <img src="{{ asset('icons/Wallet_bold.svg') }}" width="20" height="20"><strong>Retribusi Sampah</strong></a>
+    <a href="{{ route('riwayat.pembayaran.warga') }}" >
+        <img src="{{ asset('icons/File_dock_light.svg') }}" width="20" height="20">Riwayat Pembayaran</a>
+    <a href="{{ route('profil_warga') }}">
+        <img src="{{ asset('icons/User_cicrle_light.svg') }}" width="20" height="20">Profil</a>
     <form action="{{ route('warga.logout') }}" method="POST" >
     @csrf
-    <button type="submit" class="sidebar-link">🚪 Keluar</button>
-</form></div>
+    <button type="submit" class="sidebar-link">
+        <img src="{{ asset('icons/Sign_out_squre_light.svg') }}" width="20" height="20">Keluar</button>
+</form>
+</div>
+
+<!-- Top Navbar -->
+<div class="top-navbar d-flex justify-content-between align-items-center px-4 py-2 bg-white shadow-sm">
+    <div class="d-flex align-items-center">
+    <img src="{{ asset('icons/menu.svg') }}" width="20" height="20" class="me-2" id="menu-toggle" style="cursor: pointer;">
+    <img src="{{ asset('images/logo-nb.png') }}" alt="Logo" height="40" class="me-2">
+        <div style="line-height: 1;">
+            <span style="font-weight: 600; font-size: 14px;">Badan Usaha Milik Desa</span><br>
+            <span style="font-size: 13px;">Spirit Mejabar</span>
+        </div>
+    </div>
+    <div>
+        <img src="{{ asset('icons/User_cicrle_light.svg') }}" alt="Profil" width="32" height="32" style="border-radius: 50%; border: 2px solid #333; padding: 2px; cursor: pointer;">
+    </div>
+</div>
 
     <div class="content">
+    <div class="main-inner">
     <div class="button-container-top">
             <button onclick="window.location.href='{{ route('kepala_keluarga.create') }}'" class="btn btn-primary btn-sm">
                 Tata Cara Pembayaran
@@ -194,7 +262,20 @@
     </form>
 
         </div>
+        </div>
     </div>
+
+    <script>
+    document.getElementById("menu-toggle").addEventListener("click", function () {
+        const sidebar = document.getElementById("sidebar");
+        const content = document.querySelector(".content");
+        const topNavbar = document.querySelector(".top-navbar");
+
+        sidebar.classList.toggle("collapsed");
+        content.classList.toggle("shifted");
+        topNavbar.classList.toggle("shifted");
+    });
+</script>
 
     <script>
         document.getElementById('cekTagihan').addEventListener('click', function () {
