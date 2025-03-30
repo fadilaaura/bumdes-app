@@ -66,8 +66,8 @@ Route::middleware(['auth:PengelolaBumdes'])->group(function () {
     Route::view('/kelola-tagihan/konfirmasi', 'konfirmasi_tagihan')->name('konfirmasi_tagihan');
     Route::get('/admin/konfirmasi-pembayaran', [KonfirmasiPembayaranController::class, 'index'])->name('konfirmasi.pembayaran');
     Route::post('/admin/konfirmasi-pembayaran/{id}', [KonfirmasiPembayaranController::class, 'konfirmasi'])->name('konfirmasi.pembayaran.konfirmasi');  
-    Route::post('/konfirmasi-pembayaran/tolak/{idPembayaran}', [KonfirmasiPembayaranController::class, 'tolak'])
-    ->name('konfirmasi.pembayaran.tolak');
+    Route::post('/admin/pembayaran/tolak-ajax/{id}', [KonfirmasiPembayaranController::class, 'tolakAjax']);
+
 
     Route::get('/cek-tagihan/{nik}', [PembayaranController::class, 'cekTagihan']);
     Route::get('/admin/tagihan', [TagihanController::class, 'index'])->name('tagihan.index');

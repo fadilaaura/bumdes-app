@@ -133,6 +133,7 @@
             <th>Nama</th>
             <th>NIK</th>
             <th>Jumlah</th>
+            <th>Tanggal Jatuh Tempo</th>
             <th>Bukti Pembayaran</th>
             <th>Status</th>
             <th>Aksi</th>
@@ -145,6 +146,7 @@
                 <td>{{ $item->nama }}</td>
                 <td>{{ $item->nik }}</td>
                 <td>Rp {{ number_format($item->jumlah, 0, ',', '.') }}</td>
+                <td>{{ \Carbon\Carbon::parse($item->tanggalJatuhTempo)->format('d-m-Y') ?? '-' }}</td>
                 <td>
                     <button class="btn btn-primary btn-sm" onclick="lihatBukti('{{ asset('storage/' . $item->buktiPembayaran) }}')">
                         Lihat Bukti
@@ -170,26 +172,29 @@
                 </td>
             </tr>
             <!-- Modal Tolak -->
-            <div class="modal fade" id="modalTolak{{ $item->idPembayaran }}" tabindex="-1">
-                        <div class="modal-dialog">
-                            <form action="{{ route('konfirmasi.pembayaran.tolak', $item->idPembayaran) }}" method="POST">
-                                @csrf
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Tolak Pembayaran</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <label for="alasan_penolakan">Alasan Penolakan:</label>
-                                        <textarea name="alasan_penolakan" class="form-control" required></textarea>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-danger">Tolak Pembayaran</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+<div class="modal fade" id="modalTolak{{ $item->idPembayaran }}" tabindex="-1" aria-labelledby="modalTolakLabel{{ $item->idPembayaran }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTolakLabel{{ $item->idPembayaran }}">Tolak Pembayaran</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+            </div>
+            <div class="modal-body">
+                <label for="alasan_penolakan_{{ $item->idPembayaran }}">Alasan Penolakan:</label>
+                <textarea class="form-control" id="alasan_penolakan_{{ $item->idPembayaran }}" rows="3" required></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button"
+                    class="btn btn-danger"
+                    onclick="tolakDanKirimWA({{ $item->idPembayaran }}, '{{ $item->nama }}', '{{ $item->nomor_hp }}')">
+                    Tolak & Kirim WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
         @endforeach
     </tbody>
 </table>
@@ -255,6 +260,58 @@
             }
         }
     </script>
+
+<script>
+function tolakDanKirimWA(idPembayaran, nama, nomorHp) {
+    const alasan = document.getElementById(`alasan_penolakan_${idPembayaran}`).value.trim();
+
+    if (!alasan) {
+        alert("Tolong isi alasan penolakan terlebih dahulu.");
+        return;
+    }
+
+    fetch(`/admin/pembayaran/tolak-ajax/${idPembayaran}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+        },
+        body: JSON.stringify({ alasan_penolakan: alasan })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Tutup modal
+            const modalId = `modalTolak${idPembayaran}`;
+            const modalEl = document.getElementById(modalId);
+            const modalInstance = bootstrap.Modal.getInstance(modalEl);
+            modalInstance.hide();
+
+            // Compose pesan WA
+            const nomorWa = nomorHp.replace(/^0/, "62");
+            const pesan = `Halo *${nama}*,\n\nMaaf, pembayaran iuran sampah Anda *ditolak*.\n\n*Alasan:* ${alasan}\n\nSilakan unggah ulang bukti pembayaran yang benar.\n\nTerima kasih 🙏`;
+            const waUrl = `https://wa.me/${nomorWa}?text=${encodeURIComponent(pesan)}`;
+
+            // Buka WA di tab baru
+            window.open(waUrl, '_blank');
+
+            // Setelah 1 detik, reload halaman
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
+        } else {
+            alert("Gagal menolak pembayaran.");
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("Terjadi kesalahan.");
+    });
+}
+</script>
+
+
+
 
 </body>
 </html>

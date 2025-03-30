@@ -33,30 +33,26 @@ class KonfirmasiPembayaranController extends Controller
         return redirect()->route('konfirmasi.pembayaran')->with('success', 'Pembayaran berhasil dikonfirmasi dan tagihan telah diperbarui.');
     }
 
-    public function tolak(Request $request, $idPembayaran)
+    public function tolakAjax(Request $request, $idPembayaran)
     {
-        $request->validate([
-            'alasan_penolakan' => 'required|string|max:255',
-        ]);
+        $pembayaran = \App\Models\Pembayaran::findOrFail($idPembayaran);
     
-        $pembayaran = Pembayaran::findOrFail($idPembayaran);
-    
-        // Simpan alasan penolakan
         $pembayaran->status = 'ditolak';
-        $pembayaran->alasan_penolakan = $request->alasan_penolakan;
-        $pembayaran->save(); // <-- Pastikan update dilakukan dengan save()
+        $pembayaran->save();
     
-        // Kembalikan status tagihan ke "Belum Dibayar"
-        $tagihan = Tagihan::where('nik', $pembayaran->nik)
-                          ->where('statusTagihan', 'Menunggu Konfirmasi')
-                          ->first();
+        // Update status tagihan juga
+        $tagihan = \App\Models\Tagihan::where('nik', $pembayaran->nik)
+            ->where('statusTagihan', 'Menunggu Konfirmasi')
+            ->first();
     
         if ($tagihan) {
             $tagihan->statusTagihan = 'Belum Dibayar';
-            $tagihan->save(); // <-- Pastikan perubahan disimpan
+            $tagihan->save();
         }
     
-        return redirect()->route('konfirmasi.pembayaran')->with('error', 'Pembayaran ditolak dengan alasan: ' . $request->input('alasan_penolakan'));
+        return response()->json(['success' => true]);
     }
+    
+    
     
 }

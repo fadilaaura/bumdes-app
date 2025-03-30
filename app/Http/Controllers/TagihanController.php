@@ -14,17 +14,26 @@ class TagihanController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
+        $status = $request->input('status');
         $perPage = $request->input('perPage', 10); // Default 10 data per halaman
-
-        $tagihans = Tagihan::when($search, function ($query, $search) {
-            return $query->where('nama', 'like', '%' . $search . '%')
-                         ->orWhere('nik', 'like', '%' . $search . '%')
-                         ->orWhere('nomor_hp', 'like', '%' . $search . '%')
-                         ->orWhere('rt_rw', 'like', '%' . $search . '%');
-        })->paginate($perPage);
-
-        return view('tambah_tagihan', compact('tagihans', 'search'));
+    
+        $tagihans = Tagihan::query()
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('nama', 'like', '%' . $search . '%')
+                      ->orWhere('nik', 'like', '%' . $search . '%')
+                      ->orWhere('nomor_hp', 'like', '%' . $search . '%')
+                      ->orWhere('rt_rw', 'like', '%' . $search . '%');
+                });
+            })
+            ->when($status, function ($query, $status) {
+                return $query->where('statusTagihan', $status);
+            })
+            ->paginate($perPage)->withQueryString();
+    
+        return view('tambah_tagihan', compact('tagihans', 'search', 'status'));
     }
+    
 
     public function create()
     {

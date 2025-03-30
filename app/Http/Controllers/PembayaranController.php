@@ -41,15 +41,16 @@ class PembayaranController extends Controller
         $imagePath = $request->file('buktiPembayaran')->store('bukti_pembayaran', 'public');
     
         // Cari tagihan yang cocok dengan NIK (Boleh ada lebih dari 1 pembayaran yang masuk sebelum dikonfirmasi)
+        // Cari tagihan
         $tagihan = Tagihan::where('nik', $request->nik)
-            ->where('statusTagihan', 'Belum Dibayar')
-            ->first();
-    
+        ->where('statusTagihan', 'Belum Dibayar')
+        ->first();
+
         if (!$tagihan) {
             return redirect()->route('retribusi.sampah')->with('error', 'Tagihan tidak ditemukan.');
         }
-    
-        // Simpan pembayaran dengan status pending
+
+        // Simpan pembayaran
         Pembayaran::create([
             'nama' => $request->nama,
             'nik' => $request->nik,
@@ -58,6 +59,7 @@ class PembayaranController extends Controller
             'jumlah' => $request->jumlah,
             'buktiPembayaran' => $imagePath,
             'status' => 'pending',
+            'tanggalJatuhTempo' => $tagihan->tanggalJatuhTempo,
         ]);
     
         // Ubah status tagihan menjadi "Menunggu Konfirmasi" (Hanya jika ini pembayaran pertama yang masuk)

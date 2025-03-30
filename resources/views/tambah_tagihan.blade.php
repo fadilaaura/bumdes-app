@@ -143,9 +143,15 @@
                     Export Data
                 </button>
             </div>
-            <form action="{{ route('tagihan.index') }}" method="GET" class="d-flex align-items-center">
-                <div class="input-group input-group-sm">
+            <form action="{{ route('tagihan.index') }}" method="GET" class="d-flex align-items-center gap-2">
+            <div class="input-group input-group-sm">
                     <input type="text" name="search" class="form-control form-control-sm" style="width: 270px;" placeholder="Cari Nama, NIK, No. HP, atau RT/RW">
+                    <select name="status" class="form-select form-select-sm" style="width: 150px;">
+    <option value="">Semua Status</option>
+    <option value="Lunas" {{ request('status') == 'Lunas' ? 'selected' : '' }}>Lunas</option>
+    <option value="Belum Dibayar" {{ request('status') == 'Belum Dibayar' ? 'selected' : '' }}>Belum Dibayar</option>
+</select>
+
                     <button type="submit" class="btn btn-primary btn-sm">Cari</button>
                 </div>
             </form>
@@ -179,6 +185,7 @@
                     <th>Nomor HP</th>
                     <th>RT/RW</th>
                     <th>Jumlah</th>
+                    <th>Tanggal Jatuh Tempo</th>
                     <th>Status</th>
                     <th>Aksi</th>
                 </tr>
@@ -192,6 +199,7 @@
                     <td>{{ $tagihan->nomor_hp }}</td>
                     <td>{{ $tagihan->rt_rw }}</td>
                     <td>{{ $tagihan->jumlah }}</td>
+                    <td>{{ $tagihan->tanggalJatuhTempo}}</td>
                     <td>{{ $tagihan->statusTagihan }}</td>
                     <td>
                         <a href="https://wa.me/{{ $tagihan->nomor_hp }}?text=Halo%20{{ urlencode($tagihan->nama) }},%20tagihan%20Anda%20sebesar%20Rp%20{{ number_format($tagihan->jumlah) }}%20jatuh%20tempo%20pada%20{{ $tagihan->tanggalJatuhTempo }}."
@@ -233,6 +241,7 @@
 
         <form id="perPageForm" action="{{ route('tagihan.index') }}" method="GET" style="display: none;">
             <input type="hidden" name="search" value="{{ request('search') }}">
+            <input type="hidden" name="status" value="{{ request('status') }}">
             <input type="hidden" name="perPage" id="perPageInput">
         </form>
 
