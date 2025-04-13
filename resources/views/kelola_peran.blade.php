@@ -173,6 +173,21 @@
         .btn-delete:hover {
             background: #BB2D3B;
         }
+
+        .btn-primary{
+        background-color: #0d47a1; /* Warna background halaman */
+        color: #f4f6f9; /* Warna teks saat hover */
+        border-color: #0d47a1;
+    }
+    
+        .btn-sm:hover {
+        color: #f4f6f9; /* Warna teks saat hover */
+        border-color: #0d47a1;
+    }
+    
+        .btn-primary.btn-sm{
+        color: white;
+    }
     </style>
 </head>
 
@@ -225,6 +240,24 @@
 
     <!-- Konten Utama -->
     <div class="content">
+    <form action="{{ route('kelola.peran') }}" method="GET" class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+
+    <div class="d-flex align-items-center">
+        <label for="perPage" class="me-2 mb-0">Tampilkan:</label>
+        <select name="perPage" id="perPage" class="form-select form-select-sm" onchange="this.form.submit()">
+            <option value="10" {{ request('perPage', 10) == 10 ? 'selected' : '' }}>10</option>
+            <option value="20" {{ request('perPage') == 20 ? 'selected' : '' }}>20</option>
+            <option value="50" {{ request('perPage') == 50 ? 'selected' : '' }}>50</option>
+        </select>
+    </div>
+
+    <div class="input-group input-group-sm" style="max-width: 225px;">
+        <input type="text" name="search" class="form-control form-control-sm" placeholder="Cari Nama Pengurus" value="{{ request('search') }}">
+        <button type="submit" class="btn btn-primary btn-sm">Cari</button>
+    </div>
+</form>
+
+
         <div class ="table-responsive">
         <table class="table table-bordered">
             <thead>
@@ -275,6 +308,18 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="mt-4 d-flex justify-content-center align-items-center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination pagination-sm">
+                    {{ $warga->links('pagination::bootstrap-4') }}
+                </ul>
+            </nav>
+        </div>
+
+        <form id="perPageForm" action="{{ route('kelola.peran') }}" method="GET" style="display: none;">
+            <input type="hidden" name="search" value="{{ request('search') }}">
+            <input type="hidden" name="perPage" id="perPageInput">
+        </form>
         </div>
     </div>
 
@@ -470,6 +515,14 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
 </script>
+
+<script>
+        document.getElementById('perPage').addEventListener('change', function() {
+            document.getElementById('perPageInput').value = this.value;
+            document.getElementById('perPageForm').submit();
+        });
+    </script>
+    
 </body>
 
 </html>

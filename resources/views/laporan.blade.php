@@ -246,41 +246,52 @@
 </div>
 
     <div class="content">
-        <form action="laporan.php" method="POST">
-            <div class="row">
-                <div class="col-md-5">
-                    <label for="rentang-waktu-awal">Tanggal Awal:</label>
-                    <input type="date" id="rentang-waktu-awal" name="rentang_waktu_awal" class="form-control">
-                </div>
-                <div class="col-md-1 text-center align-self-end">
-                    <strong>s/d</strong>
-                </div>
-                <div class="col-md-5">
-                    <label for="rentang-waktu-akhir">Tanggal Akhir:</label>
-                    <input type="date" id="rentang-waktu-akhir" name="rentang_waktu_akhir" class="form-control">
-                </div>
-            </div>
-            <label for="pilihan-data">Pilihan Data:</label>
-            <select id="pilihan-data" name="pilihan_data">
-                <option value="">Pilih Data</option>
-                <option value="lunas">Lunas</option>
-                <option value="belum-lunas">Belum Dibayar</option>
-            </select>
-            <label for="rw">RW:</label>
-            <select id="rw" name="rw">
-                <option value="">Pilih Data</option>
-                <option value="01">RW 01</option>
-                <option value="02">RW 02</option>
-            </select>
-            <label for="rt">RT:</label>
-            <select id="rt" name="rt">
-                <option value="">Pilih Data</option>
-                <option value="001">RT 001</option>
-                <option value="002">RT 002</option>
-            </select>
-            <button type="submit" class="btn-cetak">Cetak</button>
-        </form>
+    <form action="{{ route('laporan.export') }}" method="POST">
+    @csrf
+    <div class="row">
+        <div class="col-md-5">
+            <label for="rentang-waktu-awal">Tanggal Awal:</label>
+            <input type="date" id="rentang-waktu-awal" name="rentang_waktu_awal" class="form-control">
+        </div>
+        <div class="col-md-1 text-center align-self-end">
+            <strong>s/d</strong>
+        </div>
+        <div class="col-md-5">
+            <label for="rentang-waktu-akhir">Tanggal Akhir:</label>
+            <input type="date" id="rentang-waktu-akhir" name="rentang_waktu_akhir" class="form-control">
+        </div>
     </div>
+    <label for="pilihan-data">Pilihan Data:</label>
+    <select id="pilihan-data" name="pilihan_data" class="form-control">
+        <option value="">Pilih Data</option>
+        <option value="kk">Semua</option>
+        <option value="rw">RW</option>
+        <option value="rt">RT</option>
+    </select>
+    <label for="rw">RW:</label>
+    <select id="rw" name="rw" class="form-control">
+        <option value="">Pilih RW</option>
+        <option value="01">RW 01</option>
+        <option value="02">RW 02</option>
+        <option value="03">RW 03</option>
+        <option value="04">RW 04</option>
+        <option value="05">RW 05</option>
+        <option value="06">RW 06</option>
+        <option value="07">RW 07</option>
+        <option value="08">RW 08</option>
+        <option value="09">RW 09</option>
+        <option value="10">RW 10</option>
+    </select>
+    <label for="rt">RT:</label>
+    <select id="rt" name="rt" class="form-control">
+        <option value="">Pilih RT</option>
+        <option value="001">RT 001</option>
+        <option value="002">RT 002</option>
+    </select>
+    <div class="text-center">
+    <button type="submit" class="btn btn-success mt-3 px-3">Cetak Laporan</button>
+</div></form>
+
 
     <script>
     document.getElementById("menu-toggle").addEventListener("click", function () {
@@ -318,6 +329,41 @@
             });
         });
     </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const pilihanData = document.getElementById("pilihan-data");
+        const rtSelect = document.getElementById("rt");
+        const rwSelect = document.getElementById("rw");
+
+        function handleDropdownState() {
+            const value = pilihanData.value;
+
+            if (value === "kk") {
+                rtSelect.disabled = true;
+                rwSelect.disabled = true;
+            } else if (value === "rw") {
+                rwSelect.disabled = false;
+                rtSelect.disabled = true;
+            } else if (value === "rt") {
+                rwSelect.disabled = false;
+                rtSelect.disabled = false;
+            } else {
+                // default jika kosong
+                rtSelect.disabled = true;
+                rwSelect.disabled = true;
+            }
+        }
+
+        // Jalankan saat halaman dimuat
+        handleDropdownState();
+
+        // Jalankan ketika dropdown pilihan data berubah
+        pilihanData.addEventListener("change", handleDropdownState);
+    });
+</script>
+
+
 
 </body>
 

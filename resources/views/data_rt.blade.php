@@ -213,7 +213,7 @@
             </div>
             <form action="{{ route('data_rt') }}" method="GET" class="d-flex align-items-center">
                 <div class="input-group input-group-sm">
-                    <input type="text" name="search" class="form-control form-control-sm" placeholder="Cari RT/RW atau Ketua RT">
+                    <input type="text" name="search" class="form-control form-control-sm" placeholder="Cari RTRW atau Ketua RT">
                     <button type="submit" class="btn btn-primary btn-sm">Cari</button>
                 </div>
             </form>

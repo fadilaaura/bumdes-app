@@ -80,8 +80,9 @@ Route::middleware(['auth:PengelolaBumdes'])->group(function () {
     Route::get('/export-tagihan', [TagihanController::class, 'export'])->name('export.tagihan');
     Route::get('/get-data-warga/{nik}', [TagihanController::class, 'getDataWarga']);
 
-    Route::get('/laporan-iuran', [LaporanController::class, 'index'])->name('laporan.iuran');
-
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.iuran');
+    Route::post('/laporan/export', [LaporanController::class, 'exportToExcel'])->name('laporan.export');
+        
     Route::get('/profil', [ProfilController::class, 'index'])->name('profil');
     Route::post('/profil/update', [ProfilController::class, 'update'])->name('profil.update');
 

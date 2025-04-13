@@ -9,12 +9,25 @@ use Illuminate\Http\Request;
 
 class WargaController extends Controller
 {
-    public function kelolaPeran()
+    public function kelolaPeran(Request $request)
     {
-        $warga = KepalaKeluarga::whereIn('peranUser', ['Pengurus RT', 'Pengurus RW'])
-            ->orderByRaw("FIELD(peranUser, 'Pengurus RT', 'Pengurus RW')")
-            ->get();
-
+        $perPage = $request->input('perPage', 10); // default 10
+        $search = $request->input('search');
+    
+        $query = KepalaKeluarga::whereIn('peranUser', ['Pengurus RT', 'Pengurus RW']);
+    
+        if ($search) {
+            $query->where(function($q) use ($search) {
+                $q->where('nik', 'like', "%$search%")
+                  ->orWhere('nama', 'like', "%$search%")
+                  ->orWhere('RTRW', 'like', "%$search%");
+            });
+        }
+    
+        $warga = $query->orderByRaw("FIELD(peranUser, 'Pengurus RT', 'Pengurus RW')")
+                       ->paginate($perPage)
+                       ->appends(['search' => $search, 'perPage' => $perPage]);
+    
         return view('kelola_peran', compact('warga'));
     }
 
