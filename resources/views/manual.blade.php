@@ -193,6 +193,20 @@
         .btn-cetak:hover {
             background: #1565c0;
         }
+        .btn-primary{
+        background-color: #0d47a1; /* Warna background halaman */
+        color: #f4f6f9; /* Warna teks saat hover */
+        border-color: #0d47a1;
+    }
+    
+        .btn-sm:hover {
+        color: #f4f6f9; /* Warna teks saat hover */
+        border-color: #0d47a1;
+    }
+    
+        .btn-primary.btn-sm{
+        color: white;
+    }
     </style>
 </head>
 
@@ -216,7 +230,7 @@
             <a href="{{ route('konfirmasi.pembayaran') }}"> Konfirmasi Tagihan</a>
         </div>
         <a href="{{ route('laporan.iuran') }}">
-            <img src="{{ asset('icons/File_dock_bold.svg') }}" width="20" height="20">Laporan Iuran Sampah</a>
+            <img src="{{ asset('icons/File_dock_light.svg') }}" width="20" height="20">Laporan Iuran Sampah</a>
         <a href="{{ route('kelola.peran') }}">
             <img src="{{ asset('icons/Group_light.svg') }}" width="20" height="20"> Kelola Peran</a>
         <a href="{{ route('profil') }}">
@@ -241,24 +255,20 @@
         </div>
     </div>
     <div>
-        <img src="{{ asset('icons/User_cicrle_light.svg') }}" alt="Profil" width="32" height="32" style="border-radius: 50%; border: 2px solid #333; padding: 2px; cursor: pointer;">
+    <a href="{{ route('bukuManual') }}" class="btn btn-primary btn-sm me-3">
+            Buku Manual
+        </a>    
+        <a href="{{ route('profil') }}">
+            <img src="{{ asset('icons/User_cicrle_light.svg') }}" alt="Profil" width="32" height="32" style="border-radius: 50%; border: 2px solid #333; padding: 2px; cursor: pointer;">
+        </a>
     </div>
 </div>
 
     <div class="content">
-    <!-- Form dan konten lainnya -->
-    <h2>Buku Manual Pengguna</h2>
-    <p>Di bawah ini adalah buku manual pengguna dalam format PDF. Anda dapat membaca langsung atau mengunduh file PDF tersebut.</p>
-
     <div class="pdf-viewer-container">
         <h3>PDF Buku Manual</h3>
-        <!-- Menampilkan PDF -->
+        <p>Di bawah ini adalah buku manual pengguna dalam format PDF. Anda dapat membaca langsung atau mengunduh file PDF tersebut.</p>
         <embed src="{{ asset('pdf/manual-buku-admin.pdf') }}" type="application/pdf" width="100%" height="600px">
-    </div>
-
-    <div class="text-center mt-3">
-        <!-- Tombol untuk mengunduh PDF -->
-        <a href="{{ asset('pdf/manual-buku-admin.pdf') }}" class="btn btn-primary" download>Unduh Buku Manual (PDF)</a>
     </div>
     </div>
 
