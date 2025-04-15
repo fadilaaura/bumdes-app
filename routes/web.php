@@ -18,6 +18,7 @@ use App\Http\Controllers\RWController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\RiwayatPembayaranWargaController;
 use App\Http\Controllers\ManualController;
+use App\Http\Controllers\ManualWargaController;
 
 #====================== BISA DIAKSES KEDUA AUTH ========================
 Route::get('/', [BerandaController::class, 'index'])->name('beranda');
@@ -126,6 +127,8 @@ Route::post('/warga/logout', [AuthWargaController::class, 'logout'])->name('warg
 
 Route::middleware(['auth:KepalaKeluarga'])->group(function () {
     Route::get('/dashboard-warga', [AuthWargaController::class, 'showDashboard'])->name('dashboard.warga');
+
+    Route::get('/manualwarga', [ManualWargaController::class, 'showManual'])->name('bukuManual.warga');
 
     Route::get('/profilwarga', [ProfilWargaController::class, 'index'])->name('profil_warga');
     Route::post('/profilwarga/update', [ProfilWargaController::class, 'update'])->name('profil_warga.update');

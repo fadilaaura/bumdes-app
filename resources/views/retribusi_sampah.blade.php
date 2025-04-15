@@ -180,6 +180,23 @@
         .button-container-top button {
             margin-right: 10px;
         }
+        .custom-btn {
+            background-color: #0d47a1; 
+            color: #f4f6f9;
+            border: 1px solid #0d47a1; 
+            padding: 0.25rem 0.5rem; 
+            font-size: 0.875rem; 
+            text-decoration: none;
+            border-radius: 0.25rem;
+            display: inline-block; 
+        }
+
+        .custom-btn:hover {
+            color: #f4f6f9; 
+            border-color: #0d47a1; 
+            background-color: #1565c0;
+        }
+
     </style>
 </head>
 <body>
@@ -213,7 +230,12 @@
         </div>
     </div>
     <div>
-        <img src="{{ asset('icons/User_cicrle_light.svg') }}" alt="Profil" width="32" height="32" style="border-radius: 50%; border: 2px solid #333; padding: 2px; cursor: pointer;">
+        <a href="{{ route('bukuManual.warga') }}" class="custom-btn me-3">
+            Buku Manual
+        </a>    
+        <a href="{{ route('profil_warga') }}">
+            <img src="{{ asset('icons/User_cicrle_light.svg') }}" alt="Profil" width="32" height="32" style="border-radius: 50%; border: 2px solid #333; padding: 2px; cursor: pointer;">
+        </a>
     </div>
 </div>
 

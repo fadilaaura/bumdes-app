@@ -130,6 +130,20 @@
             border-radius: 0.25rem;
             font-weight: 400; 
         }
+        .btn-primary{
+        background-color: #0d47a1; /* Warna background halaman */
+        color: #f4f6f9; /* Warna teks saat hover */
+        border-color: #0d47a1;
+    }
+    
+        .btn-sm:hover {
+        color: #f4f6f9; /* Warna teks saat hover */
+        border-color: #0d47a1;
+    }
+    
+        .btn-primary.btn-sm{
+        color: white;
+    }
     </style>
 </head>
 <body>
@@ -163,7 +177,12 @@
         </div>
     </div>
     <div>
-        <img src="{{ asset('icons/User_cicrle_light.svg') }}" alt="Profil" width="32" height="32" style="border-radius: 50%; border: 2px solid #333; padding: 2px; cursor: pointer;">
+        <a href="{{ route('bukuManual.warga') }}" class="btn btn-primary btn-sm me-3">
+            Buku Manual
+        </a>    
+        <a href="{{ route('profil_warga') }}">
+            <img src="{{ asset('icons/User_cicrle_light.svg') }}" alt="Profil" width="32" height="32" style="border-radius: 50%; border: 2px solid #333; padding: 2px; cursor: pointer;">
+        </a>
     </div>
 </div>
 
