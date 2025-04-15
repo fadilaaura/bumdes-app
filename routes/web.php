@@ -17,6 +17,7 @@ use App\Http\Controllers\RTController;
 use App\Http\Controllers\RWController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\RiwayatPembayaranWargaController;
+use App\Http\Controllers\ManualController;
 
 #====================== BISA DIAKSES KEDUA AUTH ========================
 Route::get('/', [BerandaController::class, 'index'])->name('beranda');
@@ -60,6 +61,8 @@ Route::middleware(['auth:PengelolaBumdes'])->group(function () {
     Route::get('/data-rt', function () {
         return view('data_rt');
     })->name('data_rt');
+
+    Route::get('/manual', [ManualController::class, 'showManual'])->name('bukuManual');
 
     Route::view('/kelola-tagihan', 'kelola_tagihan')->name('kelola_tagihan');
     Route::view('/kelola-tagihan/tambah', 'tambah_tagihan')->name('tambah_tagihan');

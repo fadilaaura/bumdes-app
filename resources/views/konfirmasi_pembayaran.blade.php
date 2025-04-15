@@ -225,7 +225,7 @@
                     @if($item->status == 'pending')
                         <form action="{{ route('konfirmasi.pembayaran.konfirmasi', $item->idPembayaran) }}" method="POST">
                             @csrf
-                            <button type="submit" class="btn btn-success btn-sm">Konfirmasi</button>
+                            <button type="submit" class="btn btn-success btn-sm mb-1">Konfirmasi</button>
                         </form>
         <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalTolak{{ $item->idPembayaran }}">
             Tolak
