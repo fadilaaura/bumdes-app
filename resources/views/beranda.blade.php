@@ -63,6 +63,7 @@
             border-radius: 5px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             margin-top: 20px;
+            margin-bottom: 0px;
             position: relative;
             font-size: 14px;
         }
@@ -82,9 +83,10 @@
             font-size: 14px;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: stretch;
             text-align: center;
             padding-top: 30px;
+            height: 85%;  
         }
         .card-layanan img {
             margin-bottom: 10px; 
@@ -92,6 +94,9 @@
         @media (max-width: 768px) {
             .card-container {
             justify-content: center;
+            }
+            .card-custom p, .card-custom ul {
+            width: 100%;
             }
         }
         .card-layanan {
@@ -108,23 +113,52 @@
             background: #f8f9fa;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
         }
-        .card-berita {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            width: 100%;
-            min-height: 150px; 
-            padding: 20px;
-            border-radius: 8px;
-            background: #f8f9fa;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        }
+/* Berita Section */
+.card-body {
+    padding: 20px;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-top {
+    height: 200px; /* Atur tinggi gambar */
+    object-fit: cover; /* Gambar akan menyesuaikan ukuran */
+    border-radius: 8px; /* Sudut gambar lebih halus */
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.5;
+}
+
+.card-body p.text-muted {
+    font-size: 13px;
+    margin-bottom: 8px;
+    color: #6c757d;
+}
+
+.card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+    transition: all 0.3s ease-in-out;
+}
         .card-title {
             position: absolute;
             top: -20px;
             left: 50%;
             transform: translateX(-50%);
-            background: #007bff;
+            background: #054BCC;
             color: white;
             padding: 10px 20px;
             border-radius: 7px;
@@ -133,7 +167,7 @@
             text-align: center;
         }
         .footer {
-            background-color: #007bff;
+            background-color: #054BCC;
             color: white;
             padding: 20px 0;
         }
@@ -141,9 +175,16 @@
             font-size: 14px;
             text-align: left;
             width: 80%;
+            width: 90%;  
+            margin: 0 auto; 
+            text-align: justify;
+            flex-grow: 1;
         }
         .card-custom p {
-            width: 80%;
+            width: 90%;  
+            margin: 0 auto; 
+            text-align: justify;
+            flex-grow: 1;
         }
         .footer p, .footer ul li {
             font-size: 14px;
@@ -184,6 +225,11 @@
             font-weight: bold; 
             color: black;     
         }
+        .section-container p {
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
         .card-text-custom {
             display: flex;
             flex-direction: column;
@@ -192,6 +238,18 @@
             line-height: 1.2; 
             font-size: 14px;
             color: black;
+        }
+
+        .banner-img {
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+            width: 100%;
+        }
+        .banner-img img {
+            width: 80%;
+            max-width: 1000px;
+            height: auto; 
         }
 
     </style>
@@ -240,8 +298,8 @@
         </div>
 
     <div class="container mt-5 section-container">
-    <div class="card-title">BUMDES Spirit Mejabar</div>
-            <p>Badan Usaha Milik Desa (BUMDes) Spirit Mejabar adalah lembaga ekonomi yang dikelola oleh masyarakat Desa Mejasem Barat untuk meningkatkan kesejahteraan dan kemandirian desa. Sebagai wadah inovasi dan pengelolaan potensi lokal, BUMDes Spirit Mejabar menyediakan berbagai layanan yang mendukung kebutuhan warga, termasuk pengelolaan iuran sampah, usaha produktif, serta pengembangan ekonomi berbasis komunitas. Dengan semangat kebersamaan dan transparansi, BUMDes Spirit Mejabar terus berupaya memberikan kontribusi positif bagi desa, menciptakan layanan yang modern, efisien, dan ramah pengguna.</p>
+            <div class="card-title">BUMDES Spirit Mejabar</div>
+            <p style="text-align: justify;">Badan Usaha Milik Desa (BUMDes) Spirit Mejabar adalah lembaga ekonomi yang dikelola oleh masyarakat Desa Mejasem Barat untuk meningkatkan kesejahteraan dan kemandirian desa. Sebagai wadah inovasi dan pengelolaan potensi lokal, BUMDes Spirit Mejabar menyediakan berbagai layanan yang mendukung kebutuhan warga, termasuk pengelolaan iuran sampah, usaha produktif, serta pengembangan ekonomi berbasis komunitas. Dengan semangat kebersamaan dan transparansi, BUMDes Spirit Mejabar terus berupaya memberikan kontribusi positif bagi desa, menciptakan layanan yang modern, efisien, dan ramah pengguna.</p>
     </div>
 
     <!-- Visi & Misi -->
@@ -303,27 +361,34 @@
 
     <!-- Berita / Kegiatan -->
     <h5 class="text-center mt-5 ">Berita & Kegiatan</h5>
-    <div class="card-container mt-4">
-        <div class="col-md-5">
-            <div class="card-berita p-3">
-                <img src="{{ asset('images/image-3.png') }}" class="img-fluid rounded">
-                <h5 class="mt-3">Rapat Koordinasi Kegiatan BUMDes</h5>
-                <p>16 Januari 2025 - Kamis, 16 Januari 2025, dilakukan rapat koordinasi tentang kegiatan Bumdes Mejabar tahun 2025 di Ruang Serbaguna Balaides...</p>
+    <div class="row mt-4">
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm">
+            <img src="images/image-3.png" class="card-img-top" alt="Pasar Mejase" />
+            <div class="card-body">
+                <h5>Rapat Koordinasi Kegiatan Bumdes</h5>
+                <p class="text-muted">20 Januari 2025</p>
+                <p class="card-text">Kamis, 16 Januari 2025, dilakukan rapat koordinasi tentang kegiatan Bumdes Mejabar tahun 2025 di Ruang Serbaguna Balai Desa Mejase...</p>
             </div>
         </div>
-        <div class="col-md-5">
-            <div class="card-berita p-3">
-                <img src="{{ asset('images/image-4.png') }}" class="img-fluid rounded">
-                <h5 class="mt-3">Kegiatan Studi Banding BUMDesa Spirit Mejabar ke BUMDes Karya Makmur Sikanco- Cilacap</h5>
-                <p>4 Oktober 2024 - Kegiatan Studi Banding BUMDesa Spirit Mejabar ke BUMDes Karya Makmur Sikanco- Cilacap berkaitan dengan Unit Samsat Budiman.</p>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm">
+            <img src="images/image-4.png" class="card-img-top" alt="Rapat Koordinasi" />
+            <div class="card-body">
+                <h5>Rapat Koordinasi Kegiatan Bumdes</h5>
+                <p class="text-muted">16 Januari 2025</p>
+                <p class="card-text">Kamis, 16 Januari 2025, dilakukan rapat koordinasi tentang kegiatan Bumdes Mejabar tahun 2025 di Ruang Serbaguna Balai Desa Mejase...</p>
             </div>
         </div>
+    </div>
+</div>
     </div>
 </div>
 <body>
 
 <!-- Footer Section -->
-<footer class="bg-primary text-white mt-5 py-4">
+<footer class="footer text-white mt-5 py-4">
     <div class="container">
         <div class="row">
             <div class="col-md-3">

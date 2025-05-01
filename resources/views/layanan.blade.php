@@ -124,7 +124,7 @@
             top: -20px;
             left: 50%;
             transform: translateX(-50%);
-            background: #007bff;
+            background: #054BCC;
             color: white;
             padding: 10px 20px;
             border-radius: 7px;
@@ -133,7 +133,7 @@
             text-align: center;
         }
         .footer {
-            background-color: #007bff;
+            background-color: #054BCC;
             color: white;
             padding: 20px 0;
         }
@@ -193,7 +193,35 @@
             font-size: 14px;
             color: black;
         }
-
+        .banner-img {
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+            width: 100%;
+        }
+        .banner-img img {
+            width: 80%;
+            max-width: 1000px;
+            height: auto; 
+        }
+        .icon-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .card .service-content {
+            flex-grow: 1;
+        }
+        .card .btn-container {
+            margin-top: 0px; 
+            display: flex;
+            justify-content: flex-end; 
+        }
+        .card .btn {
+            width: auto; 
+        }
     </style>
 </head>
 <body>
@@ -236,62 +264,99 @@
 
 <div class="container mt-4">
     <!-- Banner Section -->
-    <div class="banner text-center">
-        <img src="{{ asset('images/banner-layanan.png') }}" class="img-fluid w-100" alt="Layanan BUMDes">
+    <div class="banner-img">
+        <img src="{{ asset('images/banner-layanan.png') }}" alt="Layanan BUMDes">
     </div>
 
     <!-- Services Section -->
     <div class="services mt-4">
         <div class="row">
-            @php
-            $services = [
-            [
-            'icon' => 'fa-trash',
-            'title' => 'Pengelolaan Sampah',
-            'description' => 'Layanan ini dirancang untuk mendukung kebersihan lingkungan desa dengan sistem pengelolaan sampah yang profesional.',
-            ],
-            [
-            'icon' => 'fa-piggy-bank',
-            'title' => 'Simpan Pinjam',
-            'description' => 'Fasilitas simpan pinjam memberikan solusi keuangan bagi masyarakat untuk mendukung kebutuhan usaha, pendidikan, dan lainnya.',
-            ],
-            [
-            'icon' => 'fa-car',
-            'title' => 'Samsat Budiman',
-            'description' => 'Melalui layanan Samsat Budiman, masyarakat dapat mengurus pembayaran pajak kendaraan bermotor tanpa keluar desa.',
-            ],
-            [
-            'icon' => 'fa-credit-card',
-            'title' => 'PPOB (Payment Point Online Bank)',
-            'description' => 'Masyarakat dapat membayar berbagai tagihan seperti listrik, air, internet, pulsa, dan lainnya secara online.',
-            ]
-            ];
-            @endphp
-
-            @foreach($services as $service)
+            <!-- Pengelolaan Sampah Card -->
             <div class="col-md-12 mb-3">
                 <div class="card p-3 shadow-sm border-0 rounded bg-light">
                     <div class="d-flex align-items-center">
                         <div class="icon-container me-3 text-primary">
-                            <i class="fas {{ $service['icon'] }} fa-2x"></i>
+                            <img src="{{ asset('icons/wallet-fill.png') }}" alt="Pengelolaan Sampah" style="max-width: 50px; max-height: 50px;">
                         </div>
                         <div class="service-content flex-grow-1">
-                            <h5 class="fw-bold">{{ $service['title'] }}</h5>
-                            <p class="text-muted">{{ $service['description'] }}</p>
+                            <h5 class="fw-bold">Pengelolaan Sampah</h5>
+                            <p class="text-muted">
+                                Layanan ini dirancang untuk mendukung kebersihan lingkungan desa dengan sistem pengelolaan sampah yang profesional. Masyarakat dapat dengan mudah melihat tagihan, melakukan pembayaran iuran, dan mendapatkan informasi jadwal pengambilan sampah. Semua proses dikelola secara transparan untuk kenyamanan warga.
+                            </p>
                         </div>
-                        <div>
-                            <a href="#" class="btn btn-primary">Cek Disini</a>
-                        </div>
+                    </div>
+                    <div class="btn-container">
+                        <a href="#" class="btn btn-primary">Cek Disini</a>
                     </div>
                 </div>
             </div>
-            @endforeach
+
+            <!-- Simpan Pinjam Card -->
+            <div class="col-md-12 mb-3">
+                <div class="card p-3 shadow-sm border-0 rounded bg-light">
+                    <div class="d-flex align-items-center">
+                        <div class="icon-container me-3 text-primary">
+                            <img src="{{ asset('icons/people-fill.png') }}" alt="Simpan Pinjam" style="max-width: 50px; max-height: 50px;">
+                        </div>
+                        <div class="service-content flex-grow-1">
+                            <h5 class="fw-bold">Simpan Pinjam</h5>
+                            <p class="text-muted">
+                                Fasilitas simpan pinjam memberikan solusi keuangan bagi masyarakat untuk mendukung kebutuhan usaha, pendidikan, dan lainnya. Proses yang mudah, bunga yang terjangkau, serta berbasis kepercayaan membuat layanan ini menjadi mitra keuangan yang dapat diandalkan bagi warga desa.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="btn-container">
+                        <a href="#" class="btn btn-primary">Cek Disini</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Samsat Budiman Card -->
+            <div class="col-md-12 mb-3">
+                <div class="card p-3 shadow-sm border-0 rounded bg-light">
+                    <div class="d-flex align-items-center">
+                        <div class="icon-container me-3 text-primary">
+                            <img src="{{ asset('icons/police-badge.png') }}" alt="Samsat Budiman" style="max-width: 50px; max-height: 50px;">
+                        </div>
+                        <div class="service-content flex-grow-1">
+                            <h5 class="fw-bold">Samsat Budiman</h5>
+                            <p class="text-muted">
+                                Melalui layanan Samsat Budiman, masyarakat dapat mengurus pembayaran pajak kendaraan bermotor, perpanjangan STNK, dan dokumen lainnya tanpa perlu keluar desa. Layanan ini memastikan proses berjalan cepat, mudah, dan sesuai aturan, sehingga menghemat waktu dan tenaga masyarakat.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="btn-container">
+                        <a href="#" class="btn btn-primary">Cek Disini</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PPOB (Payment Point Online Bank) Card -->
+            <div class="col-md-12 mb-3">
+                <div class="card p-3 shadow-sm border-0 rounded bg-light">
+                    <div class="d-flex align-items-center">
+                        <div class="icon-container me-3 text-primary"> 
+                            <img src="{{ asset('icons/charity.png') }}" alt="PPOB" style="max-width: 50px; max-height: 50px;">
+                        </div>
+                        <div class="service-content flex-grow-1">
+                            <h5 class="fw-bold">PPOB (Payment Point Online Bank)</h5>
+                            <p class="text-muted">
+                                Melalui layanan PPOB, masyarakat dapat membayar berbagai tagihan seperti listrik, air, internet, pulsa, dan lainnya secara online. Layanan ini menawarkan kecepatan, keamanan, dan kemudahan, sehingga kebutuhan transaksi dapat terpenuhi tanpa hambatan tanpa perlu pergi jauh.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="btn-container">
+                        <a href="#" class="btn btn-primary">Cek Disini</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
+
 <!-- Footer Section -->
-<footer class="bg-primary text-white mt-5 py-4">
+<footer class="footer text-white mt-5 py-4">
     <div class="container">
         <div class="row">
             <div class="col-md-3">

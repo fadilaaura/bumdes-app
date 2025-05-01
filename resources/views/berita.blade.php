@@ -108,23 +108,53 @@
             background: #f8f9fa;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
         }
-        .card-berita {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            width: 100%;
-            min-height: 150px; 
-            padding: 20px;
-            border-radius: 8px;
-            background: #f8f9fa;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        }
+/* Berita Section */
+.card-body {
+    padding: 20px;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-top {
+    height: 200px; /* Atur tinggi gambar */
+    object-fit: cover; /* Gambar akan menyesuaikan ukuran */
+    border-radius: 8px; /* Sudut gambar lebih halus */
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.5;
+}
+
+.card-body p.text-muted {
+    font-size: 13px;
+    margin-bottom: 8px;
+    color: #6c757d;
+}
+
+.card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+    transition: all 0.3s ease-in-out;
+}
+
         .card-title {
             position: absolute;
             top: -20px;
             left: 50%;
             transform: translateX(-50%);
-            background: #007bff;
+            background: #054BCC;
             color: white;
             padding: 10px 20px;
             border-radius: 7px;
@@ -133,7 +163,7 @@
             text-align: center;
         }
         .footer {
-            background-color: #007bff;
+            background-color: #054BCC;
             color: white;
             padding: 20px 0;
         }
@@ -193,7 +223,17 @@
             font-size: 14px;
             color: black;
         }
-
+        .banner-img {
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+            width: 100%;
+        }
+        .banner-img img {
+            width: 80%;
+            max-width: 1000px;
+            height: auto; 
+        }
     </style>
 </head>
 <body>
@@ -236,71 +276,78 @@
 
 <div class="container">
     <!-- Banner -->
-    <div class="banner">
-        <img src="{{ asset('images/banner-layanan.png') }}" class="img-fluid w-100 mt-3" alt="Banner Berita">
+    <div class="banner-img">
+        <img src="{{ asset('images/banner-layanan.png') }}" class="mt-3" alt="Banner Berita">
     </div>
-
-    <!-- Berita Section -->
     <div class="row mt-4">
-        @php
-        $news = [
-        [
-        'image' => 'pasar-mejasem.jpg',
-        'title' => 'Rapat Koordinasi Kegiatan Bumdes',
-        'date' => '20 Januari 2025',
-        'description' => 'Kamis, 16 Januari 2025, dilakukan rapat koordinasi tentang kegiatan Bumdes Mejabar tahun 2025 di Ruang Serbaguna Balai Desa Mejase...',
-        ],
-        [
-        'image' => 'rapat-koordinasi.jpg',
-        'title' => 'Rapat Koordinasi Kegiatan Bumdes',
-        'date' => '16 Januari 2025',
-        'description' => 'Kamis, 16 Januari 2025, dilakukan rapat koordinasi tentang kegiatan Bumdes Mejabar tahun 2025 di Ruang Serbaguna Balai Desa Mejase...',
-        ],
-        [
-        'image' => 'studi-tiru.jpg',
-        'title' => 'Studi Tiru Desa Mejase Barat ke TPST Patikraja, Banyumas',
-        'date' => '31 Oktober 2024',
-        'description' => 'Pada Hari Selasa, 29 Oktober 2024, Pemdes Mejase Barat, Bumdes, dan DLH Kabupaten Tegal melakukan kunjungan dalam rangka stud...',
-        ],
-        [
-        'image' => 'pengelolaan-sampah.jpg',
-        'title' => 'Pengelolaan Sampah di Desa Piloting',
-        'date' => '31 Oktober 2024',
-        'description' => 'Pada hari Kamis, 24 Oktober 2024 dilaksanakan kegiatan sosialisasi pengelolaan sampah di desa piloting bersama Dinas Lingkungan Hid...',
-        ],
-        [
-        'image' => 'studi-banding.jpg',
-        'title' => 'Kegiatan Studi Banding BUMDesa Spirit Mejabar ke BUMDes Karya Makmur',
-        'date' => '4 Oktober 2024',
-        'description' => 'Kegiatan Studi Banding BUMDesa Spirit Mejabar ke BUMDes Karya Makmur Sikanco - Cilacap berkaitan dengan Unit Samsat Budiman.',
-        ],
-        [
-        'image' => 'pelatihan-sia.jpg',
-        'title' => 'Pelatihan SIA BUMDesa',
-        'date' => '4 Oktober 2024',
-        'description' => 'Pada hari Selasa, 4 April 2023 telah dilaksanakan Kegiatan Pelatihan SIA BUMDesa. Kegiatan tersebut bertempat di Kantor BUMDesa Spirit...',
-        ],
-        ];
-        @endphp
-
-        @foreach($news as $item)
-        <div class="col-md-6 mb-4">
-            <div class="card shadow-sm">
-                <img src="{{ asset('images/news/' . $item['image']) }}" class="card-img-top" alt="{{ $item['title'] }}">
-                <div class="card-body">
-                    <h5 class="card-title">{{ $item['title'] }}</h5>
-                    <p class="text-muted">{{ $item['date'] }}</p>
-                    <p class="card-text">{{ $item['description'] }}</p>
-                </div>
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm">
+            <img src="images/image-3.png" class="card-img-top" alt="Pasar Mejase" />
+            <div class="card-body">
+                <h5>Rapat Koordinasi Kegiatan Bumdes</h5>
+                <p class="text-muted">20 Januari 2025</p>
+                <p class="card-text">Kamis, 16 Januari 2025, dilakukan rapat koordinasi tentang kegiatan Bumdes Mejabar tahun 2025 di Ruang Serbaguna Balai Desa Mejase...</p>
             </div>
         </div>
-        @endforeach
     </div>
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm">
+            <img src="images/image-4.png" class="card-img-top" alt="Rapat Koordinasi" />
+            <div class="card-body">
+                <h5>Rapat Koordinasi Kegiatan Bumdes</h5>
+                <p class="text-muted">16 Januari 2025</p>
+                <p class="card-text">Kamis, 16 Januari 2025, dilakukan rapat koordinasi tentang kegiatan Bumdes Mejabar tahun 2025 di Ruang Serbaguna Balai Desa Mejase...</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm">
+            <img src="images/image-5.png" class="card-img-top" alt="Rapat Koordinasi" />
+            <div class="card-body">
+                <h5>Rapat Koordinasi Kegiatan Bumdes</h5>
+                <p class="text-muted">16 Januari 2025</p>
+                <p class="card-text">Kamis, 16 Januari 2025, dilakukan rapat koordinasi tentang kegiatan Bumdes Mejabar tahun 2025 di Ruang Serbaguna Balai Desa Mejase...</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm">
+            <img src="images/image-6.png" class="card-img-top" alt="Rapat Koordinasi" />
+            <div class="card-body">
+                <h5>Rapat Koordinasi Kegiatan Bumdes</h5>
+                <p class="text-muted">16 Januari 2025</p>
+                <p class="card-text">Kamis, 16 Januari 2025, dilakukan rapat koordinasi tentang kegiatan Bumdes Mejabar tahun 2025 di Ruang Serbaguna Balai Desa Mejase...</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm">
+            <img src="images/image-7.png" class="card-img-top" alt="Rapat Koordinasi" />
+            <div class="card-body">
+                <h5>Rapat Koordinasi Kegiatan Bumdes</h5>
+                <p class="text-muted">16 Januari 2025</p>
+                <p class="card-text">Kamis, 16 Januari 2025, dilakukan rapat koordinasi tentang kegiatan Bumdes Mejabar tahun 2025 di Ruang Serbaguna Balai Desa Mejase...</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm">
+            <img src="images/fotobumdes.jpg" class="card-img-top" alt="Rapat Koordinasi" />
+            <div class="card-body">
+                <h5>Rapat Koordinasi Kegiatan Bumdes</h5>
+                <p class="text-muted">16 Januari 2025</p>
+                <p class="card-text">Kamis, 16 Januari 2025, dilakukan rapat koordinasi tentang kegiatan Bumdes Mejabar tahun 2025 di Ruang Serbaguna Balai Desa Mejase...</p>
+            </div>
+        </div>
+    </div>
+    <!-- Tambahkan berita lainnya di sini... -->
+</div>
+
 </div>
 
 
 <!-- Footer Section -->
-<footer class="bg-primary text-white mt-5 py-4">
+<footer class="footer text-white mt-5 py-4">
     <div class="container">
         <div class="row">
             <div class="col-md-3">

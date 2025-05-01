@@ -74,7 +74,7 @@
             gap: 30px; 
             flex-wrap: wrap; 
         }
-        .card-custom {
+        .card {
             background: #f8f9fa;
             padding: 20px;
             border-radius: 5px;
@@ -85,7 +85,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            text-align: center;
+            text-align: left;
             padding-top: 30px;
         }
         .card-layanan img {
@@ -126,16 +126,16 @@
             top: -20px;
             left: 50%;
             transform: translateX(-50%);
-            background: #007bff;
+            background: #054BCC;
             color: white;
             padding: 10px 20px;
             border-radius: 7px;
             font-weight: bold;
-            width: 25%;
+            width: 45%;
             text-align: center;
         }
         .footer {
-            background-color: #007bff;
+            background-color: #054BCC;
             color: white;
             padding: 20px 0;
         }
@@ -196,6 +196,24 @@
             color: black;
         }
 
+        .banner-img {
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+            width: 100%;
+        }
+        .banner-img img {
+            width: 80%;
+            max-width: 1000px;
+            height: auto; 
+        }
+        .card-img-left {
+            width: 150px; 
+            height: auto;
+        }
+        .card-body {
+            flex-grow: 1;
+        }
     </style>
 </head>
 <body>
@@ -225,7 +243,7 @@
                 <a class="nav-link small-text {{ request()->is('berita') ? 'active' : '' }}" href="{{ route('berita') }}">Berita</a>
             </li>
             <li class="nav-item px-3">
-                <a class="nav-link small-text {{ request()->is('tentang-kami') ? 'active' : '' }}" href="{{ route('tentang.kami') }}">Tentang Kami</a>
+                <a class="nav-link small-text {{ request()->is('tentangkami') ? 'active' : '' }}" href="{{ route('tentang.kami') }}">Tentang Kami</a>
             </li>
             <li class="nav-item px-3">
                 <a class="nav-link small-text {{ request()->is('promosi-umkm') ? 'active' : '' }}" href="{{ route('promosi.umkm') }}">Promosi UMKM</a>
@@ -235,76 +253,78 @@
         </div>
     </div>
 </nav>
-    <!-- Hero Section -->
-    <div class="hero-section">
-        <h1>Promosi UMKM</h1>
-        <p>Kerajinan, Makanan, Oleh-Oleh Dsb</p>
+
+<!-- UMKM Cards -->
+<div class="container">
+    <div class="banner-img">
+        <img src="{{ asset('images/banner-umkm.png') }}" class="mt-3" alt="Banner Berita">
     </div>
-
-    <!-- UMKM Cards -->
-    <div class="container my-5">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card p-3">
-                    <img src="https://source.unsplash.com/400x250/?kids,clothes" class="card-img-top" alt="HAYYAKIDZ">
-                    <div class="card-body">
-                        <h5 class="card-title">HAYYAKIDZ</h5>
-                        <p class="card-text">
-                            Distributor baju anak. Reseller welcome!<br>
-                            📖 Katalog: <a href="https://www.instagram.com/hayyakidz.katalog" target="_blank">@hayyakidz.katalog</a><br>
-                            📍 Tegal, Jateng<br>
-                            🏠 Toko Offline: Tiap Hari 08:00 - 21:00<br>
-                            🛒 Toko Online: Senin - Sabtu 08:00 - 20:00<br>
-                            📦 Order: <a href="https://desty.page/hayyakidz" target="_blank">desty.page/hayyakidz</a><br>
-                            📌 Lokasi: Jl. Sitkeluah Raya No 1-B, Mejaseem Barat, Tegal
-                        </p>
-                    </div>
+    <div class="row mb-4 mt-2">
+        <!-- First Card -->
+        <div class="col-md-6">
+            <div class="card p-3 d-flex flex-row">
+                <img src="{{ asset('images/image-hayyakidz.png') }}" class="card-img-left" alt="HAYYAKIDZ" style="max-width: 150px; margin-right: 20px;">
+                <div class="card-body">
+                    <h5>HAYYAKIDZ</h5>
+                    <p class="card-text">
+                        Distributor baju anak. Reseller welcome!<br>
+                        📖 Katalog: <a href="https://www.instagram.com/hayyakidz.katalog" target="_blank">@hayyakidz.katalog</a><br>
+                        📍 Tegal, Jateng<br>
+                        🏠 Toko Offline: Tiap Hari 08:00 - 21:00<br>
+                        🛒 Toko Online: Senin - Sabtu 08:00 - 20:00<br>
+                        📦 Order: <a href="https://desty.page/hayyakidz" target="_blank">desty.page/hayyakidz</a><br>
+                        📌 Lokasi: Jl. Sitkeluah Raya No 1-B, Mejasem Barat, Tegal
+                    </p>
                 </div>
             </div>
+        </div>
 
-            <div class="col-md-4">
-                <div class="card p-3">
-                    <img src="https://source.unsplash.com/400x250/?grilled,chicken" class="card-img-top" alt="Ayam Bakar Mezzaluna">
-                    <div class="card-body">
-                        <h5 class="card-title">Ayam Bakar Mezzaluna</h5>
-                        <p class="card-text">
-                            🍗 Spesial ayam bakar, aneka nasi box, dan nasi rempah.<br>
-                            📜 Sertifikat Laik Sehat No 443.5/LS.3378/TPM-085/X/2021<br>
-                            📦 Order: <a href="https://linktr.ee/AyamBakarTegalMezzaluna" target="_blank">linktr.ee/AyamBakarTegalMezzaluna</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card p-3">
-                    <img src="https://source.unsplash.com/400x250/?frozen,food" class="card-img-top" alt="RANAFRA FOOD">
-                    <div class="card-body">
-                        <h5 class="card-title">RANAFRA FOOD</h5>
-                        <p class="card-text">
-                            🐟 Produsen olahan ikan frozen<br>
-                            📜 Sertifikat MUI & BPOM<br>
-                            🤝 Dicari mitra bisnis "Satu kota satu distributor"<br>
-                            🔍 Ulas Kami di Google: RANAFRA FOOD<br>
-                            🌎 Website: <a href="https://ranafrafood.wixsite.com/ranafra" target="_blank">ranafrafood.wixsite.com/ranafra</a><br>
-                            📌 Lokasi: Jl. Pada Barat I Blok I No. 13, Mejaseem, Tegal
-                        </p>
-                    </div>
+        <!-- Second Card -->
+        <div class="col-md-6">
+            <div class="card p-3 d-flex flex-row">
+                <img src="{{ asset('images/image-ranafra.png') }}" class="card-img-left" alt="RANAFRA FOOD" style="max-width: 150px; margin-right: 20px;">
+                <div class="card-body">
+                    <h5>RANAFRA FOOD</h5>
+                    <p class="card-text">
+                        🐟 Produsen olahan ikan frozen<br>
+                        📜 Sertifikat MUI & BPOM<br>
+                        🔍 Ulas Kami di Google: RANAFRA FOOD<br>
+                        🌎 Website: <a href="https://ranafrafood.wixsite.com/ranafra" target="_blank">ranafrafood.wixsite.com/ranafra</a><br>
+                        📌 Lokasi: Jl. Pada Barat I Blok I No. 13, Mejasem, Tegal
+                    </p>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="row mb-4">
+        <!-- Third Card -->
+        <div class="col-md-6">
+            <div class="card p-3 d-flex flex-row">
+                <img src="{{ asset('images/image-mezzaluna.png') }}" class="card-img-left" alt="Ayam Bakar Mezzaluna" style="max-width: 150px; margin-right: 20px;">
+                <div class="card-body">
+                    <h5>Ayam Bakar Mezzaluna</h5>
+                    <p class="card-text">
+                        🍗 Spesial ayam bakar, aneka nasi box, dan nasi rempah.<br>
+                        📜 Sertifikat Laik Sehat No 443.5/LS.3378/TPM-085/X/2021<br>
+                        📦 Order: <a href="https://linktr.ee/AyamBakarTegalMezzaluna" target="_blank">linktr.ee/AyamBakarTegalMezzaluna</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 
 <!-- Footer Section -->
-<footer class="bg-primary text-white mt-5 py-4">
+<footer class="footer text-white mt-5 py-4">
     <div class="container">
         <div class="row">
             <div class="col-md-3">
                 <img src="{{ asset('images/logo-nb.png') }}" width="60" height="60" class="me-2">
                 <h5 class="mt-3">BUMDes Spirit Mejabar</h5>
                 <h4 class="mt-3">Alamat</h4>
-                <p>Griya Mejasem Baru, Mejassem Bar., Kec. Kramat, Kabupaten Tegal, Jawa Tengah</p>
+                <p>Griya Mejasem Baru, Mejasem Bar., Kec. Kramat, Kabupaten Tegal, Jawa Tengah</p>
             </div>
             <div class="col-md-3">
                 <h5>Menu</h5>
