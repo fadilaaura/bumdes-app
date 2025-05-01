@@ -10,10 +10,9 @@ use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
-    // Tampilkan halaman login
     public function showLoginForm()
     {
-        return view('login_admin'); // Pastikan view ini ada
+        return view('login_admin');
     }
 
     public function login(Request $request)
@@ -23,16 +22,14 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        // Cek apakah email termasuk admin (PengelolaBumdes)
         if (Auth::guard('PengelolaBumdes')->attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('admin.dashboard'); // Redirect ke dashboard admin
+            return redirect()->route('admin.dashboard');
         }
 
-        // Jika bukan admin, cek apakah email termasuk warga (KepalaKeluarga)
         if (Auth::guard('KepalaKeluarga')->attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('warga.dashboard'); // Redirect ke dashboard warga
+            return redirect()->route('warga.dashboard');
         }
 
         return back()->withErrors([
@@ -40,8 +37,6 @@ class AuthController extends Controller
         ]);
     }
 
-
-    // Logout untuk semua user
     public function logout(Request $request)
     {
         Auth::guard('PengelolaBumdes')->logout();

@@ -15,7 +15,7 @@ class TagihanController extends Controller
     {
         $search = $request->input('search');
         $status = $request->input('status');
-        $perPage = $request->input('perPage', 10); // Default 10 data per halaman
+        $perPage = $request->input('perPage', 10);
     
         $tagihans = Tagihan::query()
             ->when($search, function ($query, $search) {
@@ -34,7 +34,6 @@ class TagihanController extends Controller
         return view('tambah_tagihan', compact('tagihans', 'search', 'status'));
     }
     
-
     public function create()
     {
         return view('form_tambah_tagihan');
@@ -125,10 +124,10 @@ class TagihanController extends Controller
                 'tagihan' => [
                     'nama' => $tagihan->nama,
                     'nik' => $tagihan->nik,
-                    'nomor_hp' => $tagihan->nomor_hp, // Sesuaikan nama kolom
-                    'rt_rw' => $tagihan->rt_rw, // Sesuaikan dengan tabel
+                    'nomor_hp' => $tagihan->nomor_hp,
+                    'rt_rw' => $tagihan->rt_rw,
                     'jumlah' => $tagihan->jumlah,
-                    'tanggalJatuhTempo' => $tagihan->tanggalJatuhTempo, // Tambahkan
+                    'tanggalJatuhTempo' => $tagihan->tanggalJatuhTempo,
                 ]
             ]);
         } else {
@@ -140,8 +139,7 @@ class TagihanController extends Controller
     }
     
 
-    public function export()
-{
+    public function export(){
     $tagihan = Tagihan::all();
 
     $spreadsheet = new Spreadsheet();
@@ -237,8 +235,8 @@ class TagihanController extends Controller
         if ($warga) {
         return response()->json([
             'nama' => $warga->nama,
-            'nomor_hp' => $warga->noTelepon, // Sesuaikan dengan nama kolom di kepala_keluarga
-            'rt_rw' => $warga->RTRW // Sesuaikan dengan nama kolom di kepala_keluarga
+            'nomor_hp' => $warga->noTelepon, 
+            'rt_rw' => $warga->RTRW 
         ]);
     } else {
         return response()->json(['message' => 'Data tidak ditemukan'], 404);

@@ -17,11 +17,8 @@ class KonfirmasiPembayaranController extends Controller
     public function konfirmasi($idPembayaran)
     {
         $pembayaran = Pembayaran::findOrFail($idPembayaran);
-    
-        // Perbarui status pembayaran menjadi "Lunas"
         $pembayaran->update(['status' => 'lunas']);
     
-        // Cek apakah ada tagihan terkait dengan pembayaran ini
         $tagihan = Tagihan::where('nik', $pembayaran->nik)
                           ->where('statusTagihan', 'Menunggu Konfirmasi')
                           ->first();
@@ -39,8 +36,7 @@ class KonfirmasiPembayaranController extends Controller
     
         $pembayaran->status = 'ditolak';
         $pembayaran->save();
-    
-        // Update status tagihan juga
+
         $tagihan = \App\Models\Tagihan::where('nik', $pembayaran->nik)
             ->where('statusTagihan', 'Menunggu Konfirmasi')
             ->first();
