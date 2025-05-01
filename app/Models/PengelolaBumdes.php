@@ -9,8 +9,8 @@ class PengelolaBumdes extends Authenticatable
 {
     use Notifiable;
 
-    protected $table = 'pengelola_bumdes'; // Nama tabel di database
-    protected $primaryKey = 'idBUMDes'; // Primary Key
+    protected $table = 'pengelola_bumdes';
+    protected $primaryKey = 'idBUMDes';
 
     protected $fillable = [
         'username',
@@ -26,3 +26,4 @@ class PengelolaBumdes extends Authenticatable
         'password',
     ];
 }
+

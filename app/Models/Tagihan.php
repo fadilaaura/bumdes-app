@@ -9,7 +9,7 @@ class Tagihan extends Model
 {
     use HasFactory;
 
-    protected $table = 'tagihan'; // Pastikan tabelnya sesuai
+    protected $table = 'tagihan';
     protected $primaryKey = 'idTagihan';
     protected $fillable = [
         'nama',
@@ -26,3 +26,4 @@ class Tagihan extends Model
         return $this->hasOne(Pembayaran::class, 'nik', 'nik');
     }
 }
+

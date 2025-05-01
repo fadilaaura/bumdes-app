@@ -21,7 +21,7 @@ class Pembayaran extends Model
         'tanggalJatuhTempo',
     ];
 
-    protected $table = 'pembayaran'; // Menentukan nama tabel
+    protected $table = 'pembayaran';
     protected $primaryKey = 'idPembayaran';
 
     public function tagihan()
